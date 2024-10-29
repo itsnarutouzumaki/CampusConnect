@@ -1,0 +1,163 @@
+/* Importing Google font Poppins for a modern look */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+/* Wrapper for the entire form area */
+.wrapper {
+  position: relative;
+  max-width: 380px; /* Setting a max width for better layout */
+  width: 100%; /* Full width to make it responsive */
+  border-radius: 10px; /* Slightly rounded corners for a softer appearance */
+  padding: 15px 20px 80px;
+  background: #4070f4; /* Bright blue background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  overflow: hidden; /* Hide overflow for a clean look */
+}
+
+/* Styling the login form itself */
+.form.login {
+  position: absolute;
+  left: 50%; /* Centering the form horizontally */
+  bottom: -85%; /* Starting position slightly lower off-screen */
+  transform: translateX(-50%); /* Translate to perfectly center */
+  width: calc(100% + 160px); /* Wider than wrapper for visual effect */
+  padding: 15px 100px; /* Ample padding for comfort */
+  border-radius: 30%; /* Rounded edges for a modern feel */
+  height: 100%; /* Full height to cover the wrapper */
+  background: #fff; /* White background for contrast */
+  transition: all 0.6s ease; /* Smooth transition effects */
+}
+
+/* Adjusting form position when active */
+.wrapper.active .form.login {
+  bottom: -13%; /* Bring it higher when active */
+  border-radius: 30%; /* Maintain rounded edges */
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* Shadow for active state */
+}
+
+/* Header styling for the form */
+.form header {
+  font-size: 24px; /* Large font for visibility */
+  text-align: center; /* Centered text */
+  color: #fff; /* White text color */
+  font-weight: 600; /* Bold font for emphasis */
+  cursor: pointer; /* Pointer cursor for interactivity */
+}
+
+/* Styling for the header in the login form */
+.form.login header {
+  color: #333; /* Darker color for contrast */
+  opacity: 0.6; /* Slightly transparent for a layered look */
+}
+
+/* Adjusting header opacity for active state */
+.wrapper.active .form.login header {
+  opacity: 1; /* Fully opaque when active */
+}
+
+/* Styling for the signup header */
+.wrapper.active .signup header {
+  opacity: 0.6; /* Keep it less prominent */
+}
+
+/* Form layout adjustments */
+.wrapper form {
+  display: flex; /* Using flexbox for layout */
+  flex-direction: column; /* Stacking elements vertically */
+  gap: 15px; /* Space between elements */
+  margin-top: 20px; /* Space above the form */
+}
+
+/* Styling for input fields */
+form input {
+  height: 50px; /* Standard height for inputs */
+  outline: none; /* No outline on focus */
+  border: none; /* Removing default borders */
+  padding: 0 10px; /* Inner padding for comfort */
+  font-size: 14px; /* Slightly smaller font size */
+  font-weight: 400; /* Regular weight for readability */
+  color: #333; /* Dark text color */
+  border-radius: 6px; /* Rounded corners */
+  background: #fff; /* White background for inputs */
+}
+
+/* Login form input styling */
+.form.login input {
+  border: 1px solid #aaa; /* Light border for input fields */
+}
+
+/* Focus effect for input fields */
+.form.login input:focus {
+  box-shadow: 0 1px 0 #ddd; /* Light shadow on focus */
+}
+
+/* Checkbox styling */
+form .checkbox {
+  display: flex; /* Flexbox for alignment */
+  align-items: center; /* Center align items vertically */
+  gap: 5px; /* Space between checkbox and label */
+}
+
+/* Checkbox input styling */
+.checkbox input[type="checkbox"] {
+  height: 14px; /* Smaller checkbox size */
+  width: 14px; /* Smaller checkbox size */
+  accent-color: #fff; /* Custom checkbox color */
+  cursor: pointer; /* Pointer cursor for interactivity */
+}
+
+/* Label styling for checkboxes */
+form .checkbox label {
+  cursor: pointer; /* Pointer for clickable label */
+  color: #fff; /* White text for visibility */
+  font-size: 12px; /* Smaller font size for labels */
+}
+
+/* Link styling */
+form a {
+  color: #333; /* Dark link color */
+  text-decoration: none; /* No underline by default */
+  font-size: 12px; /* Smaller font size for links */
+}
+
+/* Hover effect for links */
+form a:hover {
+  text-decoration: underline; /* Underline on hover for clarity */
+}
+
+/* Submit button styling */
+form input[type="submit"] {
+  margin-top: 10px; /* Space above the button */
+  padding: none; /* No additional padding */
+  font-size: 16px; /* Larger font for the button */
+  font-weight: 500; /* Medium weight for prominence */
+  cursor: pointer; /* Pointer cursor for interactivity */
+}
+
+/* Submit button specific styling */
+.form.login input[type="submit"] {
+  background: #4070f4; /* Matching background color */
+  color: #fff; /* White text color */
+  border: none; /* No border for the button */
+}
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 768px) {
+  .wrapper {
+    max-width: 90%; /* Use more width on smaller screens */
+  }
+
+  /* Adjusting the position of the login form slightly lower for mobile */
+  .wrapper.active .form.login {
+    bottom: -15%; /* Adjust this value to make the login form lower by 10px when active */
+  }
+
+  /* Adjusting the position of the login form when it is not active */
+  .form.login {
+    bottom: -88%; /* Lower position when not active, adjust this value for visual consistency */
+  }
+
+  .form {
+    padding: 10px 30px; /* Less padding for mobile layout */
+    width: 100%; /* Full width for form */
+  }
+}
