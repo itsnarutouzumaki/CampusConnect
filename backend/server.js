@@ -27,7 +27,6 @@ app.use('/backend/course',courseRouter);
 let username=process.env.Database_UserName;
 let password=process.env.Database_password;
 mongoose.connect(
-    "mongodb+srv://abhishek002684:Abhi%401204@cluster0.dohre.mongodb.net/",{
     `mongodb+srv://${username}:${password}@cluster0.dohre.mongodb.net/`,{
         useNewUrlParser: true,
         useUnifiedTopology: true,
