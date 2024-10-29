@@ -1,0 +1,12 @@
+.logo-container{
+  
+  height: fit-content;
+  padding: 0.3rem;
+  display: flex;
+  flex-direction: column;
+}
+.logo-image{
+  border-radius: 0.5rem;
+  width: 6rem;
+  height: 2.5rem;
+}
