@@ -1,46 +1,20 @@
-const mongoose=require('mongoose');
-const express=require('express');
-const bodyParser=require('body-parser');
-const cors=require('cors');
-const app=express();
-const dotenv=require('dotenv');
+const express = require('express');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+const studentRoutes = require('./routes/studentroutes');
+const cors = require('cors'); // Ensure 'cors' has 'const' here
+
 dotenv.config();
-const PORT=process.env.PORT || 1000;
-//routes
-const courseRouter=require('./Routes/Course');
-const assignmentRouter=require('./Routes/Assignment');
-app.use(bodyParser.json());
+connectDB();
 
-//using cors to connect backend and frontend
-app.use(cors({
-    origin:true,
-    methods:["GET","POST","PUT","DELETE"],
-    credentials:true
-}));
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-//home testing route
-app.get('/',(req,res)=>res.json({message:"this is a home route"}));
+// Routes
+app.use('/api/studentRoutes', studentRoutes); // Add studentRoutes here
 
-//using course router
-app.use('/backend/course',courseRouter);
-
-//using assignment router
-app.use('/backend/assignment',assignmentRouter);
-
-let username=process.env.Database_UserName;
-let password=process.env.Database_password;
-
-mongoose.connect(
-    `mongodb+srv://${username}:${password}@cluster0.dohre.mongodb.net/`,{
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        dbName:"CampusConnect"
-    }
-).then(()=>console.log("MongoDb Connected Successfully ...!")).catch((err)=>
-console.log(err));
-
-
-app.listen(PORT,()=>{
-    console.log(`server is running on ${PORT}`);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`server running on port ${PORT}`);
 });
-
