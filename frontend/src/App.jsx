@@ -6,17 +6,21 @@ import LoginSignupForm from "./components/LoginSignup";
 import Course from "./components/Course";
 import Assignment from "./components/Assignment";
 import CopyrightFooter from "./components/Footer";
+import ContactUsForm from "./components/Contact";
 
 const App = () => {
   return (
     <Router>
       <Navbar />
+      <div className="min-h-[81vh] w-full">
       <Routes>
         <Route path="/" element={<LoginSignupForm />} />     
         <Route path="/loginsignup" element={<LoginSignupForm />} />
         <Route path="/course" element={<Course />} />
         <Route path="/assignment" element={<Assignment />} />
+        <Route path="/contactUs" element={<ContactUsForm />} />
       </Routes>
+      </div>
       <CopyrightFooter/>
     </Router>
   );

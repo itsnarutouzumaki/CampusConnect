@@ -27,7 +27,7 @@ const Navbar = () => {
   }, [isOpen, isDropdownOpen]);
 
   return (
-    <nav ref={navbarRef} className="bg-purple-700 text-white relative z-10 px-2 py-1">
+    <nav ref={navbarRef} className="bg-purple-700 w-full text-white relative z-10 px-2 py-1">
       <div className="flex justify-between items-center">
         <Link to="/" ><Logo /></Link>
         <button
@@ -74,7 +74,7 @@ const Navbar = () => {
               <Link to="/about" className="text-white no-underline hover:bg-blue-700 hover:rounded-md px-1 py-0.5">About</Link>
             </li>
             <li className="py-0.5 px-1 md:px-2">
-              <Link to="/contact" className="text-white no-underline hover:bg-blue-700 hover:rounded-md px-1 py-0.5">Contact</Link>
+              <Link to="/contactUs" className="text-white no-underline hover:bg-blue-700 hover:rounded-md px-1 py-0.5">Contact</Link>
             </li>
           </ul>
         </div>
