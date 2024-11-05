@@ -9,6 +9,7 @@ const LoginSignupForm = () => {
   };
 
   return (
+    <div className="flex justify-center align-middle m-4">
     <section className={`wrapper ${isSignupActive ? 'active' : ''}`}>
       <div className="form signup">
         <header onClick={handleToggleForm}>Signup</header>
@@ -34,6 +35,7 @@ const LoginSignupForm = () => {
         </form>
       </div>
     </section>
+    </div>
   );
 };
 

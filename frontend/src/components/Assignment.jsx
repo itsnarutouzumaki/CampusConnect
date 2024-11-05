@@ -29,12 +29,12 @@ const AssignmentBar = ({ assignment }) => {
           <p className="text-base text-black font-medium">{assignmentDueTime}</p>
         </div>
         <div className="flex items-center">
-          <div className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-black hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md">
+          <div className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-black hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
             <MdOutlineFileUpload />
           </div>
           <div 
             onClick={handleToggleCompletion} 
-            className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-black hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md">
+            className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-black hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
             {isCompleted ? "Unsubmit" : "Submit"}
           </div>
         </div>

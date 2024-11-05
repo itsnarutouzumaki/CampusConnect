@@ -1,18 +1,24 @@
 import React from "react";
-import Navbar from "./Navbar";
+import Navbar from "./components/Navbar";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "./app.css";
-import LoginSignupForm from "./LoginSignup";
-import Course from "./Course";
-
+import LoginSignupForm from "./components/LoginSignup";
+import Course from "./components/Course";
+import Assignment from "./components/Assignment";
+import CopyrightFooter from "./components/Footer";
 
 const App = () => {
   return (
-    <div className="App">
+    <Router>
       <Navbar />
-      <div className="app_container">
-        <LoginSignupForm />
-      </div>
-    </div>
+      <Routes>
+        <Route path="/" element={<LoginSignupForm />} />     
+        <Route path="/loginsignup" element={<LoginSignupForm />} />
+        <Route path="/course" element={<Course />} />
+        <Route path="/assignment" element={<Assignment />} />
+      </Routes>
+      <CopyrightFooter/>
+    </Router>
   );
 };
 

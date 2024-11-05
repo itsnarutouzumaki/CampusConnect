@@ -6,6 +6,7 @@
   position: relative;
   max-width: 380px; /* Setting a max width for better layout */
   width: 100%; /* Full width to make it responsive */
+  height: fit-content;
   border-radius: 10px; /* Slightly rounded corners for a softer appearance */
   padding: 15px 20px 80px;
   background: #4070f4; /* Bright blue background color */
@@ -143,7 +144,7 @@ form input[type="submit"] {
 /* Responsive adjustments for mobile devices */
 @media (max-width: 768px) {
   .wrapper {
-    max-width: 90%; /* Use more width on smaller screens */
+    max-width: 85%; /* Use more width on smaller screens */
   }
 
   /* Adjusting the position of the login form slightly lower for mobile */

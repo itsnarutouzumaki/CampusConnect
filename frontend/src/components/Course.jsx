@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const CourseCard = ({ image, name, description }) => {
   return (
-    <div className="bg-red-700 rounded-lg shadow-lg shadow-black/50 p-4 hover:shadow-2xl hover:shadow-black/80 cursor-pointer transition-shadow duration-300">
+    <Link to='/assignment' className="bg-red-700 rounded-lg shadow-lg shadow-black/50 p-4 hover:shadow-2xl hover:shadow-black/80 cursor-pointer transition-shadow duration-300">
       <img src={image} alt={name} className="w-full h-40 object-cover rounded-md mb-2" />
       <h3 className="text-white text-lg font-semibold">{name}</h3>
       <p className="text-gray-300 text-sm">{description}</p>
-    </div>
+    </Link>
   );
 };
 
@@ -56,7 +57,7 @@ const Course = () => {
 
   return (
     <div className="h-screen w-full p-6 mx-auto">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" >
         {courseData.map((course, index) => (
           <CourseCard
             key={index}
