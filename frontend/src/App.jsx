@@ -7,6 +7,7 @@ import Course from "./components/Course";
 import Assignment from "./components/Assignment";
 import CopyrightFooter from "./components/Footer";
 import ContactUsForm from "./components/Contact";
+import HomeScreen from "./components/Dashboard";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/course" element={<Course />} />
         <Route path="/assignment" element={<Assignment />} />
         <Route path="/contactUs" element={<ContactUsForm />} />
+        <Route path="/dashboard" element={<HomeScreen />} />
       </Routes>
       </div>
       <CopyrightFooter/>
