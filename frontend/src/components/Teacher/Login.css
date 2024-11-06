@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+.wrapper {
+  position: relative;
+  max-width: 380px;
+  width: 100%;
+  height: fit-content;
+  border-radius: 10px;
+  padding: 15px 20px 80px;
+  background: #4070f4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.form.login {
+  position: absolute;
+  left: 50%;
+  bottom: -85%;
+  transform: translateX(-50%);
+  width: calc(100% + 160px);
+  padding: 15px 100px;
+  border-radius: 30%;
+  height: 100%;
+  background: #fff;
+  transition: all 0.6s ease;
+}
+
+.wrapper.active .form.login {
+  bottom: -13%;
+  border-radius: 30%;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form header {
+  font-size: 24px;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.form.login header {
+  color: #333;
+  opacity: 0.6;
+}
+
+.wrapper.active .form.login header {
+  opacity: 1;
+}
+
+.wrapper.active .signup header {
+  opacity: 0.6;
+}
+
+.wrapper form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+form input {
+  height: 50px;
+  outline: none;
+  border: none;
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.form.login input {
+  border: 1px solid #aaa;
+}
+
+.form.login input:focus {
+  box-shadow: 0 1px 0 #ddd;
+}
+
+form .checkbox {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.checkbox input[type="checkbox"] {
+  height: 14px;
+  width: 14px;
+  accent-color: #fff;
+  cursor: pointer;
+}
+
+form .checkbox label {
+  cursor: pointer;
+  color: #fff;
+  font-size: 12px;
+}
+
+form a {
+  color: #333;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+form a:hover {
+  text-decoration: underline;
+}
+
+form input[type="submit"] {
+  margin-top: 10px;
+  padding: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.form.login input[type="submit"] {
+  background: #4070f4;
+  color: #fff;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    max-width: 85%;
+  }
+
+  .wrapper.active .form.login {
+    bottom: -15%;
+  }
+
+  .form.login {
+    bottom: -88%;
+  }
+
+  .form {
+    padding: 10px 30px;
+    width: 100%;
+  }
+}
