@@ -9,7 +9,8 @@ import CopyrightFooter from "./components/Students/Footer";
 import ContactUsForm from "./components/Students/Contact";
 import HomeScreen from "./components/Students/Dashboard";
 import TeacherLoginForm from "./components/Teacher/Login";
-import Profile from "./components/Teacher/Profile";
+import TeacherProfile from "./components/Teacher/Profile";
+import AdminProfile from "./components/Admin";
 
 const App = () => {
   return (
@@ -34,7 +35,8 @@ const MainContent = () => {
           <Route path="/contactUs" element={<ContactUsForm />} />
           <Route path="/dashboard" element={<HomeScreen />} />
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
-          <Route path="/teacher/profile" element={<Profile />} />
+          <Route path="/teacher/profile" element={<TeacherProfile />} />
+          <Route path="/admin/profile" element={<AdminProfile />} />
         </Routes>
       </div>
       <CopyrightFooter />
