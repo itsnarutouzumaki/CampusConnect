@@ -1,13 +1,13 @@
 import React from "react";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Students/Navbar";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "./app.css";
-import LoginSignupForm from "./components/LoginSignup";
-import Course from "./components/Course";
-import Assignment from "./components/Assignment";
-import CopyrightFooter from "./components/Footer";
-import ContactUsForm from "./components/Contact";
-import HomeScreen from "./components/Dashboard";
+import LoginSignupForm from "./components/Students/LoginSignup";
+import Course from "./components/Students/Course";
+import Assignment from "./components/Students/Assignment";
+import CopyrightFooter from "./components/Students/Footer";
+import ContactUsForm from "./components/Students/Contact";
+import HomeScreen from "./components/Students/Dashboard";
 
 const App = () => {
   return (
