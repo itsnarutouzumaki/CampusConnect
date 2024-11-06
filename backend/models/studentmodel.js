@@ -2,18 +2,13 @@ const mongoose = require('mongoose');
 
 const studentSchema = new mongoose.Schema(
     {
-        firstName: {
+        fullName: {
             type: String,
             required: true,
             min: 2,
             max: 50,
         },
-        lastName: {
-            type: String,
-            required: true,
-            min: 2,
-            max: 50,
-        },
+        
         email: {
             type: String,
             required: true,
