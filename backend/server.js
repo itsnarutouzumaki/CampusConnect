@@ -8,7 +8,7 @@ const path=require('path');
 dotenv.config();
 const PORT=process.env.PORT || 1000;
 //middlewares
-const upload=require('./Middlewares/upload');
+// const upload=require('./Middlewares/upload');
 //routes
 const courseRouter=require('./Routes/Course');
 const assignmentRouter=require('./Routes/Assignment');
