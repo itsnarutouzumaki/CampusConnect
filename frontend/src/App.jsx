@@ -1,7 +1,7 @@
 import React from "react";
-import Navbar from "./components/Students/Navbar";
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import "./app.css";
+import Navbar from "./components/Students/Navbar";
+import LandingPage from "./components/LandingPage/LandingPage";
 import LoginSignupForm from "./components/Students/LoginSignup";
 import Course from "./components/Students/Course";
 import Assignment from "./components/Students/Assignment";
@@ -11,6 +11,7 @@ import HomeScreen from "./components/Students/Dashboard";
 import TeacherLoginForm from "./components/Teacher/Login";
 import TeacherProfile from "./components/Teacher/Profile";
 import AdminProfile from "./components/Admin";
+import "./app.css";
 
 const App = () => {
   return (
@@ -23,12 +24,17 @@ const App = () => {
 const MainContent = () => {
   const location = useLocation();
 
+  const isLandingPage = location.pathname === '/';
+
   return (
     <>
-      {location.pathname !== '/teacher/login' && <Navbar />}
+        
+      {/* Only show Navbar if it's not the landing page */}
+      {!isLandingPage && location.pathname !== '/teacher/login' && <Navbar />}
+
       <div className="min-h-[81vh] w-full">
         <Routes>
-          <Route path="/" element={<LoginSignupForm />} />
+          <Route path="/" element={<LandingPage />} /> {/* Landing Page */}
           <Route path="/loginsignup" element={<LoginSignupForm />} />
           <Route path="/course" element={<Course />} />
           <Route path="/assignment" element={<Assignment />} />
@@ -39,7 +45,10 @@ const MainContent = () => {
           <Route path="/admin/profile" element={<AdminProfile />} />
         </Routes>
       </div>
-      <CopyrightFooter />
+
+      {/* Only show Footer if it's not the landing page */}
+      {!isLandingPage && <CopyrightFooter />}
+   
     </>
   );
 };
