@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiEdit2 } from "react-icons/fi";
 import { IoPersonAddSharp } from "react-icons/io5";
 import { AiOutlineUserDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import Addteacher from './Modal/Addteacher.modal';
 
 const AdminProfile = () => {
+  const [showAddTeacherModal, setShowAddTeacherModal] = useState(false);
+  const closeModalAddTeacher = () => setShowAddTeacherModal(false);
   return (
     <div className="w-full">
       <div className="w-full mx-auto mt-3 px-4 md:px-20 py-2 bg-red-400 flex flex-col md:flex-row items-center md:justify-between shadow-md rounded-lg border hover:shadow-lg transition-shadow duration-300 relative">
@@ -21,19 +24,20 @@ const AdminProfile = () => {
             src="https://preview.redd.it/how-strong-is-jiraiya-v0-0hdtt6zrqycb1.jpg?width=450&format=pjpg&auto=webp&s=2a4969be966363c03b43dd59788f110d3929f6ca"
             alt="Teacher Profile"
           />
-          <p className="mt-1 ml-7 text-lg font-bold text-gray-600 text-center tracking-wide 
-             border border-gray-300 rounded-md bg-gray-100 px-2 py-1 shadow-sm">
+          <p className="mt-1 ml-7 text-lg font-bold text-gray-600 text-center tracking-wide rounded-md px-2 py-1 shadow-sm">
             Admin Name
           </p>
         </div>
 
         {/* Centered Icon Links for Actions */}
         
-          <Link to="/delete-student" className="flex w-48 h-48 flex-col items-center justify-center  bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-colors duration-200">
+          <div to="/delete-student" onClick={() => setShowAddTeacherModal(true)} className="flex w-48 h-48 flex-col items-center justify-center  bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-colors duration-200">
             <AiOutlineUserDelete className="w-28 h-28 mb-1" />
             <span className="text-sm font-semibold">Delete Student</span>
-          </Link>
-          
+          </div>
+          {showAddTeacherModal && <Addteacher closeModalAddTeacher={closeModalAddTeacher} />}
+
+
           <Link to="/add-teacher" className="flex w-48 h-48 flex-col items-center justify-center  bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors duration-200">
             <IoPersonAddSharp className="w-28 h-28 mb-1" />
             <span className="text-sm font-semibold">Add Teacher</span>
@@ -41,7 +45,7 @@ const AdminProfile = () => {
           
           <Link to="/delete-teacher" className="flex w-48 h-48 flex-col items-center justify-center  bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition-colors duration-200">
             <AiOutlineUserDelete className="w-28 h-28 mb-1" />
-            <span className="text-sm font-semibold">Delete Teacher</span>
+            <span className="text-sm bg-inherit font-semibold">Delete Teacher</span>
           </Link>
         
       </div>
