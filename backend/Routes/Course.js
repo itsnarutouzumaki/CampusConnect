@@ -1,5 +1,5 @@
 const express=require('express');
-const {addCourse,getCourse}=require('../Controllers/Course');
+const {addCourse,getCourse,updateCourse,deleteCourse}=require('../Controllers/Course');
 const router=express.Router();
 
 // add course
@@ -7,5 +7,11 @@ router.post('/add',addCourse);
 
 //get all courses
 router.get('/all',getCourse);
+
+//update a course
+router.put('/update/:id',updateCourse);
+
+//delete a course
+router.delete('/delete/:id',deleteCourse);
 
 module.exports=router;
