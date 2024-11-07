@@ -41,6 +41,10 @@ const courseSchema=new mongoose.Schema({
     createdAt:{
         type:Date,
         default:Date.now
+    },
+    img:{
+        type:String,
+        default:'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?cs=srgb&dl=pexels-anjana-c-169994-674010.jpg&fm=jpg'
     }
 });
 
