@@ -20,8 +20,49 @@ const addAssignment = async (req, res) => {
 
 // get all assignments
 const getAssignment = async (req, res) => {
-  let assignment = await Assignment.find().sort({createdAt:-1});
-  res.json({message:"all assignments",assignment});
+  let assignment = await Assignment.find().sort({ createdAt: -1 });
+  res.json({ message: "all assignments", assignment });
 };
 
-module.exports = { addAssignment, getAssignment };
+// update an assignment
+const updateAssignment = async (req, res) => {
+  try {
+    const assignmentId = req.params.id;
+    const assignment = await Assignment.findByIdAndUpdate(
+      assignmentId,
+      req.body,
+      { new: true }
+    );
+
+    if (!assignment) {
+      return res.json({ message: "assignment doesn't exist" });
+    }
+
+    return res.json({ message: "assignment updated successfully", assignment });
+  } catch (err) {
+    return res.json({ message: err.message });
+  }
+};
+
+// delete an assignment
+const deleteAssignment = async (req, res) => {
+  try {
+    const assignmentId = req.params.id;
+    const assignment = await Assignment.findByIdAndDelete(assignmentId);
+
+    if (!assignment) {
+      return res.json({ message: "assignement doesn't exist" });
+    }
+
+    return res.json({ message: "assignment deleted successfully", assignment });
+  } catch (err) {
+    return res.json({ message: err.message });
+  }
+};
+
+module.exports = {
+  addAssignment,
+  getAssignment,
+  updateAssignment,
+  deleteAssignment,
+};
