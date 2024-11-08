@@ -1,7 +1,6 @@
 const mongoose=require('mongoose');
 
 const assignmentSchema=new mongoose.Schema({
-
     title:{
         type:String,
         required:true,
@@ -25,9 +24,17 @@ const assignmentSchema=new mongoose.Schema({
         ref: 'User',
         required: true 
     },
+    submitted: {
+        type: Boolean,
+        default: false 
+    },
     createdAt:{
         type:Date,
         default:Date.now
+    },
+    file_url: {  // Add this field to store the Cloudinary URL
+        type: String,
+        default:null
     }
 });
 
