@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiEdit2 } from "react-icons/fi";
 import { Link } from 'react-router-dom';
+import EditTeacher from '../Modal/EditTeacher.Modal';
 
 const CourseCard = ({ image, name, description }) => {
   return (
@@ -55,15 +56,21 @@ const TeacherProfile = () => {
       description: 'This is a short description of Course 8.',
     },
   ];
+   
+  const [showEditTeacherModal, setShowEditTeacherModal] = useState(false);
+  const closeModalEditTeacher = () => setShowEditTeacherModal(false);
+
 
   return (
     <div className="w-full">
       <div className="w-full mx-auto mt-3 px-4 py-2 bg-red-400 flex flex-col md:flex-row items-center md:items-start shadow-md rounded-lg border hover:shadow-lg transition-shadow duration-300 relative">
         
         {/* Edit Icon in Circle */}
-        <div className="absolute top-1 right-4 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors duration-200">
+        <div onClick={() => setShowEditTeacherModal(true)} className="absolute top-1 right-4 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors duration-200">
           <FiEdit2 className="w-5 h-5" />
         </div>
+
+        {showEditTeacherModal && <EditTeacher closeModal={closeModalEditTeacher} />}
 
         {/* Profile Image and Quote */}
         <div className="flex flex-col items-center md:items-start mt-6 md:m-2">
