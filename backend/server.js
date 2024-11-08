@@ -1,9 +1,14 @@
 const mongoose=require('mongoose');
-const express=require('express');
 const bodyParser=require('body-parser');
-const cors=require('cors');
 const app=express();
 const dotenv=require('dotenv');
+const express = require('express');
+const connectDB = require('./config/db');
+const studentRoutes = require('./routes/studentroutes');
+const authRoutes = require('./routes/authroutes');
+const teacherRoutes = require('./Routes/teacherroutes'); // Import teacher routes
+const cors = require('cors');
+
 dotenv.config();
 const PORT=process.env.PORT || 1000;
 //middlewares
@@ -44,4 +49,17 @@ console.log(err));
 
 app.listen(PORT,()=>{
     console.log(`server is running on ${PORT}`);
+const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/studentRoutes', studentRoutes);
+app.use('/api/teacherRoutes', teacherRoutes); // Add teacherRoutes here
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
