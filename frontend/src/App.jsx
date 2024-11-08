@@ -14,6 +14,8 @@ import AdminProfile from "./components/Admin";
 import courseDetails from "./components/Students/CourseDetails"
 import "./app.css";
 import CourseDetails from "./components/Students/CourseDetails";
+import ShowStudent from "./components/ShowStudent";
+import Leaderboard from "./components/LeaderBoard";
 
 const App = () => {
   return (
@@ -30,13 +32,11 @@ const MainContent = () => {
 
   return (
     <>
-        
-      {/* Only show Navbar if it's not the landing page */}
       {!isLandingPage && location.pathname !== '/teacher/login' && <Navbar />}
 
       <div className="min-h-[81vh] w-full">
         <Routes>
-          <Route path="/" element={<LandingPage />} /> {/* Landing Page */}
+          <Route path="/" element={<LandingPage />} /> 
           <Route path="/loginsignup" element={<LoginSignupForm />} />
           <Route path="/course" element={<Course />} />
           <Route path="/coursedetails" element={<CourseDetails/>} />
@@ -48,10 +48,11 @@ const MainContent = () => {
           <Route path="/teacher/profile" element={<TeacherProfile />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
 
+          <Route path='/profile' element={<ShowStudent />} />
+          <Route path='/leaderboard' element={<Leaderboard />} />
         </Routes>
       </div>
 
-      {/* Only show Footer if it's not the landing page */}
       {!isLandingPage && <CopyrightFooter />}
    
     </>

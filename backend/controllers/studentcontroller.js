@@ -24,15 +24,20 @@ const getStudent = async (req,res) => {
 };
 
 //update student profile 
-const updateStudent = async (req,res) => {
+const updateStudent = async (req, res) => {
     try {
-        const student = await Student.findByIdAndUpdate(req.params.id , req.body, {new:true});
+        // Ensure only the user with matching ID can update
+        if (req.user.id !== req.params.id) {
+            return res.status(403).json({ msg: "You are not authorized to update this profile" });
+        }
+
+        const student = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.status(200).json(student);
-    }
-    catch (error) {
-        res.status(400).json({error : error.message});
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
 };
+
 
 //Delete student profile 
 const deleteStudent = async (req,res ) => {
@@ -44,4 +49,5 @@ const deleteStudent = async (req,res ) => {
         res.status(400).json({error : error.message});
     }
 };
+
 module.exports={createStudent , getStudent , updateStudent , deleteStudent};

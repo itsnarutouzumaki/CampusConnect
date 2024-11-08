@@ -19,33 +19,9 @@ const HomeScreen = ({
     { id: 2, goal: "Complete Physics Exercises", progress: "0/5" },
   ],
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState(userData);
+  const [profile] = useState(userData);
   const [activeDeadlines, setActiveDeadlines] = useState(deadlines);
   const [activeGoals, setActiveGoals] = useState(studyGoals);
-
-  const toggleEditMode = () => {
-    setIsEditing(!isEditing);
-  };
-
-  const handleProfileChange = (event) => {
-    const { name, value } = event.target;
-    setProfile((prevProfile) => ({
-      ...prevProfile,
-      [name]: value,
-    }));
-  };
-
-  const handleProfilePictureChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setProfile((prevProfile) => ({
-        ...prevProfile,
-        profilePhoto: imageUrl,
-      }));
-    }
-  };
 
   const handleDeadlineDone = (id) => {
     setActiveDeadlines((prevDeadlines) =>
@@ -91,37 +67,23 @@ const HomeScreen = ({
     <div className="container mx-auto p-4 grid gap-6 grid-cols-1 md:grid-cols-2">
       
       {/* Profile Snapshot */}
-      <section className="bg-blue-100 p-6 rounded-lg shadow-md flex flex-col items-center transition-transform transform hover:scale-105">
+      <section className="relative bg-blue-100 p-6 rounded-lg shadow-md flex flex-col items-center transition-transform transform hover:scale-105">
+        
+        {/* Pencil Icon */}
+        <div className="absolute top-2 right-2 cursor-pointer text-gray-600 hover:text-gray-800">
+          <span role="img" aria-label="Edit" className="bg-blue-500 hover:bg-green-500 p-1 rounded-full text-2xl">✏️</span>
+        </div>
+        
         <div className="relative">
           <img
             src={profile.profilePhoto}
             alt={`${profile.name}'s profile`}
             className="w-24 h-24 rounded-full"
           />
-          {isEditing && (
-            <label className="absolute bottom-0 right-0 p-1 bg-white rounded-full cursor-pointer">
-              <input
-                type="file"
-                className="hidden"
-                onChange={handleProfilePictureChange}
-              />
-              <span role="img" aria-label="Edit" className="text-gray-700 text-sm">✏️</span>
-            </label>
-          )}
         </div>
         
         <div className="text-center mt-4">
-          {isEditing ? (
-            <input
-              type="text"
-              name="name"
-              value={profile.name}
-              onChange={handleProfileChange}
-              className="text-2xl font-semibold border-b border-gray-300 rounded-lg focus:outline-none text-center"
-            />
-          ) : (
-            <h1 className="text-2xl font-semibold">{profile.name}</h1>
-          )}
+          <h1 className="text-2xl font-semibold">{profile.name}</h1>
           <p className="text-gray-600">Aura Points: {profile.auraPoints}</p>
           <p className="text-gray-600">Level: {profile.level}</p>
           
@@ -133,13 +95,6 @@ const HomeScreen = ({
               ))}
             </ul>
           </div>
-
-          <button
-            onClick={toggleEditMode}
-            className="mt-4 text-white bg-blue-500 px-3 py-1 rounded-lg hover:bg-blue-600 transition"
-          >
-            {isEditing ? "Save" : "Edit Profile"}
-          </button>
         </div>
       </section>
       

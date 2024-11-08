@@ -1,45 +1,45 @@
-const mongoose = require('mongoose');
-
 const studentSchema = new mongoose.Schema(
     {
-        firstName: {
+        fullName: {
             type: String,
             required: true,
-            min: 2,
-            max: 50,
-        },
-        lastName: {
-            type: String,
-            required: true,
-            min: 2,
-            max: 50,
+            minlength: 2,
+            maxlength: 50,
         },
         email: {
             type: String,
             required: true,
-            max: 50,
+            maxlength: 50,
             unique: true,
         },
         password: {
             type: String,
             required: true,
-            max: 50,
         },
-        academicGoals: { 
-            type: String 
+        role: {
+            type: String,
+            default: "student", // Default role is student
+            enum: ["student"],  // Only student for this model
+        },
+        academicGoals: {
+            type: String,
+            maxlength: 300,
         },
         courseSchedule: [
             {
-                courseName: String,
-                day: String,
-                time: String
+                courseName: { type: String},
+                day: { type: String },
+                time: { type: String },
             }
         ],
-        progress: { 
-            type: Number, 
-            default: 0 
+        progress: {
+            type: Number,
+            default: 0,
+            min: 0,
+            max: 100,
         }
-    }
+    },
+    { timestamps: true }
 );
 
 module.exports = mongoose.model('Student', studentSchema);
