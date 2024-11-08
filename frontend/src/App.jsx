@@ -11,7 +11,9 @@ import HomeScreen from "./components/Students/Dashboard";
 import TeacherLoginForm from "./components/Teacher/Login";
 import TeacherProfile from "./components/Teacher/Profile";
 import AdminProfile from "./components/Admin";
+import courseDetails from "./components/Students/CourseDetails"
 import "./app.css";
+import CourseDetails from "./components/Students/CourseDetails";
 
 const App = () => {
   return (
@@ -37,12 +39,15 @@ const MainContent = () => {
           <Route path="/" element={<LandingPage />} /> {/* Landing Page */}
           <Route path="/loginsignup" element={<LoginSignupForm />} />
           <Route path="/course" element={<Course />} />
+          <Route path="/coursedetails" element={<CourseDetails/>} />
+
           <Route path="/assignment" element={<Assignment />} />
           <Route path="/contactUs" element={<ContactUsForm />} />
           <Route path="/dashboard" element={<HomeScreen />} />
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
           <Route path="/teacher/profile" element={<TeacherProfile />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
+
         </Routes>
       </div>
 
