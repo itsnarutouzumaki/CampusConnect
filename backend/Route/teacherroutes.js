@@ -1,7 +1,7 @@
 const express = require('express');
-const { createTeacher, getTeacher, updateTeacher, deleteTeacher } = require('../Controllers/teachercontroller');
+const { createTeacher, getTeacher, updateTeacher, deleteTeacher } = require('../Controller/teachercontroller');
 const router = express.Router();
-const { verifyToken, verifyTeacherToken } = require('../middleware/auth');
+const { verifyToken, verifyTeacherToken } = require('../Middleware/Authentication');
 
 // Public route for creating a teacher profile
 router.post('/', createTeacher);

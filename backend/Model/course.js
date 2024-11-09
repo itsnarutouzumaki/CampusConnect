@@ -14,7 +14,7 @@ const courseSchema=new mongoose.Schema({
     // have to give reference of user in instructor
     // instructor:{
 
-    // }
+    // } 
     description:{
         type:String,
     },
@@ -41,10 +41,9 @@ const courseSchema=new mongoose.Schema({
     createdAt:{
         type:Date,
         default:Date.now
-    },
-    img:{
+    },img:{
         type:String,
-        default:'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?cs=srgb&dl=pexels-anjana-c-169994-674010.jpg&fm=jpg'
+        default:"https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg"
     }
 });
 
