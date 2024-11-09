@@ -15,14 +15,15 @@ import "./app.css";
 import CourseDetails from "./components/Students/CourseDetails";
 import ShowStudent from "./components/ShowStudent";
 import Leaderboard from "./components/LeaderBoard";
+import TeacherCourseDetails from "./components/Teacher/CourseDetails";
 
 const App = () => {
   return (
     <div className="app_container min-h-screen flex flex-col">
       <Router>
-        <MainContent className='flex-grow' />
+        <MainContent />
+        <CopyrightFooter />
       </Router>
-      <CopyrightFooter />
     </div>
   );
 };
@@ -30,26 +31,29 @@ const App = () => {
 const MainContent = () => {
   const location = useLocation();
 
+  // Display Navbar on all pages except landing and teacher login pages
   const isLandingPage = location.pathname === '/';
+  const isTeacherLogin = location.pathname === '/teacher/login';
 
   return (
     <>
-      {!isLandingPage && location.pathname !== '/teacher/login' && <Navbar />}
+      {!isLandingPage && !isTeacherLogin && <Navbar />}
 
       <div className="min-h-fit flex-grow">
         <Routes>
           <Route path="/" element={<LandingPage />} /> 
           <Route path="/loginsignup" element={<LoginSignupForm />} />
           <Route path="/course" element={<Course />} />
-          <Route path="/coursedetails" element={<CourseDetails/>} />
+          <Route path="/coursedetails" element={<CourseDetails />} />
           <Route path="/assignment" element={<Assignment />} />
           <Route path="/contactUs" element={<ContactUsForm />} />
           <Route path="/dashboard" element={<HomeScreen />} />
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
           <Route path="/teacher/profile" element={<TeacherProfile />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
-          <Route path='/profile' element={<ShowStudent />} />
-          <Route path='/leaderboard' element={<Leaderboard />} />
+          <Route path="/profile" element={<ShowStudent />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/teacher/coursedetails" element={<TeacherCourseDetails />} />
         </Routes>
       </div>
     </>
