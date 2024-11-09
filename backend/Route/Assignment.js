@@ -1,5 +1,5 @@
 const express=require('express');
-const {addAssignment,getAssignment,updateAssignment,deleteAssignment,uploadFile}=require('../Controllers/Assignment')
+const {addAssignment,getAssignment,updateAssignment,deleteAssignment,uploadFile}=require('../Controller/Assignment');
 const router=express.Router();
 const multer=require('multer');
 const path=require('path');
