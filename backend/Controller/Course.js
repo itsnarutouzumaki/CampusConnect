@@ -35,7 +35,7 @@ const addCourse = async (req, res) => {
 
 // get course details
 const getCourse = async (req, res) => {
-  let course = await Courses.find().sort({ createdAt: -1 });
+  const course = await Courses.find().sort({ createdAt: -1 });
   res.json({ message: "all courses", course });
 };
 
