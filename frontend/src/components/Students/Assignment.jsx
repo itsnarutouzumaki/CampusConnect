@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 import React, { useState } from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
 

@@ -1,5 +1,24 @@
 import React, { useState } from "react";
 
+const LeaderboardBar=()=>{
+    return(
+      <div className="w-full px-2 m-2 flex justify-between border- ">
+        <div>
+
+        </div>
+        <div>
+          {points}
+        </div>
+      </div>
+    );
+};
+
+const RewardItem=()=>{
+  return(
+    <></>
+  );
+}
+
 const Leaderboard = () => {
   const [auroPoint, setauroPoint] = useState(0);
   return (
