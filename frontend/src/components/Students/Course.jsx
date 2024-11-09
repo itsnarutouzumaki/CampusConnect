@@ -1,20 +1,3 @@
-<<<<<<< Updated upstream
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-
-// Fetch all courses
-const fetchCourse = async () => {
-  try {
-    const response = await axios.get('http://localhost:1000/backend/course/all');
-    console.log(response.data.course);  // Log the correct data to verify the structure
-    return response.data.course;  // Return the data (make sure it's an array)
-  } catch (err) {
-    console.error('Error fetching courses:', err.message);
-    return [];  // In case of an error, return an empty array
-  }
-};
-=======
 import React,{useEffect,useState} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -30,7 +13,6 @@ const course=async()=>{
     enrollmentCount: 0,
     createdAt: new Date().toISOString(),
 });
->>>>>>> Stashed changes
 
 
 const [courses, setCourses] = useState([]);

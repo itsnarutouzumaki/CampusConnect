@@ -1,5 +1,26 @@
 const mongoose = require('mongoose');
 
+const studyGoalSchema= new mongoose.Schema({
+    title:{
+        type:String,
+        required:true,
+        unique:true
+    }
+});
+
+const upcomingDeadline= new mongoose.Schema({
+    title:{
+        type:String,
+        required:true,
+        unique:true
+    },dueDate:{
+        type:Date,
+        required:true
+    },dueTime:{
+        type:String,
+        required:true
+    }
+})
 const studentSchema = new mongoose.Schema(
     {
         fullName: { type: String, required: true, minlength: 2, maxlength: 50 },
@@ -19,7 +40,8 @@ const studentSchema = new mongoose.Schema(
         auraPoint: { type: Number, default: 0 },
         auraCoin: { type: Number, default: 0 },
         collegeName: { type: String },
-        img_url: { type: String, default: null }
+        img_url: { type: String, default: null },
+        
     },
     { timestamps: true }
 );
