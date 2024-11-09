@@ -11,7 +11,6 @@ import HomeScreen from "./components/Students/Dashboard";
 import TeacherLoginForm from "./components/Teacher/Login";
 import TeacherProfile from "./components/Teacher/Profile";
 import AdminProfile from "./components/Admin";
-import courseDetails from "./components/Students/CourseDetails"
 import "./app.css";
 import CourseDetails from "./components/Students/CourseDetails";
 import ShowStudent from "./components/ShowStudent";
@@ -47,9 +46,9 @@ const MainContent = () => {
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
           <Route path="/teacher/profile" element={<TeacherProfile />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
-
           <Route path='/profile' element={<ShowStudent />} />
           <Route path='/leaderboard' element={<Leaderboard />} />
+
         </Routes>
       </div>
 

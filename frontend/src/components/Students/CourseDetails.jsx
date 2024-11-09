@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Assignment from './Assignment';
+import Chapter from './Chapter';
 
 const CourseDetails = () => {
   const [enrolled, setEnrolled] = useState(false);
@@ -20,6 +21,9 @@ const CourseDetails = () => {
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 sm:mb-6 text-center">Name Of Course</h1>
         
         <div className="flex flex-col items-start space-y-2 sm:space-y-3 text-sm sm:text-base md:text-lg">
+        <p className="flex items-center">
+            <span className="font-semibold">Course Code:</span>&nbsp; CS3102
+          </p>
           <p className="flex items-center">
             <span className="font-semibold">Created Date:</span>&nbsp; January 1, 2024
           </p>
@@ -36,25 +40,25 @@ const CourseDetails = () => {
 
         {/* Enroll and Chapter Buttons */}
         <div className="w-full sm:w-2/3 md:w-1/3 flex justify-between mt-6 sm:mt-8">
-          <button
+          <div
             onClick={handleEnroll}
-            className="bg-black text-white px-6 py-2 sm:px-8 sm:py-3 md:px-12 md:py-4 rounded-full font-bold text-sm sm:text-lg md:text-xl hover:bg-gray-500 transition duration-300 ease-in-out shadow-lg transform hover:scale-105"
+            className="bg-black text-white text-xl font-bold px-4 py-2 rounded-full  hover:bg-lime-700"
           >
-            {enrolled ? "UnEnroll!" : "Enroll Now"}
-          </button>
+            {enrolled ? "UnEnroll" : "Enroll Now"}
+          </div>
 
-          <button
+          <div
             onClick={handleChapter}
-            className="bg-black text-white px-6 py-2 sm:px-8 sm:py-3 md:px-12 md:py-4 rounded-full font-bold text-sm sm:text-lg md:text-xl hover:bg-gray-500 transition duration-300 ease-in-out shadow-lg transform hover:scale-105"
+            className="bg-black text-white text-xl font-bold px-4 py-2 rounded-full hover:bg-lime-700"
           >
             {showChapter ? "View Assignment" : "View Chapter"}
-          </button>
+          </div>
         </div>
       </div>
 
       {/* Conditionally Render Assignment */}
       {!showChapter && <Assignment />}
-
+      {showChapter && <Chapter />}
       {/* Footer */}
     </div>
   );

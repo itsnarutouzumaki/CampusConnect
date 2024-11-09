@@ -6,7 +6,7 @@ const ChapterBar = ({ chapter }) => {
 
   return (
     <div 
-      className="w-11/12 p-3 border flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
+      className="w-11/12 p-3 flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
       border-blue-500 bg-blue-100 hover:shadow-2xl hover:shadow-black/80"
     >
       <p className="text-2xl text-black font-bold">{chapterName}</p>

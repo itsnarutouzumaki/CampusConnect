@@ -23,7 +23,7 @@ const AssignmentBar = ({ assignment }) => {
 
   return (
     <div 
-      className={`w-11/12 p-3 border flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
+      className={`w-11/12 p-3 flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
       ${isCompleted ? 'border-green-500 bg-green-100' : 'border-red-500 bg-red-100'} 
       hover:shadow-2xl hover:shadow-black/80`}
     >
