@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { FiEdit2 } from "react-icons/fi";
 import { Link } from 'react-router-dom';
 import EditTeacher from '../Modal/EditTeacher.Modal';
+import AddCourse from '../Modal/AddCourse.modal';
 
 const CourseCard = ({ image, name, description }) => {
   return (
-    <Link to='/assignment' className="bg-red-700 rounded-lg shadow-lg shadow-black/50 p-4 hover:shadow-2xl hover:shadow-black/80 cursor-pointer transition-shadow duration-300">
+    <Link to='/TeacherCourseDetails' className="bg-red-700 rounded-lg shadow-lg shadow-black/50 p-4 hover:shadow-2xl hover:shadow-black/80 cursor-pointer transition-shadow duration-300">
       <img src={image} alt={name} className="w-full h-40 object-cover rounded-md mb-2" />
       <h3 className="text-white text-lg font-semibold">{name}</h3>
       <p className="text-gray-300 text-sm">{description}</p>
@@ -14,6 +15,14 @@ const CourseCard = ({ image, name, description }) => {
 };
 
 const TeacherProfile = () => {
+
+  const [showAddCourseModal, setShowAddCourseModal] = useState(false);
+  const closeModalAddCourse = () => setShowAddCourseModal(false);
+
+     
+  const [showEditTeacherModal, setShowEditTeacherModal] = useState(false);
+  const closeModalEditTeacher = () => setShowEditTeacherModal(false);
+
   const courseData = [
     {
       image: 'https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg',
@@ -56,9 +65,7 @@ const TeacherProfile = () => {
       description: 'This is a short description of Course 8.',
     },
   ];
-   
-  const [showEditTeacherModal, setShowEditTeacherModal] = useState(false);
-  const closeModalEditTeacher = () => setShowEditTeacherModal(false);
+
 
 
   return (
@@ -117,10 +124,11 @@ const TeacherProfile = () => {
         </div>
 
         {/* Add Course Button */}
-        <button className="bg-blue-500 text-white font-semibold px-6 py-3 mt-8 rounded-lg hover:bg-blue-600 transition-colors hover:shadow-2xl hover:shadow-black/80 duration-200">
+        <div onClick={() => setShowAddCourseModal(true)} className="bg-blue-500 text-white font-semibold cursor-pointer px-6 py-3 mt-8 rounded-lg hover:bg-blue-600 transition-colors hover:shadow-2xl hover:shadow-black/80 duration-200">
           + Add Course
-        </button>
+        </div>
       </div>
+      {showAddCourseModal && <AddCourse closeModal={closeModalAddCourse} />}
     </div>
   );
 };

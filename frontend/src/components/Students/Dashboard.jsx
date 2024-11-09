@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import ChartComponent from './Chart';
+import React, { useState } from "react";
+import ChartComponent from "./Chart";
+import EditStudent from "../Modal/EditStudent.modal";
 
 const HomeScreen = ({
   userData = {
@@ -10,8 +11,18 @@ const HomeScreen = ({
     achievements: ["First Assignment", "Top Scorer"],
   },
   deadlines = [
-    { id: 1, title: "Math Assignment 1", dueDate: "10-11-2024", dueTime: "10:00" },
-    { id: 2, title: "Physics Lab Report", dueDate: "12-11-2024", dueTime: "14:00" },
+    {
+      id: 1,
+      title: "Math Assignment 1",
+      dueDate: "10-11-2024",
+      dueTime: "10:00",
+    },
+    {
+      id: 2,
+      title: "Physics Lab Report",
+      dueDate: "12-11-2024",
+      dueTime: "14:00",
+    },
     { id: 3, title: "Biology Quiz", dueDate: "15-11-2024", dueTime: "09:00" },
   ],
   studyGoals = [
@@ -30,9 +41,7 @@ const HomeScreen = ({
   };
 
   const handleGoalAchieved = (id) => {
-    setActiveGoals((prevGoals) =>
-      prevGoals.filter((goal) => goal.id !== id)
-    );
+    setActiveGoals((prevGoals) => prevGoals.filter((goal) => goal.id !== id));
   };
 
   const addDeadline = () => {
@@ -41,7 +50,7 @@ const HomeScreen = ({
     const newDueTime = prompt("Enter the due time (HH:MM) 24Hrs Format:");
 
     if (newTitle && newDueDate && newDueTime) {
-      const formattedDate = newDueDate.split('-').reverse().join('-');
+      const formattedDate = newDueDate.split("-").reverse().join("-");
       const newDeadline = {
         id: activeDeadlines.length + 1,
         title: newTitle,
@@ -63,17 +72,27 @@ const HomeScreen = ({
     }
   };
 
+  const [showEditStudentModal, setShowEditStudentModal] = useState(false);
+  const closeModalEditStudent = () => setShowEditStudentModal(false);
+
   return (
     <div className="container mx-auto p-4 grid gap-6 grid-cols-1 md:grid-cols-2">
-      
       {/* Profile Snapshot */}
       <section className="relative bg-blue-100 p-6 rounded-lg shadow-md flex flex-col items-center transition-transform transform hover:scale-105">
-        
         {/* Pencil Icon */}
-        <div className="absolute top-2 right-2 cursor-pointer text-gray-600 hover:text-gray-800">
-          <span role="img" aria-label="Edit" className="bg-blue-500 hover:bg-green-500 p-1 rounded-full text-2xl">✏️</span>
+        <div
+          onClick={() => setShowEditStudentModal(true)}
+          className="absolute top-2 right-2 cursor-pointer text-gray-600 hover:text-gray-800"
+        >
+          <span
+            role="img"
+            aria-label="Edit"
+            className="bg-blue-500 hover:bg-green-500 p-1 rounded-full text-2xl"
+          >
+            ✏️
+          </span>
         </div>
-        
+
         <div className="relative">
           <img
             src={profile.profilePhoto}
@@ -81,12 +100,12 @@ const HomeScreen = ({
             className="w-24 h-24 rounded-full"
           />
         </div>
-        
+
         <div className="text-center mt-4">
           <h1 className="text-2xl font-semibold">{profile.name}</h1>
           <p className="text-gray-600">Aura Points: {profile.auraPoints}</p>
           <p className="text-gray-600">Level: {profile.level}</p>
-          
+
           <div className="mt-2">
             <h2 className="font-semibold">Achievements:</h2>
             <ul className="list-disc list-inside text-gray-700">
@@ -97,7 +116,7 @@ const HomeScreen = ({
           </div>
         </div>
       </section>
-      
+
       {/* Chart Placeholder */}
       <section className="bg-gray-200 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
         <h2 className="text-xl font-semibold mb-4">Your Progress Chart</h2>
@@ -105,13 +124,16 @@ const HomeScreen = ({
           <ChartComponent /> {/* Chart component */}
         </div>
       </section>
-      
+
       {/* Study Goals */}
       <section className="bg-yellow-100 p-6 rounded-lg shadow-md flex flex-col justify-between transition-transform transform hover:scale-105">
         <h2 className="text-xl font-semibold mb-4">Study Goals</h2>
         <ul className="space-y-3 flex-grow">
           {activeGoals.map((goal) => (
-            <li key={goal.id} className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm">
+            <li
+              key={goal.id}
+              className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm"
+            >
               <span>{goal.goal}</span>
               <div className="flex items-center space-x-4">
                 <span className="text-gray-500">{goal.progress}</span>
@@ -137,7 +159,7 @@ const HomeScreen = ({
           </button>
         </div>
       </section>
-      
+
       {/* Upcoming Deadlines */}
       <section className="bg-green-100 p-6 rounded-lg shadow-md flex flex-col justify-between transition-transform transform hover:scale-105">
         <h2 className="text-xl font-semibold mb-4">Upcoming Deadlines</h2>
@@ -151,7 +173,7 @@ const HomeScreen = ({
                 <div>
                   <span className="font-semibold">{deadline.title}</span>
                   <span className="text-gray-500 block">
-                    {deadline.dueTime}  {deadline.dueDate}
+                    {deadline.dueTime} {deadline.dueDate}
                   </span>
                 </div>
                 <button
@@ -176,7 +198,9 @@ const HomeScreen = ({
           </button>
         </div>
       </section>
-      
+      {showEditStudentModal && (
+        <EditStudent closeModal={closeModalEditStudent} />
+      )}
     </div>
   );
 };
