@@ -7,14 +7,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 1000;
 
-// Import routes
-const connectDB = require('./config/db');
-const studentRoutes = require('./routes/studentroutes');
-const authRoutes = require('./Routes/authroutes');
-const teacherRoutes = require('./Routes/teacherroutes');
-const courseRouter = require('./Routes/Course');
-const assignmentRouter = require('./Routes/Assignment');
-const chapterRouter=require('./Routes/Chapter');
+
+const studentRoutes = require('./Route/Student');
+const authRoutes = require('./Route/authroutes');
+const teacherRoutes = require('./Route/teacherroutes');
+const courseRouter = require('./Route/Course');
+const assignmentRouter = require('./Route/Assignment');
+const chapterRouter=require('./Route/Chapter');
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -27,7 +26,7 @@ app.use(cors({
 // Test route
 app.get('/', (req, res) => res.json({ message: "This is the home route" }));
 
-// API routes
+// backend routes
 app.use('/backend/auth', authRoutes);
 app.use('/backend/studentRoutes', studentRoutes);
 app.use('/backend/teacherRoutes', teacherRoutes);

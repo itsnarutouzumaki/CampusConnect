@@ -1,5 +1,5 @@
 const express=require('express');
-const {addCourse,getCourse,updateCourse,deleteCourse}=require('../Controllers/Course');
+const {addCourse,getCourse,updateCourse,deleteCourse}=require('../Controller/Course');
 const router=express.Router();
 
 // add course

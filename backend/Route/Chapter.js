@@ -1,5 +1,5 @@
 const express=require('express');
-const {addChapter,getChapter,updatechapter,removeChapter}=require('../Controllers/Chapter');
+const {addChapter,getChapter,updatechapter,removeChapter}=require('../Controller/Chapter');
 const router=express.Router();
 
 //add a chapter
