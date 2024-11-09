@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -13,7 +14,59 @@ const fetchCourse = async () => {
     return [];  // In case of an error, return an empty array
   }
 };
+=======
+import React,{useEffect,useState} from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+const course=async()=>{
+  const [courseData, setCourseData] = useState({
+    name: "",
+    code: "",
+    description: "",
+    credit: 0,
+    duration: "",
+    startDate: "",
+    endDate: "",
+    enrollmentCount: 0,
+    createdAt: new Date().toISOString(),
+});
+>>>>>>> Stashed changes
 
+
+const [courses, setCourses] = useState([]);
+
+
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCourseData({ ...courseData, [name]: value });
+};
+
+// add a course
+const addCourse = async () => {
+    try {
+        const response = await axios.post('/backend/course/add', courseData);
+        console.log(response.data.message);
+        fetchCourses(); 
+    } catch (error) {
+        console.log("Error: " + error.response.data.message);
+    }
+};
+
+// Function to fetch all courses
+const fetchCourses = async () => {
+    try {
+        const response = await axios.get('/backend/course');
+        setCourses(response.data.course);
+    } catch (error) {
+        console.error("Error fetching courses: ", error);
+    }
+};
+
+useEffect(() => {
+    fetchCourses();
+}, []);
+
+}
 const CourseCard = ({ image, name, description }) => {
   return (
     <Link

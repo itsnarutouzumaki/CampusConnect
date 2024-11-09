@@ -1,3 +1,5 @@
+const mongoose=require('mongoose');
+
 const studentSchema = new mongoose.Schema(
     {
         fullName: {
@@ -11,6 +13,10 @@ const studentSchema = new mongoose.Schema(
             required: true,
             maxlength: 50,
             unique: true,
+        },
+        username: {
+            type:String,
+            required: true
         },
         password: {
             type: String,
@@ -33,10 +39,23 @@ const studentSchema = new mongoose.Schema(
             }
         ],
         progress: {
-            type: Number,
-            default: 0,
-            min: 0,
-            max: 100,
+            type: Array,
+            default: []
+        },
+        auraPoint: {
+            type:Number,
+            default:0
+        },
+        auraCoin: {
+            type:Number,
+            default:0
+        },
+        collegeName: {
+            type:String
+        },
+        img_url: {
+            type:String,
+            default:null
         }
     },
     { timestamps: true }
