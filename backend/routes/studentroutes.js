@@ -1,11 +1,11 @@
 const express = require ('express');
-const {createStudent , getStudent , updateStudent , deleteStudent }= require ('../Controllers/studentcontroller');
+const {createStudent , getStudent , updateStudent , deleteStudent }= require ('../controllers/studentcontroller');
 const router = express.Router();
 const verifyToken = require('../middleware/auth');
 
-
-// public route for cresting a student 
-router.post('/' , createStudent);
+console.log(createStudent,getStudent,updateStudent,deleteStudent);
+// public route for creating a student 
+router.post('/create' , createStudent);
 
 // protected routes
 router.get('/:id',verifyToken, getStudent);
