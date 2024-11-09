@@ -1,13 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import axios from "axios";
 
 const EditTeacher = ({ closeModal }) => {
+  const [selectedFile, setSelectedFile] = useState(null);
+
   useEffect(() => {
     document.body.style.overflowY = "hidden";
     return () => {
       document.body.style.overflowY = "scroll";
     };
   }, []);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      alert("Please select a file first.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      const response = await axios.post("/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      alert("File uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("File upload failed.");
+    }
+  };
 
   return ReactDOM.createPortal(
     <div
@@ -18,16 +45,30 @@ const EditTeacher = ({ closeModal }) => {
         className="bg-gray-900 text-white p-6 rounded-lg max-w-lg w-full sm:w-[500px] z-50 flex flex-col text-center shadow-lg hover:border-2 hover:border-white hover:shadow-2xl hover:shadow-gray-500 transition-all justify-center items-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-bold mb-4">EditTeacher</h2>
-        <p className="text-sm mb-4">
-          Subscribe to our newsletter and never miss our designs, latest news,
-          etc. Our newsletter is sent once a week, every Monday.
-        </p>
+        <h3 className="font-black underline text-white text-lg my-3">
+          Edit Teacher
+        </h3>
+        <input
+          type="text"
+          placeholder="Name"
+          className="m-2 rounded-lg p-2 w-[80%] text-black"
+          required
+        />
+        <input
+          type="text"
+          placeholder="College Name"
+          className="m-2 rounded-lg p-2 w-[80%] text-black"
+          required
+        />
+        <div >
+          <input type="file" onChange={handleFileChange} />
+          <button onClick={handleUpload} className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer">Upload</button>
+        </div>
         <button
           className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
           onClick={closeModal}
         >
-          Accept It
+          Save Changes
         </button>
       </div>
     </div>,

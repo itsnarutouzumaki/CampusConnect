@@ -45,7 +45,7 @@ const MainContent = () => {
           <Route path="/loginsignup" element={<LoginSignupForm />} />
           <Route path="/course" element={<Course />} />
           <Route path="/coursedetails" element={<CourseDetails />} />
-          <Route path="/assignment" element={<Assignment />} />
+          <Route path="/TeacherCourseDetails" element={<TeacherCourseDetails />} />
           <Route path="/contactUs" element={<ContactUsForm />} />
           <Route path="/dashboard" element={<HomeScreen />} />
           <Route path="/teacher/login" element={<TeacherLoginForm />} />

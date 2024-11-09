@@ -23,13 +23,13 @@ const RemoveTeacher = ({ closeModal }) => {
         </h3>
         <input
           type="text"
-          placeholder="Email address"
+          placeholder="Email address of Teacher"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           required
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Your Password"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           required
         />

@@ -1,13 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import axios from "axios";
 
 const EditAdmin = ({ closeModal }) => {
+  const [selectedFile, setSelectedFile] = useState(null);
+
   useEffect(() => {
     document.body.style.overflowY = "hidden";
     return () => {
       document.body.style.overflowY = "scroll";
     };
   }, []);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      alert("Please select a file first.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      const response = await axios.post("/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      alert("File uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("File upload failed.");
+    }
+  };
 
   return ReactDOM.createPortal(
     <div
@@ -28,11 +55,15 @@ const EditAdmin = ({ closeModal }) => {
           required
         />
         <input
-          type="file"
-          accept="image/*"
-          className="m-2 rounded-lg p-2 w-[80%] text-black bg-white"
+          type="email"
+          placeholder="Admin Email"
+          className="m-2 rounded-lg p-2 w-[80%] text-black"
           required
         />
+        <div >
+          <input type="file" onChange={handleFileChange} />
+          <button onClick={handleUpload} className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer">Upload</button>
+        </div>
         <button
           className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
           onClick={closeModal}

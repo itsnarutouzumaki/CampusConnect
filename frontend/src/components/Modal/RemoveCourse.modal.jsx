@@ -26,11 +26,11 @@ const RemoveCourse = ({ closeModal }) => {
           undone.
         </p>
         <div className="flex justify-center space-x-4 mt-4">
-          <button
-            className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors font-bold"
+        <button
+            className="m-2 rounded-lg p-2 bg-red-700 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
             onClick={closeModal}
           >
-            Remove
+            Remove Course
           </button>
           <button
             className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"

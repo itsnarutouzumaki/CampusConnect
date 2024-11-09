@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { MdEdit } from "react-icons/md";// Import the pencil icon
 import Assignment from "./Assignment";
 import Chapter from "./Chapter";
 import AddChapter from "../Modal/AddChapter.modal";
 import AddAssignment from "../Modal/AddAssignment.modal";
+import RemoveCourse from "../Modal/RemoveCourse.modal";
+import EditCourse from "../Modal/EditCourse.Modal";
 
 const AddButton = ({ state }) => {
   const [showAddChapterModal, setShowAddChapterModal] = useState(false);
@@ -39,21 +42,36 @@ const TeacherCourseDetails = () => {
   const [enrolled, setEnrolled] = useState(false);
   const [showChapter, setShowChapter] = useState(false);
 
-  const handleEnroll = () => {
-    setEnrolled(!enrolled);
-  };
+  const [showRemoveCourseModal, setShowRemoveCourseModal] = useState(false);
+  const closeModalRemoveCourse = () => setShowRemoveCourseModal(false);
+
+  const [showEditCourseModal, setShowEditCourseModal] = useState(false);
+  const closeModalEditCourse = () => setShowEditCourseModal(false);
+
+ 
 
   const handleChapter = () => {
     setShowChapter(!showChapter);
   };
 
+  const [showEditModal, setShowEditModal] = useState(false); // To control the edit modal visibility
+  const closeEditModal = () => setShowEditModal(false);
+
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-200 py-8 sm:py-10">
       {/* Course Content */}
-      <div className="bg-purple-800 w-full p-6 sm:p-8 md:p-10 rounded-lg shadow-lg text-white flex flex-col">
+      <div className="bg-purple-800 w-full p-6 sm:p-8 md:p-10 rounded-lg shadow-lg text-white flex flex-col relative">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 sm:mb-6 text-center">
           Name Of Course
         </h1>
+
+        {/* Edit Button at Top Right */}
+        <div
+          onClick={() => setShowEditCourseModal(true)} // Open the edit modal
+          className="absolute top-4 right-4 cursor-pointer rounded-full flex justify-center items-center text-black p-2 hover:bg-green-600 bg-green-200 hover:text-yellow-500"
+        >
+          <MdEdit size={24}  />
+        </div>
 
         <div className="flex flex-col items-start space-y-2 sm:space-y-3 text-sm sm:text-base md:text-lg">
           <p className="flex items-center">
@@ -83,10 +101,10 @@ const TeacherCourseDetails = () => {
         {/* Enroll and Chapter Buttons */}
         <div className="w-full sm:w-2/3 md:w-1/3 flex justify-between mt-6 sm:mt-8">
           <div
-            onClick={handleEnroll}
-            className="bg-black text-white text-xl font-bold px-4 py-2 rounded-full  hover:bg-lime-700"
+            onClick={() => setShowRemoveCourseModal(true)}
+            className="bg-black text-white text-xl font-bold px-4 py-2 rounded-full hover:bg-lime-700"
           >
-            {enrolled ? "UnEnroll" : "Enroll Now"}
+            Delete Course
           </div>
 
           <div
@@ -100,9 +118,11 @@ const TeacherCourseDetails = () => {
 
       {/* Conditionally Render Assignment or Chapter */}
       {!showChapter ? <Assignment /> : <Chapter />}
-
+      {showEditCourseModal && <RemoveCourse closeModal={closeModalRemoveCourse} />}
       {/* Add Button */}
       <AddButton state={showChapter} />
+      {showEditCourseModal && <EditCourse closeModal={closeModalEditCourse} />}
+      
     </div>
   );
 };

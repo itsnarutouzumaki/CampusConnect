@@ -35,7 +35,7 @@ const EditTeacher = ({ closeModal }) => {
         />
         <input
           type="password"
-          placeholder="New Password"
+          placeholder="Temporary New Password"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           required
         />
