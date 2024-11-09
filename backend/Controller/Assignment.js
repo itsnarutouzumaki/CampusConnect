@@ -1,5 +1,5 @@
-const Assignment = require("../Models/assignment");
-const {cloudinary} =require('../utils/cloudinary');
+const Assignment = require("../Model/assignment");
+const {cloudinary} =require('../Util/cloudinary');
 
 // add assignment
 const addAssignment = async (req, res) => {

@@ -1,5 +1,5 @@
-const Chapters=require('../Models/chapter');
-const Courses=require('../Models/course');
+const Chapters=require('../Model/chapter');
+const Courses=require('../Model/course');
 // add a chapter
 const addChapter= async (req,res) =>{
 
