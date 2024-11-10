@@ -7,13 +7,15 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 1000;
 
-
+//import routes
 const studentRoutes = require('./Route/Student');
 const authRoutes = require('./Route/authroutes');
 const teacherRoutes = require('./Route/teacherroutes');
 const courseRouter = require('./Route/Course');
 const assignmentRouter = require('./Route/Assignment');
 const chapterRouter=require('./Route/Chapter');
+const GoalAndDeadlineRouter=require('./Route/GoalAndDeadline');
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,11 +35,13 @@ app.use('/backend/teacherRoutes', teacherRoutes);
 app.use('/backend/course', courseRouter);
 app.use('/backend/assignment', assignmentRouter);
 app.use('/backend/chapter',chapterRouter);
+app.use('/backend',GoalAndDeadlineRouter);
 
 const username = process.env.Database_UserName;
 const password = process.env.Database_password;
 
 mongoose.connect(`mongodb+srv://${username}:${password}@cluster0.dohre.mongodb.net/`, {
+    dbName:"CampusConnect",
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => console.log("MongoDB Connected Successfully ...!"))
