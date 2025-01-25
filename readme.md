@@ -10,15 +10,15 @@
 **CampusConnect.edu** is an integrated platform aimed at enhancing the academic and social experience for college students. It provides personalized resources, activity tracking, and study goals to support student success through a mix of challenges, rewards, and mentorship.
 
 **Team Members:**
-- **Kamal Gurjar**  
-  - Role: FrontEnd & BackEnd  
-  - Discord ID: `kamalgurjar`  
-  - ID: `2023CA50`
-
 - **Somenath Singh**  
   - Role: Lead & FrontEnd  
   - Discord ID: `i_am_Naruto_uzumaki`  
   - ID: `2023CA99`
+
+- **Kamal Gurjar**  
+  - Role: FrontEnd & BackEnd  
+  - Discord ID: `kamalgurjar`  
+  - ID: `2023CA50`
 
 - **Abhishek Pal**  
   - Role: BackEnd & Database  
