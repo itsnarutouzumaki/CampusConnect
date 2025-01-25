@@ -15,15 +15,20 @@
   - Discord ID: `kamalgurjar`  
   - ID: `2023CA50`
 
-- **Abhishek Pal**  
-  - Role: BackEnd & Database  
-  - Discord ID: `abhishek001204`  
-  - ID: `2023CA03`
-
 - **Somenath Singh**  
   - Role: Lead & FrontEnd  
   - Discord ID: `i_am_Naruto_uzumaki`  
   - ID: `2023CA99`
+
+- **Abhishek Pal**  
+  - Role: BackEnd & Database  
+  - Discord ID: `abhishek001204`  
+  - ID: `2023CA03`
+ 
+- **Siddharth Srivastava**  
+  - Role: Backend & Database  
+  - Discord ID: ``  
+  - ID: `2023CA97`
 
 ---
 
