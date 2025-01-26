@@ -16,25 +16,25 @@ const AssignmentBar = ({ assignment }) => {
   return (
     <div 
       className={`w-11/12 p-3 flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
-      ${isCompleted ? 'border-green-500 bg-green-100' : 'border-red-500 bg-red-100'} 
+      ${isCompleted ? 'border-green-500/50' : 'border-red-500/50 '} 
       hover:shadow-2xl hover:shadow-black/80`}
     >
       <div className="flex justify-between w-full">
-        <p className="text-2xl text-black font-bold">{AssignmentName}</p>
-        <p className="text-base text-black font-medium">{marks}/{totalmarks}</p>
+        <p className="text-2xl text-white font-bold">{AssignmentName}</p>
+        <p className="text-base text-white font-medium">{marks}/{totalmarks}</p>
       </div>
       <div className="flex justify-between w-full mt-2">
         <div>
-          <p className="text-base text-black font-medium">{assignmentDueDate}</p>
-          <p className="text-base text-black font-medium">{assignmentDueTime}</p>
+          <p className="text-base text-white font-medium">{assignmentDueDate}</p>
+          <p className="text-base text-white font-medium">{assignmentDueTime}</p>
         </div>
         <div className="flex items-center">
-          <div className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-black hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
+          <div className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-white hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
             <MdOutlineFileUpload />
           </div>
           <div 
             onClick={handleToggleCompletion} 
-            className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-black hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
+            className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-white hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
             {isCompleted ? "Unsubmit" : "Submit"}
           </div>
         </div>
