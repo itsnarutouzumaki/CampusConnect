@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import "./LoginSignup.css"; // Import your CSS file
 
 const LoginSignupForm = () => {
-  const [isSignupActive, setIsSignupActive] = useState(false);
-  const [isTeacher, setIsTeacher] = useState(false); // New state to track if the user is a Teacher
+  const [isTeacher, setIsTeacher] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -11,13 +9,6 @@ const LoginSignupForm = () => {
   });
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
-  const handleToggleForm = () => {
-    setIsSignupActive(!isSignupActive);
-    setFormData({ fullName: "", email: "", password: "" });
-    setError("");
-    setSuccessMessage("");
-  };
 
   const handleUserTypeChange = (e) => {
     setIsTeacher(e.target.value === "Teacher");
@@ -37,13 +28,10 @@ const LoginSignupForm = () => {
 
     const url = isTeacher
       ? "http://localhost:5000/api/auth/login/teacher"
-      : isSignupActive
-      ? "http://localhost:5000/api/auth/login/student"
       : "http://localhost:5000/api/auth/signup/student";
 
-    const payload = isSignupActive
+    const payload = isTeacher
       ? {
-          
           email: formData.email,
           password: formData.password,
         }
@@ -68,11 +56,9 @@ const LoginSignupForm = () => {
         throw new Error(data.message || "Something went wrong");
       }
 
-      setSuccessMessage(isSignupActive ? "Signup successful!" : "Login successful!");
-      if (!isSignupActive || isTeacher) {
-        // Save the token if it's a login
-        // localStorage.setItem("token", data.token);
-      }
+      setSuccessMessage(
+        isTeacher ? "Teacher login successful!" : "Student signup successful!"
+      );
     } catch (error) {
       setError(error.message);
       console.log(error);
@@ -80,100 +66,98 @@ const LoginSignupForm = () => {
   };
 
   return (
-    <div className="flex justify-center align-middle m-4">
-      <section className={`wrapper ${isSignupActive ? "active" : ""}`}>
-        <div className="user-type-toggle">
-          <label>
+    <div className="flex justify-center items-center h-screen bg-black text-white">
+      <div className="w-full max-w-md p-6 bg-gray-900 rounded-lg shadow-lg">
+        <header className="text-2xl font-semibold text-center mb-6">
+          {isTeacher ? "Teacher Login" : "Student Signup"}
+        </header>
+
+        <div className="mb-4 flex justify-center space-x-4">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="radio"
               value="Student"
               checked={!isTeacher}
               onChange={handleUserTypeChange}
+              className="text-teal-500"
             />
-            Student
+            <span>Student</span>
           </label>
-          <label>
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="radio"
               value="Teacher"
               checked={isTeacher}
               onChange={handleUserTypeChange}
+              className="text-teal-500"
             />
-            Teacher
+            <span>Teacher</span>
           </label>
         </div>
 
-        {isTeacher ? (
-          // Login form for Teacher
-          <div className="form login">
-            <header>Teacher Login</header>
-            <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {!isTeacher && (
+            <div>
+              <label htmlFor="fullName" className="block text-sm font-medium">
+                Full Name
+              </label>
               <input
                 type="text"
-                name="email"
-                placeholder="Email address"
-                value={formData.email}
+                name="fullName"
+                placeholder="Full name"
+                value={formData.fullName}
                 onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                 required
               />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <input type="submit" value="Login" />
-            </form>
+            </div>
+          )}
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium">
+              Email Address
+            </label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email address"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2 bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+              required
+            />
           </div>
-        ) : (
-          // Signup/Login form for Student
-          <div className={`form ${isSignupActive ? "signup" : "login"}`}>
-            <header onClick={handleToggleForm}>
-              {isSignupActive ? "Student Signup" : "Student Login"}
-            </header>
-            <form onSubmit={handleSubmit}>
-              {isSignupActive && (
-                <input
-                  type="text"
-                  name="fullName"
-                  placeholder="Full name"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  required={isSignupActive}
-                />
-              )}
-              <input
-                type="text"
-                name="email"
-                placeholder="Email address"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              {isSignupActive && (
-                <div className="checkbox">
-                  <input type="checkbox" id="signupCheck" required />
-                  <label htmlFor="signupCheck">I accept all terms & conditions</label>
-                </div>
-              )}
-              <input type="submit" value={isSignupActive ? "Signup" : "Login"} />
-            </form>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-4 py-2 bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+              required
+            />
           </div>
+
+          <button
+            type="submit"
+            className="w-full bg-teal-600 py-2 rounded-lg hover:bg-teal-700 transition"
+          >
+            {isTeacher ? "Login" : "Signup"}
+          </button>
+        </form>
+
+        {error && (
+          <p className="mt-4 text-red-500 text-center">{error}</p>
         )}
-        
-        {error && <p className="error">{error}</p>}
-        {successMessage && <p className="success">{successMessage}</p>}
-      </section>
+        {successMessage && (
+          <p className="mt-4 text-green-500 text-center">{successMessage}</p>
+        )}
+      </div>
     </div>
   );
 };
