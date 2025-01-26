@@ -19,7 +19,7 @@ import TeacherCourseDetails from "./components/Teacher/CourseDetails";
 
 const App = () => {
   return (
-    <div className="app_container min-h-screen flex flex-col">
+    <div className="app_container">
       <Router>
         <MainContent />
         <CopyrightFooter />

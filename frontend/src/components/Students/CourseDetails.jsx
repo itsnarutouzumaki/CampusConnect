@@ -15,9 +15,9 @@ const CourseDetails = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-200 py-8 sm:py-10">
+    <div className="min-h-screen flex flex-col items-center py-8 sm:py-10">
       {/* Course Content */}
-      <div className="bg-purple-800 w-full p-6 sm:p-8 md:p-10 rounded-lg shadow-lg text-white flex flex-col">
+      <div className="bg-white/20 backdrop-blur-[10%] w-full p-6 sm:p-8 md:p-10 rounded-lg shadow-lg text-white flex flex-col">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 sm:mb-6 text-center">Name Of Course</h1>
         
         <div className="flex flex-col items-start space-y-2 sm:space-y-3 text-sm sm:text-base md:text-lg">

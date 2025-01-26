@@ -24,19 +24,19 @@ const AssignmentBar = ({ assignment }) => {
 
   return (
     <div 
-      className={`w-11/12 p-3 flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 border-green-500 bg-green-100 
+      className={`w-11/12 p-3 flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 border-green-500 bg-white/15
       hover:shadow-2xl hover:shadow-black/80`}
     >
       <div className="flex justify-between w-full">
-        <p className="text-2xl text-black font-bold">{AssignmentName}</p>
-        <div onClick={() => setShowRemoveAssignmentModal(true)} className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-black hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
+        <p className="text-2xl text-white font-bold">{AssignmentName}</p>
+        <div onClick={() => setShowRemoveAssignmentModal(true)} className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-black hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white ">
           <MdDelete />
         </div>
       </div>
       <div className="flex justify-between w-full mt-2">
         <div>
-          <p className="text-base text-black font-medium">{assignmentDueDate}</p>
-          <p className="text-base text-black font-medium">{assignmentDueTime}</p>
+          <p className="text-base text-white font-medium">{assignmentDueDate}</p>
+          <p className="text-base text-white font-medium">{assignmentDueTime}</p>
         </div>
         <div className="flex items-center">
           <div onClick={() => setShowEditAssignmentModal(true)} className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-black hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
