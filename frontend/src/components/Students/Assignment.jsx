@@ -4,7 +4,7 @@ import { MdOutlineFileUpload } from "react-icons/md";
 // Single Assignment Item
 const AssignmentBar = ({ assignment }) => {
   const { AssignmentName, marks, totalmarks, assignmentDueDate, assignmentDueTime, completed: initialCompleted } = assignment;
-  
+
   // State to track completion status
   const [isCompleted, setIsCompleted] = useState(initialCompleted);
 

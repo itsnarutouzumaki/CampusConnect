@@ -6,10 +6,8 @@ import ParticlesComponent from "../../styles/Particlebackground";
 const LandingPage = () => {
   return (
     <div className="landing-container">
+
       <div id="particles">
-        <div>
-          <ParticlesComponent />
-        </div>
         {/* Teacher Login Button in the top-right corner */}
         <div className="teacher-login-btn">
           <Link to="/teacher/login" className="teacher-login-link">
@@ -28,7 +26,7 @@ const LandingPage = () => {
           collaborate. Welcome to the future of academic life. Join us today!"
         </p>
 
-        {/* Discover More Button with Animation */}
+        {/* Discover More Button */}
         <Link to="/loginsignup" className="discover-btn">
           Discover More
         </Link>

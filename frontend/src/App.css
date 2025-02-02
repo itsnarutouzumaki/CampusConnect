@@ -3,9 +3,7 @@
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  background-image: url('./assets/bg.png');
-  background-size: cover;
-  background-position: center;
+  background: black;
   overflow-y: auto;
 }
 
