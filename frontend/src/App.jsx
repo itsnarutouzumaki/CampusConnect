@@ -22,6 +22,8 @@ import ShowStudent from "./components/ShowStudent";
 import Leaderboard from "./components/LeaderBoard";
 import TeacherCourseDetails from "./components/Teacher/CourseDetails";
 import ParticlesComponent from "./styles/Particlebackground.jsx";
+import About from "./components/About.jsx";
+
 
 const App = () => {
   return (
@@ -69,6 +71,7 @@ const MainContent = () => {
             path="/teacher/coursedetails"
             element={<TeacherCourseDetails />}
           />
+          <Route path="/about" element={<About />} />
         </Routes>
       </div>
     </>
