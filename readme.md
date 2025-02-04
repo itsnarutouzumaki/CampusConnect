@@ -27,7 +27,7 @@
  
 - **Siddharth Srivastava**  
   - Role: Backend & Database  
-  - Discord ID: ``  
+  - Discord ID: `2023ca97_siddharth`  
   - ID: `2023CA97`
 
 ---
