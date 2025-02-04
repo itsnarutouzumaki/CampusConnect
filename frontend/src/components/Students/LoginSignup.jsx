@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
 const LoginSignupForm = () => {
-  const [isTeacher, setIsTeacher] = useState(false);
-  const [isLogin, setIsLogin] = useState(false); // Toggle between Signup/Login for students
+  const [isLogin, setIsLogin] = useState(false); // Toggle between Signup/Login
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -10,14 +9,6 @@ const LoginSignupForm = () => {
   });
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
-  const handleUserTypeChange = (e) => {
-    setIsTeacher(e.target.value === "Teacher");
-    setIsLogin(false); // Reset login state when switching roles
-    setFormData({ fullName: "", email: "", password: "" });
-    setError("");
-    setSuccessMessage("");
-  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,13 +19,11 @@ const LoginSignupForm = () => {
     setError("");
     setSuccessMessage("");
 
-    const url = isTeacher
-      ? "http://localhost:5000/api/auth/login/teacher"
-      : isLogin
+    const url = isLogin
       ? "http://localhost:5000/api/auth/login/student"
       : "http://localhost:5000/api/auth/signup/student";
 
-    const payload = isTeacher || isLogin
+    const payload = isLogin
       ? { email: formData.email, password: formData.password }
       : { fullName: formData.fullName, email: formData.email, password: formData.password };
 
@@ -48,13 +37,7 @@ const LoginSignupForm = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Something went wrong");
 
-      setSuccessMessage(
-        isTeacher
-          ? "Teacher login successful!"
-          : isLogin
-          ? "Student login successful!"
-          : "Student signup successful!"
-      );
+      setSuccessMessage(isLogin ? "Student login successful!" : "Student signup successful!");
     } catch (error) {
       setError(error.message);
       console.log(error);
@@ -62,44 +45,18 @@ const LoginSignupForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen  text-white">
+    <div className="flex justify-center items-center h-screen text-white">
       <div className="w-full max-w-lg p-6 bg-gray-900 rounded-lg shadow-lg">
         <header className="text-2xl font-semibold text-center mb-6">
-          {isTeacher ? "Teacher Login" : isLogin ? "Student Login" : "Student Signup"}
+          {isLogin ? "Login" : "Signup"}
         </header>
 
-        <div className="mb-4 flex justify-center space-x-4">
-          <label className="flex items-center space-x-2 cursor-pointer">
-            <input
-              type="radio"
-              value="Student"
-              checked={!isTeacher}
-              onChange={handleUserTypeChange}
-            />
-            <span>Student</span>
-          </label>
-          <label className="flex items-center space-x-2 cursor-pointer">
-            <input
-              type="radio"
-              value="Teacher"
-              checked={isTeacher}
-              onChange={handleUserTypeChange}
-            />
-            <span>Teacher</span>
-          </label>
-        </div>
-
-        {!isTeacher && (
-          <div className="mb-5  flex justify-center space-x-10">
-            <button className={`${!isLogin ? "bg-teal-600" : "bg-gray-700"} px-4 py-2 rounded-lg`} onClick={() => setIsLogin(false)}>Signup</button>
-            <button className={`${isLogin ? "bg-teal-600" : "bg-gray-700"} px-4 py-2 rounded-lg`} onClick={() => setIsLogin(true)}>Login</button>
-          </div>
-        )}
-
         <form onSubmit={handleSubmit} className="space-y-4">
-          {!isTeacher && !isLogin && (
+          {!isLogin && (
             <div>
-              <label htmlFor="fullName" className="block text-sm font-medium">Full Name</label>
+              <label htmlFor="fullName" className="block text-sm font-medium">
+                Full Name <span className="text-red-600 ml-1">*</span>
+              </label>
               <input
                 type="text"
                 name="fullName"
@@ -113,7 +70,9 @@ const LoginSignupForm = () => {
           )}
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium">Email Address</label>
+            <label htmlFor="email" className="block text-sm font-medium">
+              Email Address <span className="text-red-600 ml-1">*</span>
+            </label>
             <input
               type="email"
               name="email"
@@ -126,7 +85,9 @@ const LoginSignupForm = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium">
+              Password <span className="text-red-600 ml-1">*</span>
+            </label>
             <input
               type="password"
               name="password"
@@ -139,12 +100,22 @@ const LoginSignupForm = () => {
           </div>
 
           <button type="submit" className="w-full bg-teal-600 py-2 rounded-lg hover:bg-teal-700 transition">
-            {isTeacher || isLogin ? "Login" : "Signup"}
+            {isLogin ? "Login" : "Signup"}
           </button>
         </form>
 
         {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
         {successMessage && <p className="mt-4 text-green-500 text-center">{successMessage}</p>}
+
+        <div className="mt-5 flex justify-center">
+          <p>{isLogin ? "Don't have an account? " : "Already have an account? "}</p>&nbsp;&nbsp;
+          <span 
+            className="text-red-600 hover:underline transition cursor-pointer" 
+            onClick={() => setIsLogin(!isLogin)}
+          >
+            {isLogin ? " Switch to Signup" : "Switch to Login"}
+          </span>
+        </div>
       </div>
     </div>
   );
