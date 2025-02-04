@@ -1,23 +1,18 @@
 import React, { useState } from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
 
-// Single Assignment Item
 const AssignmentBar = ({ assignment }) => {
   const { AssignmentName, marks, totalmarks, assignmentDueDate, assignmentDueTime, completed: initialCompleted } = assignment;
-
-  // State to track completion status
   const [isCompleted, setIsCompleted] = useState(initialCompleted);
 
-  // Toggle the completion status
   const handleToggleCompletion = () => {
     setIsCompleted(!isCompleted);
   };
 
   return (
     <div 
-      className={`w-11/12 p-3 flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
-      ${isCompleted ? 'border-green-500/50' : 'border-red-500/50 '} 
-      hover:shadow-2xl hover:shadow-black/80`}
+      className={`w-11/12 p-3 flex flex-col transition-all duration-300 mx-auto m-3 rounded-2xl border-4 
+      ${isCompleted ? 'border-white shadow-[0_0_15px_#00ff00]' : 'border-white shadow-[0_0_15px_#ff0000]'} `}
     >
       <div className="flex justify-between w-full">
         <p className="text-2xl text-white font-bold">{AssignmentName}</p>
@@ -29,12 +24,14 @@ const AssignmentBar = ({ assignment }) => {
           <p className="text-base text-white font-medium">{assignmentDueTime}</p>
         </div>
         <div className="flex items-center">
-          <div className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-white hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
+          <div className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-white hover:font-bold 
+            hover:shadow-[0px_0px_15px_#00ff00] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
             <MdOutlineFileUpload />
           </div>
           <div 
             onClick={handleToggleCompletion} 
-            className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-white hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
+            className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-white hover:font-bold 
+            hover:shadow-[0px_0px_15px_#00ff00] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
             {isCompleted ? "Unsubmit" : "Submit"}
           </div>
         </div>
@@ -43,7 +40,6 @@ const AssignmentBar = ({ assignment }) => {
   );
 };
 
-// Main Assignment Component
 const Assignment = () => {
   const assignments = [
     {

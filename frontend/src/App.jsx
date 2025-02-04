@@ -11,7 +11,7 @@ import LoginSignupForm from "./components/Students/LoginSignup";
 import Course from "./components/Students/Course";
 import Assignment from "./components/Students/Assignment";
 import CopyrightFooter from "./components/Students/Footer";
-import ContactUsForm from "./components/Students/Contact";
+import ContactUsForm from "./components/Contact.jsx";
 import HomeScreen from "./components/Students/Dashboard";
 import TeacherLoginForm from "./components/Teacher/Login";
 import TeacherProfile from "./components/Teacher/Profile";

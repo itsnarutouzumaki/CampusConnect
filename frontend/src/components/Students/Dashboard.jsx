@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import ChartComponent from "./Chart";
 import EditStudent from "../Modal/EditStudent.modal";
 
+
 const HomeScreen = ({
   userData = {
     name: "John Doe",
-    profilePhoto: "https://via.placeholder.com/150",
-    auraPoints: 150,
-    level: 5,
-    achievements: ["First Assignment", "Top Scorer"],
+    profilePhoto:
+      "https://i.pinimg.com/736x/80/04/d4/8004d4b5f2985ed905a021e9e2f1e79d.jpg",
+    username: "johndoe",
+    education: "B.Sc. Computer Science",
+    Institute: "XYZ University",
+    Bio: "I am a student at XYZ University. I am passionate about learning new technologies and building cool projects.",
   },
   deadlines = [
     {
@@ -34,31 +37,8 @@ const HomeScreen = ({
   const [activeDeadlines, setActiveDeadlines] = useState(deadlines);
   const [activeGoals, setActiveGoals] = useState(studyGoals);
 
-  const handleDeadlineDone = (id) => {
-    setActiveDeadlines((prevDeadlines) =>
-      prevDeadlines.filter((deadline) => deadline.id !== id)
-    );
-  };
-
   const handleGoalAchieved = (id) => {
     setActiveGoals((prevGoals) => prevGoals.filter((goal) => goal.id !== id));
-  };
-
-  const addDeadline = () => {
-    const newTitle = prompt("Enter the title of the deadline:");
-    const newDueDate = prompt("Enter the due date (DD-MM-YYYY):");
-    const newDueTime = prompt("Enter the due time (HH:MM) 24Hrs Format:");
-
-    if (newTitle && newDueDate && newDueTime) {
-      const formattedDate = newDueDate.split("-").reverse().join("-");
-      const newDeadline = {
-        id: activeDeadlines.length + 1,
-        title: newTitle,
-        dueDate: formattedDate,
-        dueTime: newDueTime,
-      };
-      setActiveDeadlines((prevDeadlines) => [...prevDeadlines, newDeadline]);
-    }
   };
 
   const addGoal = () => {
@@ -78,16 +58,16 @@ const HomeScreen = ({
   return (
     <div className="container mx-auto p-4 grid gap-6 grid-cols-1 md:grid-cols-2">
       {/* Profile Snapshot */}
-      <section className="relative bg-blue-100 p-6 rounded-lg shadow-md flex flex-col items-center transition-transform transform hover:scale-105">
+      <section className="relative bg-white/20 backdrop-blur-[10%] p-6 rounded-lg shadow-md flex flex-col items-center transition-transform transform hover:shadow-white">
         {/* Pencil Icon */}
         <div
           onClick={() => setShowEditStudentModal(true)}
-          className="absolute top-2 right-2 cursor-pointer text-gray-600 hover:text-gray-800"
+          className="absolute top-2 right-2 cursor-pointer hover:text-gray-800"
         >
           <span
             role="img"
             aria-label="Edit"
-            className="bg-blue-500 hover:bg-green-500 p-1 rounded-full text-2xl"
+            className="bg-slate-400 hover:bg-green-500 p-1 rounded-full text-2xl"
           >
             ✏️
           </span>
@@ -102,58 +82,66 @@ const HomeScreen = ({
         </div>
 
         <div className="text-center mt-4">
-          <h1 className="text-2xl font-semibold">{profile.name}</h1>
-          <p className="text-gray-600">Aura Points: {profile.auraPoints}</p>
-          <p className="text-gray-600">Level: {profile.level}</p>
+          <h1 className="text-2xl text-white font-mono italic">
+            {profile.name}
+          </h1>
+          <p className="text-gray-300 text-base italic underline">
+            @{profile.username}
+          </p>
 
-          <div className="mt-2">
-            <h2 className="font-semibold">Achievements:</h2>
-            <ul className="list-disc list-inside text-gray-700">
-              {profile.achievements.map((achievement, index) => (
-                <li key={index}>{achievement}</li>
-              ))}
-            </ul>
-          </div>
+          <p className="text-gray-300 text-sm italic">{profile.education}</p>
+
+          <p className="text-gray-300 text-sm italic">{profile.Institute}</p>
+
+          {profile.Bio && (
+            <p className=" text-slate-300 italic mt-3 text-center">
+              <span className="text-3xl text-red-500">❝</span>
+              {profile.Bio}
+              <span className="text-3xl text-red-500">❞</span>
+            </p>
+          )}
         </div>
       </section>
 
       {/* Chart Placeholder */}
-      <section className="bg-gray-200 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
-        <h2 className="text-xl font-semibold mb-4">Your Progress Chart</h2>
+      <section className="bg-white/20 backdrop-blur-[10%] p-6 rounded-lg transition-transform transform hover:shadow-white ">
+        <h2 className="text-xl font-semibold text-white mb-4">
+          Your Progress Chart
+        </h2>
         <div className="h-64 bg-blue-50 rounded-lg p-4">
           <ChartComponent /> {/* Chart component */}
         </div>
       </section>
 
       {/* Study Goals */}
-      <section className="bg-yellow-100 p-6 rounded-lg shadow-md flex flex-col justify-between transition-transform transform hover:scale-105">
-        <h2 className="text-xl font-semibold mb-4">Study Goals</h2>
+      <section className="bg-white/20 backdrop-blur-[10%] p-6 rounded-lg shadow-md flex flex-col justify-between transition-transform transform ">
+        <h2 className="text-xl font-semibold text-white mb-4">Study Goals</h2>
         <ul className="space-y-3 flex-grow">
           {activeGoals.map((goal) => (
             <li
               key={goal.id}
-              className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm"
+              className="flex justify-between items-center p-4 rounded-lg border-4 
+      border-gray-500 hover:shadow-blue-400 shadow-lg"
             >
-              <span>{goal.goal}</span>
-              <div className="flex items-center space-x-4">
-                <span className="text-gray-500">{goal.progress}</span>
+              <span className="text-white italic">{goal.goal}</span>
+              <div className="flex items-center space-x-4 ">
                 <button
                   onClick={() => handleGoalAchieved(goal.id)}
-                  className="text-white bg-green-500 px-3 py-1 rounded-lg hover:bg-green-600 transition"
+                  className="text-black bg-purple-400 px-3 py-1 rounded-lg hover:bg-purple-600 transition"
                 >
-                  Achieve
+                  Achieved
                 </button>
               </div>
             </li>
           ))}
           {activeGoals.length === 0 && (
-            <p className="text-gray-500 text-center">All goals achieved!</p>
+            <p className="text-white text-center">All goals achieved!</p>
           )}
         </ul>
         <div className="flex justify-center mt-4">
           <button
             onClick={addGoal}
-            className="text-white bg-blue-500 px-3 py-1 rounded-lg hover:bg-blue-600 transition"
+            className="text-white bg-teal-500 px-3 py-1 rounded-lg hover:bg-teal-800 transition"
           >
             Add Goal
           </button>
@@ -161,27 +149,22 @@ const HomeScreen = ({
       </section>
 
       {/* Upcoming Deadlines */}
-      <section className="bg-green-100 p-6 rounded-lg shadow-md flex flex-col justify-between transition-transform transform hover:scale-105">
-        <h2 className="text-xl font-semibold mb-4">Upcoming Deadlines</h2>
+      <section className="bg-white/20 backdrop-blur-[10%] p-6 rounded-lg shadow-md flex flex-col justify-between transition-transform transform hover:shadow-white">
+        <h2 className="text-xl font-semibold text-white mb-4">
+          Upcoming Deadlines
+        </h2>
         <ul className="space-y-3 flex-grow">
           {activeDeadlines.map((deadline) => (
             <li
               key={deadline.id}
-              className="flex flex-col justify-between items-start bg-white p-4 rounded-lg shadow-sm"
+              className="flex flex-col justify-between items-start p-4 rounded-lg border-4 
+      border-gray-500 hover:shadow-blue-400 shadow-lg"
             >
               <div className="flex justify-between w-full">
-                <div>
-                  <span className="font-semibold">{deadline.title}</span>
-                  <span className="text-gray-500 block">
-                    {deadline.dueTime} {deadline.dueDate}
-                  </span>
-                </div>
-                <button
-                  onClick={() => handleDeadlineDone(deadline.id)}
-                  className="text-white bg-red-500 px-3 py-1 rounded-lg hover:bg-red-600 transition mt-2 ml-4"
-                >
-                  Done
-                </button>
+                <span className="text-white italic font-semibold">{deadline.title}</span>
+                <span className="text-gray-300">
+                  {deadline.dueTime} {deadline.dueDate}
+                </span>
               </div>
             </li>
           ))}
@@ -189,14 +172,6 @@ const HomeScreen = ({
             <p className="text-gray-500 text-center">No upcoming deadlines.</p>
           )}
         </ul>
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={addDeadline}
-            className="text-white bg-blue-500 px-3 py-1 rounded-lg hover:bg-blue-600 transition"
-          >
-            Add Deadline
-          </button>
-        </div>
       </section>
       {showEditStudentModal && (
         <EditStudent closeModal={closeModalEditStudent} />
