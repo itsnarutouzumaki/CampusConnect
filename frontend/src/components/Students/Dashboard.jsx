@@ -67,7 +67,7 @@ const HomeScreen = ({
           <span
             role="img"
             aria-label="Edit"
-            className="bg-slate-400 hover:bg-green-500 p-1 rounded-full text-2xl"
+            className="bg-purple-400 hover:bg-green-500 p-1 rounded-full text-xl "
           >
             ✏️
           </span>
@@ -104,17 +104,17 @@ const HomeScreen = ({
       </section>
 
       {/* Chart Placeholder */}
-      <section className="bg-white/20 backdrop-blur-[10%] p-6 rounded-lg transition-transform transform hover:shadow-white ">
+      <section className="bg-white/20 backdrop-blur-[10%] p-6 rounded-lg transition-transform transform hover:shadow-white shadow-md">
         <h2 className="text-xl font-semibold text-white mb-4">
           Your Progress Chart
         </h2>
-        <div className="h-64 bg-blue-50 rounded-lg p-4">
+        <div className="h-64 bg-white rounded-lg p-4">
           <ChartComponent /> {/* Chart component */}
         </div>
       </section>
 
       {/* Study Goals */}
-      <section className="bg-white/20 backdrop-blur-[10%] p-6 rounded-lg shadow-md flex flex-col justify-between transition-transform transform ">
+      <section className="bg-white/20 backdrop-blur-[10%] p-6 rounded-lg hover:shadow-white shadow-md flex flex-col justify-between transition-transform transform ">
         <h2 className="text-xl font-semibold text-white mb-4">Study Goals</h2>
         <ul className="space-y-3 flex-grow">
           {activeGoals.map((goal) => (
@@ -135,7 +135,7 @@ const HomeScreen = ({
             </li>
           ))}
           {activeGoals.length === 0 && (
-            <p className="text-white text-center">All goals achieved!</p>
+            <p className="text-white text-center">🎉All goals achieved!🎉</p>
           )}
         </ul>
         <div className="flex justify-center mt-4">
