@@ -11,8 +11,7 @@ const studentSchema=new Schema({
     },
     password:{
         type:String,
-        required:true
-    
+        required:true    
     },
     profileimage:{
         type:String,
@@ -31,6 +30,8 @@ const studentSchema=new Schema({
     }
 
 
-});
+},
+{timestamps:true}
+);
 const item=mongoose.model('students',studentSchema);
 module.exports=item;
