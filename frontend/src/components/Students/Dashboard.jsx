@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ChartComponent from "./Chart";
 import EditStudent from "../Modal/EditStudent.modal";
-
+import { FiEdit2 } from "react-icons/fi";
 
 const HomeScreen = ({
   userData = {
@@ -61,17 +61,11 @@ const HomeScreen = ({
       <section className="relative bg-white/20 backdrop-blur-[10%] p-6 rounded-lg shadow-md flex flex-col items-center transition-transform transform hover:shadow-white">
         {/* Pencil Icon */}
         <div
-          onClick={() => setShowEditStudentModal(true)}
-          className="absolute top-2 right-2 cursor-pointer hover:text-gray-800"
-        >
-          <span
-            role="img"
-            aria-label="Edit"
-            className="bg-purple-400 hover:bg-green-500 p-1 rounded-full text-xl "
-          >
-            ✏️
-          </span>
-        </div>
+                  onClick={() => setShowEditStudentModal(true)}
+                  className="absolute top-1 right-4 bg-purple-400 hover:bg-green-500 text-white p-2 rounded-full transition-colors duration-200 cursor-pointer"
+                >
+                  <FiEdit2 className="w-5 h-5" />
+                </div>
 
         <div className="relative">
           <img

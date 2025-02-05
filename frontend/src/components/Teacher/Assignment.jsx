@@ -24,8 +24,7 @@ const AssignmentBar = ({ assignment }) => {
 
   return (
     <div 
-      className={`w-11/12 p-3 flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 border-green-500 bg-white/15
-      hover:shadow-2xl hover:shadow-black/80`}
+      className={`w-11/12 p-3 flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 border-white shadow-[0_0_15px_#00ff00]`}
     >
       <div className="flex justify-between w-full">
         <p className="text-2xl text-white font-bold">{AssignmentName}</p>
