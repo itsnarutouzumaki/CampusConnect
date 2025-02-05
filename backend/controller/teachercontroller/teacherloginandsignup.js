@@ -1,6 +1,7 @@
 const Teacher = require('../../models/teacherschema.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const response = require('../../utils/apiresponse.js');
 const dotenv = require('dotenv');
 dotenv.config();
 const checkUserExists = async (req, res, next) => {
@@ -33,7 +34,7 @@ const signup = async (req, res) => {
             password: hashedPassword
         });
         const token = jwt.sign({ _id: teacher._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return res.json({ status: 'success', message: 'teacher created successfully', teacher, token });
+        return res.json(new response( 201,{teacher , token},"teacher created successfully" ));
     } catch (err) {
         console.log(err);
         return res.json({ status: 'failed', message: 'error', err });
@@ -53,7 +54,7 @@ const login = async (req, res) => {
             return res.json({ message: "password is incorrect" });
         }
         const token = jwt.sign({ _id: teacher._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return res.json({ message: "teacher login successfully", teacher, token });
+        return res.json(new response(200,{teacher, token},"teacher logged in successfully"));
     } catch (err) {
         console.log(err);
         return res.json({ message: "error", err });
