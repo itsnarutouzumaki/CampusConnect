@@ -5,12 +5,12 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import Navbar from "./components/Students/Navbar";
+import Navbar from "./components/Navbar.jsx";
 import LandingPage from "./components/LandingPage/LandingPage";
 import LoginSignupForm from "./components/Students/LoginSignup";
 import Course from "./components/Students/Course";
 import Assignment from "./components/Students/Assignment";
-import CopyrightFooter from "./components/Students/Footer";
+import CopyrightFooter from "./components/Footer.jsx";
 import ContactUsForm from "./components/Contact.jsx";
 import HomeScreen from "./components/Students/Dashboard";
 import TeacherLoginForm from "./components/Teacher/Login";
