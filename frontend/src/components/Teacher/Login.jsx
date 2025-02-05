@@ -1,36 +1,95 @@
-import React from 'react';
+import React, { useState } from "react";
 
-const TeacherLoginForm = () => {
+const Login = () => {
+  // const [isLogin, setIsLogin] = useState(false); // Toggle between Signup/Login
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccessMessage("");
+
+    const url = 
+    "http://localhost:5000/api/auth/teacher/login"
+      ;
+
+    const payload = 
+       { email: formData.email, password: formData.password };
+      
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Something went wrong");
+
+      setSuccessMessage("Student login successful!");
+    } catch (error) {
+      setError(error.message);
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-        <header className="text-2xl font-semibold text-center mb-6">Login</header>
-        <form action="#">
-          <input
-            type="text"
-            placeholder="Email address"
-            required
-            className="w-full p-2 mb-4 border rounded focus:outline-none
-            bg-slate-300 focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            required
-            className="w-full p-2 mb-4 border bg-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <a href="#" className="text-blue-500 text-sm hover:underline mb-4 block text-center">
-            Forgot password?
-          </a>
-          <input
-            type="submit"
-            value="Login"
-            className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200 cursor-pointer"
-          />
+    <div className="flex justify-center items-center h-screen text-white">
+      <div className="w-full max-w-lg p-6 bg-gray-900 rounded-lg shadow-lg">
+        <header className="text-2xl font-semibold text-center mb-6">
+          { "Login"}
+        </header>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium">Email Address <span className="text-red-600 ml-1">*</span></label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email address"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2 bg-gray-800 rounded-lg"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium">Password <span className="text-red-600 ml-1">*</span></label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-4 py-2 bg-gray-800 rounded-lg"
+              required
+            />
+          </div>
+
+          <button type="submit" className="w-full bg-teal-600 py-2 rounded-lg hover:bg-teal-700 transition">
+            {"Login" }
+          </button>
         </form>
+
+        {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
+        {successMessage && <p className="mt-4 text-green-500 text-center">{successMessage}</p>}
       </div>
     </div>
   );
 };
 
-export default TeacherLoginForm;
+export default Login;

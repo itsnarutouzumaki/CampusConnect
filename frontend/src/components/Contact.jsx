@@ -19,7 +19,7 @@ const ContactUsForm = () => {
 
   return (
     <div className="flex justify-center align-middle m-4">
-      <section className="max-w-sm w-full p-6 bg-slate-400 rounded-lg shadow-lg relative">
+      <section className="max-w-sm w-full p-6 bg-red-900 rounded-lg shadow-lg relative">
         <header className="text-2xl text-white font-semibold text-center mb-4">Contact Us</header>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input

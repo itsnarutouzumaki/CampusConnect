@@ -12,6 +12,7 @@ const studentSchema=new Schema({
     password:{
         type:String,
         required:true
+    
     },
     profileimage:{
         type:String,

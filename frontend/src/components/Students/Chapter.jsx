@@ -7,9 +7,9 @@ const ChapterBar = ({ chapter }) => {
   return (
     <div 
       className="w-11/12 p-3 flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
-      border-blue-500/50  hover:shadow-2xl hover:shadow-black/80"
+      border-gray-800 hover:shadow-blue-400 shadow-lg"
     >
-      <p className="text-2xl text-white font-bold">{chapterName}</p>
+      <p className="text-xl text-white font-sans">{chapterName}</p>
     </div>
   );
 };
