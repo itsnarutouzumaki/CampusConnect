@@ -19,17 +19,15 @@ const studentSchema=new Schema({
     username:{
         type:String,
     },
-    progresspoint:{
-        type:Array
-    },
     education:{
         type:String
     },
     bio:{
         type:String
+    },
+    studyGoals:{
+        type:[String]
     }
-
-
 },
 {timestamps:true}
 );

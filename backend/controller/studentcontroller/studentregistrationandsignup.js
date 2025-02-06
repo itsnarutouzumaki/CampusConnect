@@ -41,8 +41,18 @@ if(!isMatch)
 const token = jwt.sign({ _id: item._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 res.json(new apiresponse(200, 'User logged in successfully', { item, token })); 
 }
+const userdetails=async(req,res)=>{
+    const details=await item.findOne({email:req.body.email});
+    res.json(new apiresponse(200,'User details',{details}));
+}
+const updatedetails=async(req,res)=>{
+    const details=await item.findOneAndUpdate({email:req.body.email},{$set:req.body},{new:true});   
+    res.json(new apiresponse(200,'User details updated',{details}));
+}
 module.exports={
     signup,
     checkUserExists,
-    login
+    login,
+    userdetails,
+    updatedetails
 }
