@@ -4,8 +4,11 @@ import Assignment from "./Assignment";
 import Chapter from "./Chapter";
 import AddChapter from "../Modal/AddChapter.modal";
 import AddAssignment from "../Modal/AddAssignment.modal";
-import RemoveCourse from "../Modal/RemoveCourse.modal";
+import AddLecture from "../Modal/AddLecture.modal";
+import AddQuiz from "../Modal/AddQuiz.modal";
 import EditCourse from "../Modal/EditCourse.Modal";
+import Lecture from "./Lecture";
+import Quiz from "./Quiz";
 
 const courseData = {
   name: "Name Of Course",
@@ -13,31 +16,82 @@ const courseData = {
   createdDate: "January 1, 2024",
   expiryDate: "December 31, 2024",
   instructor: "John Doe, M.Sc. Computer Science",
-  overview:
+  over:
     "Dive deep into modern web technologies, mastering frontend frameworks, backend APIs, and database management. This course provides comprehensive learning materials and assignments to prepare you for real-world development.",
 };
 
-const AddButton = ({ isChapter }) => {
+const AddButton = ({ selectedOption }) => {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
+
+  // Function to handle modal opening based on selected option
+  const handleAddClick = () => {
+    setShowModal(true);
+  };
+
+  // Determine button text based on selection
+  const getButtonText = () => {
+    switch (selectedOption) {
+      case "Chapter":
+        return "Add Chapter";
+      case "Assignment":
+        return "Add Assignment";
+      case "Lecture":
+        return "Add Lecture";
+      case "Quiz":
+        return "Add Quiz";
+      default:
+        return "Add Item";
+    }
+  };
+
+  // Determine the modal to render
+  const getModalComponent = () => {
+    switch (selectedOption) {
+      case "Chapter":
+        return <AddChapter closeModal={closeModal} />;
+      case "Assignment":
+        return <AddAssignment closeModal={closeModal} />;
+      case "Lecture":
+        return <AddLecture closeModal={closeModal} />;
+      case "Quiz":
+        return <AddQuiz closeModal={closeModal} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div>
       <div
-        onClick={() => setShowModal(true)}
-        className=" cursor-pointer text-white p-2 rounded-md bg-purple-500 hover:bg-purple-700 italic font-bold hover:shadow-white hover:shadow-lg"
+        onClick={handleAddClick}
+        className="cursor-pointer text-white p-2 rounded-md bg-purple-500 hover:bg-purple-700 italic font-bold hover:shadow-white hover:shadow-lg"
       >
-        {isChapter ? "Add Chapter" : "Add Assignment"}
+        {getButtonText()}
       </div>
-      {showModal && (isChapter ? <AddChapter closeModal={closeModal} /> : <AddAssignment closeModal={closeModal} />)}
+      {showModal && getModalComponent()}
     </div>
   );
 };
 
 const TeacherCourseDetails = () => {
-  const [showChapter, setShowChapter] = useState(false);
-  const [showRemoveCourseModal, setShowRemoveCourseModal] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("Chapter");
   const [showEditCourseModal, setShowEditCourseModal] = useState(false);
+
+  const renderContent = () => {
+    switch (selectedOption) {
+      case "Assignment":
+        return <Assignment />;
+      case "Chapter":
+        return <Chapter />;
+      case "Lecture":
+        return <Lecture />;
+      case "Quiz":
+        return <Quiz />;
+      default:
+        return <Chapter />;
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center py-8 sm:py-10">
@@ -54,30 +108,37 @@ const TeacherCourseDetails = () => {
         </div>
 
         <div className="flex flex-col items-start space-y-2 sm:space-y-3 text-sm sm:text-base md:text-lg">
-          <p><span className="font-semibold">Course Code:</span> {courseData.code}</p>
-          <p><span className="font-semibold">Created Date:</span> {courseData.createdDate}</p>
-          <p><span className="font-semibold">Expiry Date:</span> {courseData.expiryDate}</p>
-          <p><span className="font-semibold">Instructor:</span> {courseData.instructor}</p>
-          <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base leading-6">
-            <span className="font-semibold">Course Overview:</span> {courseData.overview}
+          <p><span className="font-semibold">Course Code:</span> <span className="italic">{courseData.code}</span></p>
+          <p><span className="font-semibold">Created Date:</span> <span className="italic">{courseData.createdDate}</span></p>
+          <p><span className="font-semibold">Expiry Date:</span> <span className="italic">{courseData.expiryDate}</span></p>
+          <p><span className="font-semibold">Instructor:</span> <a href="#" className="italic text-green-600">{courseData.instructor}</a></p>
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg leading-6">
+            <span className="font-semibold">Course Over:</span> <span className="italic">{courseData.over}</span>
           </p>
         </div>
 
-        <div className="w-full sm:w-2/3 md:w-1/3 flex justify-between mt-6 sm:mt-8">
-          
-
-          <div
-            onClick={() => setShowChapter(!showChapter)}
-            className="bg-black text-white text-xl font-bold px-4 py-2 rounded-full hover:bg-lime-700"
+        {/* Dropdown Selector */}
+        <div className="w-full flex mt-6 sm:mt-8">
+          <select
+            className="bg-black text-white text-lg font-bold px-4 py-2 rounded-md cursor-pointer"
+            value={selectedOption}
+            onChange={(e) => setSelectedOption(e.target.value)}
           >
-            {showChapter ? "View Assignment" : "View Chapter"}
-          </div>
+            <option value="Chapter" className="hover:bg-gray-600"> Chapter</option>
+            <option value="Assignment" className="hover:bg-gray-600"> Assignment</option>
+            <option value="Lecture" className="hover:bg-gray-600"> Lecture</option>
+            <option value="Quiz" className="hover:bg-gray-600"> Quiz</option>
+          </select>
         </div>
       </div>
 
-      {!showChapter ? <Assignment /> : <Chapter />}
-      {showRemoveCourseModal && <RemoveCourse closeModal={() => setShowRemoveCourseModal(false)} />}
-      <AddButton isChapter={showChapter} />
+      {/* Render Selected Section */}
+      {renderContent()}
+      
+      {/* Add Button - Changes Based on Selection */}
+      <AddButton selectedOption={selectedOption} />
+
+      {/* Edit Course Modal */}
       {showEditCourseModal && <EditCourse closeModal={() => setShowEditCourseModal(false)} />}
     </div>
   );

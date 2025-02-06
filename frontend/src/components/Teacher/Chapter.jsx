@@ -13,19 +13,19 @@ const ChapterBar = ({ chapter }) => {
   return (
     <div
       className="w-11/12 p-3 flex transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
-      border-gray-800 hover:shadow-blue-400 shadow-lg  justify-between"
+      border-gray-800 hover:shadow-blue-400 shadow-lg  justify-between items-center"
     >
       <p className="text-xl italic text-white font-sans">{chapterName}</p>
       <div className="flex p-1">
         <div
           onClick={() => setShowEditChapterModal(true)}
-          className="cursor-pointer text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300"
+          className="cursor-pointer w-fit h-fit text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300"
         >
           <MdEdit />
         </div>
         <div
           onClick={() => setShowRemoveChapterModal(true)}
-          className="cursor-pointer text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300"
+          className="cursor-pointer h-fit w-fit text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300"
         >
           <MdDelete />
         </div>
