@@ -38,7 +38,7 @@ const Navbar = () => {
         </button>
 
         <div
-          className={`flex flex-col absolute top-10 left-0 w-full p-1 bg-blue-600 md:bg-transparent md:flex md:flex-row md:static md:w-auto ${
+          className={`flex flex-col absolute top-10 left-0 w-full p-1 md:bg-transparent md:flex md:flex-row md:static md:w-auto ${
             isOpen ? "flex" : "hidden"
           }`}
         >

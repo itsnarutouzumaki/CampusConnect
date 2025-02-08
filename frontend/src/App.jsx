@@ -6,6 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
+import Quiz from "./components/Quiz.jsx";
 import LandingPage from "./components/LandingPage/LandingPage";
 import LoginSignupForm from "./components/Students/LoginSignup";
 import Course from "./components/Students/Course";
@@ -64,13 +65,14 @@ const MainContent = () => {
           <Route path="/dashboard" element={<HomeScreen />} />
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
           <Route path="/teacher/profile" element={<TeacherProfile />} />
-          <Route path="/admin/profile" element={<AdminProfile />} />
+          <Route path="/admin" element={<AdminProfile />} />
           <Route path="/profile" element={<ShowStudent />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route
             path="/teacher/coursedetails"
             element={<TeacherCourseDetails />}
           />
+          <Route path="/quiz" element={<Quiz />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </div>
