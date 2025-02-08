@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-
+import axios from "axios";
+import { useNavigate } from 'react-router-dom'
 const LoginSignupForm = () => {
-  const [isLogin, setIsLogin] = useState(false); // Toggle between Signup/Login
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(true); // Toggle between Signup/Login
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -20,24 +22,27 @@ const LoginSignupForm = () => {
     setSuccessMessage("");
 
     const url = isLogin
-      ? "http://localhost:5000/api/auth/login/student"
-      : "http://localhost:5000/api/auth/signup/student";
-
+      ? "http://localhost:8000/students/studentlogin"
+      : "http://localhost:8000/students/studentregister";
     const payload = isLogin
       ? { email: formData.email, password: formData.password }
-      : { fullName: formData.fullName, email: formData.email, password: formData.password };
+      : { fullname: formData.fullName, email: formData.email, password: formData.password };
+try {
+      // const response = await fetch(url, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(payload),
+      // });
 
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Something went wrong");
-
+      const data = await axios.post(url, payload);
+     console.log(data);
+      //if ) throw new Error(data.message || "Something went wrong");
       setSuccessMessage(isLogin ? "Student login successful!" : "Student signup successful!");
+      if(isLogin){
+        navigate('/course');
+      }else{
+        navigate('/login');
+      }
     } catch (error) {
       setError(error.message);
       console.log(error);
