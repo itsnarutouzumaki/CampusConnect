@@ -65,7 +65,7 @@ const MainContent = () => {
           <Route path="/dashboard" element={<HomeScreen />} />
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
           <Route path="/teacher/profile" element={<TeacherProfile />} />
-          <Route path="/admin/profile" element={<AdminProfile />} />
+          <Route path="/admin" element={<AdminProfile />} />
           <Route path="/profile" element={<ShowStudent />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route
