@@ -18,7 +18,7 @@ const teacherSchema = new mongoose.Schema({
     },
     mobileNo:{
         type: Number,
-        required: true
+        // required: true
     },
     password: {
         type:String,
@@ -51,5 +51,4 @@ const teacherSchema = new mongoose.Schema({
     }
     
 });
-
 module.exports = mongoose.model('Teacher', teacherSchema);
