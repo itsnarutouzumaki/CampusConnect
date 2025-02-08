@@ -1,23 +1,33 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+
+const quizid = '67a741b20936cb668a827d69';
 
 export default function Quiz() {
-  
-  const questions = [
-    { id: 1, text: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Rome"] },
-    { id: 2, text: "Which is the largest planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"] },
-    { id: 3, text: "Who wrote 'Hamlet'?", options: ["Shakespeare", "Hemingway", "Tolstoy", "Dickens"] },
-    { id: 4, text: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
-    { id: 5, text: "Which ocean is the largest?", options: ["Atlantic", "Indian", "Pacific", "Arctic"] },
-    { id: 6, text: "What is the capital of Japan?", options: ["Beijing", "Seoul", "Tokyo", "Bangkok"] },
-    { id: 7, text: "Which element has the chemical symbol 'O'?", options: ["Gold", "Oxygen", "Iron", "Helium"] },
-    { id: 8, text: "Who painted the Mona Lisa?", options: ["Van Gogh", "Da Vinci", "Picasso", "Rembrandt"] },
-    { id: 9, text: "Which gas do plants absorb?", options: ["Oxygen", "Carbon Dioxide", "Hydrogen", "Nitrogen"] },
-    { id: 10, text: "What is the boiling point of water?", options: ["90°C", "100°C", "110°C", "120°C"] },
-  ];
-
+  const [questions, setQuestions] = useState([]);
   const [time, setTime] = useState(0);
-  const [selectedOptions, setSelectedOptions] = useState(Array(questions.length).fill(null));
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        const api = await axios.post('http://localhost:8000/quiz/takequiz', { _id: quizid });
+        const ques = api.data.message.data.questions;
+        const formattedQuestions = ques.map((q, index) => ({
+          id: index + 1,
+          text: q.name,
+          options: q.option,
+        }));
+        setQuestions(formattedQuestions);
+        setSelectedOptions(Array(formattedQuestions.length).fill(null));
+      } catch (error) {
+        console.error("Error fetching quiz data:", error);
+      }
+    };
+
+    fetchQuiz();
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -72,6 +82,10 @@ export default function Quiz() {
       alert("Failed to submit quiz.");
     }
   };
+
+  if (questions.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="w-full h-screen flex flex-col p-4">
