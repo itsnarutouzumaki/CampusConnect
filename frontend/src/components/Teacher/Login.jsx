@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Login = () => {
   // const [isLogin, setIsLogin] = useState(false); // Toggle between Signup/Login
   const [formData, setFormData] = useState({
-    fullName: "",
     email: "",
     password: "",
   });
@@ -14,36 +14,25 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const url="http://localhost:8000/teachers/login"
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
-
-    const url = 
-    "http://localhost:5000/api/auth/teacher/login"
-      ;
-
-    const payload = 
-       { email: formData.email, password: formData.password };
-      
-
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+    let api;
+    try{
+        api=await axios.post(url,{
+         email:formData.email,
+         password:formData.password
+       },{headers:{"Content-Type":"application/json"}
       });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Something went wrong");
-
-      setSuccessMessage("Student login successful!");
-    } catch (error) {
+     console.log(api.data);
+     
+    }catch(error){
       setError(error.message);
       console.log(error);
     }
-  };
-
+  } 
   return (
     <div className="flex justify-center items-center h-screen text-white">
       <div className="w-full max-w-lg p-6 bg-gray-900 rounded-lg shadow-lg">

@@ -3,7 +3,7 @@ const Schema=mongoose.Schema;
 const studentSchema=new Schema({
     fullname:{
         type:String,
-        required:true
+        // required:true
     },
     email:{
         type:String,
