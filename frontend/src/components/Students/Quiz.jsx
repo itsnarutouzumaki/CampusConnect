@@ -12,6 +12,11 @@ const QuizBar = ({ quiz }) => {
         <span className="text-white no-underline">{quizName}</span>
         <span className="text-gray-400 text-sm italic">{`Duration: ${hours}hrs ${minutes}min at ${time} ${date}`}</span>
       </p>
+      <div className="flex p-1">
+        <div className="cursor-pointer w-fit h-fit text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300">
+          Take Quiz
+        </div>
+      </div>
     </div>
   );
 };

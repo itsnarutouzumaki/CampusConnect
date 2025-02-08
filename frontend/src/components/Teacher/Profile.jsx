@@ -5,6 +5,13 @@ import EditTeacher from "../Modal/EditTeacher.Modal";
 import AddCourse from "../Modal/AddCourse.modal";
 
 const CourseCard = ({ image, name, description }) => {
+  const truncateDescription = (text, wordLimit) => {
+    const words = text.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + " ..."
+      : text;
+  };
+
   return (
     <Link
       to="/TeacherCourseDetails"
@@ -16,7 +23,7 @@ const CourseCard = ({ image, name, description }) => {
         className="w-full h-40 object-cover rounded-md mb-2"
       />
       <h3 className="text-white text-lg font-semibold">{name}</h3>
-      <p className="text-gray-300 text-sm">{description}</p>
+      <p className="text-gray-300 text-sm">{truncateDescription(description, 4)}</p>
     </Link>
   );
 };

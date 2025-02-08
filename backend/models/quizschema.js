@@ -8,11 +8,17 @@ const questionschema=new Schema({
     option:{
         type:[String],
         required:true
-    }
-    }    
+    },
+    correctoption:{
+        type:String,
+        required:true
+    }}    
 
 );
 const quizSchema=new Schema({
+    _id:{
+        type:mongoose.Schema.Types.ObjectId,
+    },
     name:{
         type:String,
         required:true
@@ -27,7 +33,9 @@ const quizSchema=new Schema({
     }
 },
 {
+    collection:'quiz',
     timestamps:true 
 }
 );
-module.exports=quizSchema;
+const item=mongoose.model('quiz',quizSchema);
+module.exports=item;
