@@ -21,7 +21,7 @@ const viewquizes=async(req,res)=>{
     const data=await quiz.aggregate(pipeline);
 };
 const takequiz=async(req,res)=>{
-    const id=mongoose.Types.ObjectId(req.body._id);
+    const id=new mongoose.Types.ObjectId(req.body._id);
     const data=await quiz.findOne({_id:id});
     res.json(new apiresponse(200,'quiz taken',{data}));
 };
