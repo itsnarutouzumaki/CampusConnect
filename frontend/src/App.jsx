@@ -24,7 +24,7 @@ import Leaderboard from "./components/LeaderBoard";
 import TeacherCourseDetails from "./components/Teacher/CourseDetails";
 import ParticlesComponent from "./styles/Particlebackground.jsx";
 import About from "./components/About.jsx";
-
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -49,18 +49,17 @@ const MainContent = () => {
 
   return (
     <>
+      <Toaster position="top-center" /> {/* Add this line at the top */}
+  
       {!isLandingPage && !isTeacherLogin && <Navbar />}
-
+  
       <div className="min-h-fit flex-grow">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/loginsignup" element={<LoginSignupForm />} />
           <Route path="/course" element={<Course />} />
           <Route path="/coursedetails" element={<CourseDetails />} />
-          <Route
-            path="/TeacherCourseDetails"
-            element={<TeacherCourseDetails />}
-          />
+          <Route path="/TeacherCourseDetails" element={<TeacherCourseDetails />} />
           <Route path="/contactUs" element={<ContactUsForm />} />
           <Route path="/dashboard" element={<HomeScreen />} />
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
@@ -68,10 +67,7 @@ const MainContent = () => {
           <Route path="/admin" element={<AdminProfile />} />
           <Route path="/profile" element={<ShowStudent />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route
-            path="/teacher/coursedetails"
-            element={<TeacherCourseDetails />}
-          />
+          <Route path="/teacher/coursedetails" element={<TeacherCourseDetails />} />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/about" element={<About />} />
         </Routes>
