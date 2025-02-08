@@ -70,6 +70,7 @@ const MainContent = () => {
           <Route path="/teacher/coursedetails" element={<TeacherCourseDetails />} />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/about" element={<About />} />
+          
         </Routes>
       </div>
     </>
