@@ -1,26 +1,19 @@
 import React from "react";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const LectureBar = ({ lecture }) => {
   const { lectureId, lectureName, lectureLink, hours, minutes, time, date } =
     lecture;
   return (
-    <div
+    <Link to='#'
       className="w-11/12 p-3 flex transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
       border-gray-800 hover:shadow-blue-400 shadow-lg justify-between items-center"
     >
       <p className="text-xl flex italic text-white font-sans">
-        <a
-          href={lectureLink}
-          className="text-white no-underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {lectureName}
-        </a>
-        <span className="text-gray-400 text-sm italic">{`Duration: ${hours}hrs ${minutes}min at ${time} ${date}`}</span>
+        <span className="text-white no-underline">{lectureName}</span>
       </p>
-    </div>
+      <span className="text-gray-400 text-sm italic">{`Duration: ${hours}hrs ${minutes}min at ${time} ${date}`}</span>
+    </Link>
   );
 };
 
