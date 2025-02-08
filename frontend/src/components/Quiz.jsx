@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function Quiz() {
+  
   const questions = [
     { id: 1, text: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Rome"] },
     { id: 2, text: "Which is the largest planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"] },
