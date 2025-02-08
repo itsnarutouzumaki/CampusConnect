@@ -12,4 +12,4 @@ const authenticateJWT = (req, res, next) => {
         res.status(400).send('Invalid token.');
     }
 };
-module.exports = authenticateJWT;
+module.exports = {authenticateJWT};
