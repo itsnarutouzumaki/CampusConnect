@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { FiEdit2 } from "react-icons/fi";
-import { Link } from 'react-router-dom';
-import EditTeacher from '../Modal/EditTeacher.Modal';
-import AddCourse from '../Modal/AddCourse.modal';
+import { Link } from "react-router-dom";
+import EditTeacher from "../Modal/EditTeacher.Modal";
+import AddCourse from "../Modal/AddCourse.modal";
 
 const CourseCard = ({ image, name, description }) => {
   return (
-    <Link to='/TeacherCourseDetails' className="bg-red-700 rounded-lg shadow-lg shadow-black/50 p-4 hover:shadow-2xl hover:shadow-black/80 cursor-pointer transition-shadow duration-300">
-      <img src={image} alt={name} className="w-full h-40 object-cover rounded-md mb-2" />
+    <Link
+      to="/TeacherCourseDetails"
+      className="bg-white/20 backdrop-blur-[10%] rounded-lg shadow-lg shadow-black/50 p-4 hover:shadow-2xl hover:shadow-black/80 cursor-pointer transition-shadow duration-300"
+    >
+      <img
+        src={image}
+        alt={name}
+        className="w-full h-40 object-cover rounded-md mb-2"
+      />
       <h3 className="text-white text-lg font-semibold">{name}</h3>
       <p className="text-gray-300 text-sm">{description}</p>
     </Link>
@@ -15,103 +22,98 @@ const CourseCard = ({ image, name, description }) => {
 };
 
 const TeacherProfile = () => {
-
   const [showAddCourseModal, setShowAddCourseModal] = useState(false);
-  const closeModalAddCourse = () => setShowAddCourseModal(false);
-
-     
   const [showEditTeacherModal, setShowEditTeacherModal] = useState(false);
+
+  const closeModalAddCourse = () => setShowAddCourseModal(false);
   const closeModalEditTeacher = () => setShowEditTeacherModal(false);
 
-  const courseData = [
-    {
-      image: 'https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg',
-      name: 'Course 1',
-      description: 'This is a short description of Course 1.',
-    },
-    {
-      image: 'https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg',
-      name: 'Course 2',
-      description: 'This is a short description of Course 2.',
-    },
-    {
-      image: 'https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg',
-      name: 'Course 3',
-      description: 'This is a short description of Course 3.',
-    },
-    {
-      image: 'https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg',
-      name: 'Course 4',
-      description: 'This is a short description of Course 4.',
-    },
-    {
-      image: 'https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg',
-      name: 'Course 5',
-      description: 'This is a short description of Course 5.',
-    },
-    {
-      image: 'https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg',
-      name: 'Course 6',
-      description: 'This is a short description of Course 6.',
-    },
-    {
-      image: 'https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg',
-      name: 'Course 7',
-      description: 'This is a short description of Course 7.',
-    },
-    {
-      image: 'https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg',
-      name: 'Course 8',
-      description: 'This is a short description of Course 8.',
-    },
-  ];
+  const Teacher = {
+    name: "Master Jiraiya",
+    username: "pervysage",
+    qualification: ["Ph.D. (IITK)", "M.Tech (MNNIT)"],
+    areaOfInterest: ["Membrane Separation", "Polymer Technology"],
+    joiningDate: "01/01/2021",
+    quote: "Jiraiya, the 'Pervy Sage'",
+    rating: 4.5,
+    profileImage:
+      "https://preview.redd.it/how-strong-is-jiraiya-v0-0hdtt6zrqycb1.jpg?width=450&format=pjpg&auto=webp&s=2a4969be966363c03b43dd59788f110d3929f6ca",
+    about:"Jiraiya is a fictional character in the Naruto manga and anime series created by Masashi Kishimoto. Introduced in the series' first part, he was a student of Third Hokage Hiruzen Sarutobi and one of the three"
+  };
 
-
+  const courseData = Array.from({ length: 8 }, (_, i) => ({
+    image:
+      "https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg",
+    name: `Course ${i + 1}`,
+    description: `This is a short description of Course ${i + 1}.`,
+  }));
 
   return (
     <div className="w-full">
-      <div className="w-full mx-auto mt-3 px-4 py-2 bg-red-400 flex flex-col md:flex-row items-center md:items-start shadow-md rounded-lg border hover:shadow-lg transition-shadow duration-300 relative">
-        
-        {/* Edit Icon in Circle */}
-        <div onClick={() => setShowEditTeacherModal(true)} className="absolute top-1 right-4 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors duration-200">
+      <div className="w-full mx-auto mt-3 px-4 py-2 bg-white/20 backdrop-blur-[10%] flex flex-col md:flex-row items-center md:items-start shadow-md rounded-lg border hover:shadow-lg transition-shadow duration-300 relative">
+        <div
+          onClick={() => setShowEditTeacherModal(true)}
+          className="absolute top-1 right-4 bg-purple-400 hover:bg-green-500 text-white p-2 rounded-full transition-colors duration-200 cursor-pointer"
+        >
           <FiEdit2 className="w-5 h-5" />
         </div>
 
         {showEditTeacherModal && <EditTeacher closeModal={closeModalEditTeacher} />}
 
-        {/* Profile Image and Quote */}
         <div className="flex flex-col items-center md:items-start mt-6 md:m-2">
           <img
             className="w-48 h-48 rounded-full border object-cover"
-            src="https://preview.redd.it/how-strong-is-jiraiya-v0-0hdtt6zrqycb1.jpg?width=450&format=pjpg&auto=webp&s=2a4969be966363c03b43dd59788f110d3929f6ca"
+            src={Teacher.profileImage}
             alt="Teacher Profile"
           />
-          <p className="w-full md:w-48 text-gray-700 italic mt-3 text-center md:text-left">
-            <span className="text-3xl text-gray-500">❝</span>
-            Love to learn and love to teach together
-            <span className="text-3xl text-gray-500">❞</span>
+          <p className="w-full md:w-48 text-white italic mt-3 text-center md:text-left">
+            <span className="text-3xl text-red-500">❝</span>
+            {Teacher.quote}
+            <span className="text-3xl text-red-500">❞</span>
           </p>
         </div>
 
-        {/* Profile Details */}
         <div className="flex flex-col items-center md:items-start mt-6 md:ml-6 text-center md:text-left">
-          <p className="text-black font-bold text-2xl mb-0.5">Master Jiraiya</p>
-          <p><span className="text-black font-bold text-lg">Designation:</span> Professor & Head</p>
-          <p><span className="text-black font-bold text-lg">Qualification:</span> Ph.D. (IITK)</p>
-          <p><span className="text-black font-bold text-lg">Area of Interest:</span> Membrane Separation, Polymer Technology.</p>
-          <h3 className="text-lg md:text-xl underline font-semibold text-gray-800 mt-2">Bio:</h3>
-          <p className="text-gray-900 mt-2 text-sm md:text-base leading-relaxed">
-            Jiraiya, the "Pervy Sage," is a legendary ninja from the Hidden Leaf and one of the revered Sannin. Known for his powerful jutsu and playful spirit, he trained future heroes, including Naruto Uzumaki. Beneath his eccentric exterior lies a wise, courageous mentor whose legacy endures through his teachings and unwavering will.
+          <p className="text-white font-bold text-2xl mb-3">
+            {Teacher.name} {" "}
+            <span className="text-slate-300 italic underline text-lg">
+              (@{Teacher.username})
+            </span>
+          </p>
+
+          <p className="mb-1">
+            <span className="text-white font-bold text-lg">Joining:{" "}</span>
+            <span className="text-white italic">{Teacher.joiningDate}</span>
+          </p>
+
+          <p className="mb-1">
+            <span className="text-white font-bold text-lg">Rating: ⭐</span>
+            <span className="text-white italic">{Teacher.rating}/5</span>
+          </p>
+          <p className="mb-1">
+            <span className="text-white font-bold text-lg">Qualification:</span>{" "}
+            <span className="text-white italic">{Teacher.qualification.join(", ")}</span>
+          </p>
+
+          <p className="mb-1">
+            <span className="text-white font-bold text-lg">Interest:</span>{" "}
+            <span className="text-white italic">{Teacher.areaOfInterest.join(", ")}</span>
+          </p>
+
+          <p className="mb-1">
+            <span className="text-white font-bold text-lg">About:</span>{" "}
+            <span className="text-white italic">{Teacher.about}</span>
           </p>
         </div>
       </div>
 
-      {/* Courses Section */}
-      <div className="w-full flex flex-col items-center my-4 rounded-lg bg-green-500 p-2 hover:shadow-lg transition-shadow duration-300">
-        <h2 className="text-2xl font-semibold underline text-gray-800 mb-4">Your Courses</h2>
+      <div className="w-full flex flex-col items-center my-4 rounded-lg bg-white/20 backdrop-blur-[10%] p-2 hover:shadow-lg transition-shadow duration-300">
+        <h2 className="text-2xl font-semibold underline text-white mb-4">
+          Your Courses
+        </h2>
 
         <div className="w-full p-6 mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-center ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
             {courseData.map((course, index) => (
               <CourseCard
                 key={index}
@@ -123,9 +125,11 @@ const TeacherProfile = () => {
           </div>
         </div>
 
-        {/* Add Course Button */}
-        <div onClick={() => setShowAddCourseModal(true)} className="bg-blue-500 text-white font-semibold cursor-pointer px-6 py-3 mt-8 rounded-lg hover:bg-blue-600 transition-colors hover:shadow-2xl hover:shadow-black/80 duration-200">
-          + Add Course
+        <div
+          onClick={() => setShowAddCourseModal(true)}
+          className=" font-san bg-purple-400 hover:bg-purple-600 text-white font-semibold cursor-pointer px-6 py-3 mt-8 rounded-lg  transition-colors hover:shadow-2xl hover:shadow-black/80 duration-200"
+        >
+           Add Course
         </div>
       </div>
       {showAddCourseModal && <AddCourse closeModal={closeModalAddCourse} />}

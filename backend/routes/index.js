@@ -1,5 +1,10 @@
-const express=require('express');
-const router=express.Router();
-const student=require('./studentroutes.js');
-router.use('/students',student);
-module.exports=router;
+const express = require('express');
+const student = require('./studentroutes.js');
+const teacher = require('./teacherroute.js');
+const course = require('./courseroute.js');
+const router = express.Router();
+
+router.use('/students', student);
+router.use('/teachers', teacher);
+router.use('/course', course);
+module.exports = router;

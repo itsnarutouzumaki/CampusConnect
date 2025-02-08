@@ -1,6 +1,10 @@
 const express=require('express');
 const router=express.Router();
 const studentController=require('../controller/studentcontroller/studentregistrationandsignup.js');
-router.get('/studentlogin',studentController.checkUserExists,studentController.signup);
-router.post('/studentregister',studentController.login);
+const jwt=require('../');
+const studentmw=require('../middleware/jwttoken.js');
+router.get('/studentlogin',studentController.login);
+router.post('/studentregister',studentController.checkUserExists,studentController.signup);
+router.put('/updatedetails',studentmw.authenticateJWT,studentController.updatedetails);
+router.post('/userdetails',studentmw.authenticateJWT,studentController.userdetails);
 module.exports=router;
