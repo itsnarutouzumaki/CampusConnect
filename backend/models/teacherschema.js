@@ -18,7 +18,7 @@ const teacherSchema = new mongoose.Schema({
     },
     mobileNo:{
         type: Number,
-        required: true
+        // required: true
     },
     password: {
         type:String,

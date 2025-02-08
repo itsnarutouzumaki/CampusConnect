@@ -28,18 +28,18 @@ res.json(new apiresponse(200, 'User registered successfully', { saveddata, token
 const login=async (req,res)=>
 {
 const {email,password}=req.body;
-const item=await item.findOne({email});
-if(!item)
+const student=await item.findOne({email});
+if(!student)
 {
     return res.status(400).send('Invalid email or password');
 };
-const isMatch=await bcrypt.compare(password,item.password);
+const isMatch=await bcrypt.compare(password,student.password);
 if(!isMatch)
 {
     return res.status(400).send('Invalid email or password');
 }
-const token = jwt.sign({ _id: item._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-res.json(new apiresponse(200, 'User logged in successfully', { item, token })); 
+const token = jwt.sign({ _id: student._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+res.json(new apiresponse(200, 'User logged in successfully', { student, token })); 
 }
 const userdetails=async(req,res)=>{
     const details=await item.findOne({email:req.body.email});

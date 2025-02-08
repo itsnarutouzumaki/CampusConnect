@@ -20,7 +20,7 @@ const checkUserExists = async (req, res, next) => {
 
 //signup
 const signup = async (req, res) => {
-    let { name, email, mobileNo, password } = req.body;
+    let { name, email, password } = req.body;// exluded mobile NO
     const hashedPassword = await bcrypt.hash(password, 10);
     let username = name.toLowerCase().replace(/\s+/g, '');
     const randomString = Math.random().toString(36).substring(2, 7);
@@ -29,8 +29,7 @@ const signup = async (req, res) => {
         let teacher = await Teacher.create({
             name,
             email,
-            username,
-            mobileNo,
+            username: username,
             password: hashedPassword
         });
         const token = jwt.sign({ _id: teacher._id }, process.env.JWT_SECRET, { expiresIn: '1h' });

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 const LoginSignupForm = () => {
   const [isLogin, setIsLogin] = useState(false); // Toggle between Signup/Login
   const [formData, setFormData] = useState({
@@ -19,23 +19,32 @@ const LoginSignupForm = () => {
     setError("");
     setSuccessMessage("");
 
-    const url = isLogin
-      ? "http://localhost:5000/api/auth/login/student"
-      : "http://localhost:5000/api/auth/signup/student";
-
+    const url = "http://localhost:8000/students/studentregister";
+    
     const payload = isLogin
       ? { email: formData.email, password: formData.password }
-      : { fullName: formData.fullName, email: formData.email, password: formData.password };
-
+      : { fullname: formData.fullName, email: formData.email, password: formData.password };
+    console.log(payload);
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Something went wrong");
+      // const response = await fetch(url, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(payload),
+      // });
+      let api;
+      if(!isLogin){
+       api=await axios.post(url,{
+        fullname:formData.fullName,
+        email:formData.email,
+        password:formData.password
+      },{headers:{"Content-Type":"application/json"}});
+    }
+      if(!api){
+        console.log("Something went wrong");
+      }
+      console.log(api.data);
+      // const data = await response.json();
+      // if (!response.ok) throw new Error(data.message || "Something went wrong");
 
       setSuccessMessage(isLogin ? "Student login successful!" : "Student signup successful!");
     } catch (error) {
