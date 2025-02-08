@@ -12,7 +12,9 @@ const teacherSchema = new mongoose.Schema({
     },
     username: {
         type: String,
-        required: true
+        required: true,
+        unique:true,
+        index:true
     },
     mobileNo:{
         type: Number,
@@ -22,7 +24,7 @@ const teacherSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    educationalBackground:{
+    qualification:{
         type:[]
     },
     courses:{
@@ -36,7 +38,7 @@ const teacherSchema = new mongoose.Schema({
     rating:{
         type: Number,
         min: 0,
-        max:5
+        max: 5
     },
     bio:{
         type: String
