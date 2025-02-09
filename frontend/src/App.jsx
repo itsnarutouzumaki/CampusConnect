@@ -28,15 +28,19 @@ import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
-    <div className="app_container">
-      <div>
-        <ParticlesComponent />
+    <>
+      <div className="app_container">
+        <div>
+          <ParticlesComponent />
+        </div>
+        <Router>
+          <MainContent />
+        </Router>
       </div>
-      <Router>
-        <MainContent />
+      <div className="bg-black">
         <CopyrightFooter />
-      </Router>
-    </div>
+      </div>
+    </>
   );
 };
 
@@ -49,17 +53,20 @@ const MainContent = () => {
 
   return (
     <>
-      <Toaster position="top-center" /> {/* Add this line at the top */}
-  
+      <Toaster position="top-center" />
+
       {!isLandingPage && !isTeacherLogin && <Navbar />}
-  
-      <div className="min-h-fit flex-grow">
+
+      <div className="">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/loginsignup" element={<LoginSignupForm />} />
           <Route path="/course" element={<Course />} />
           <Route path="/coursedetails" element={<CourseDetails />} />
-          <Route path="/TeacherCourseDetails" element={<TeacherCourseDetails />} />
+          <Route
+            path="/TeacherCourseDetails"
+            element={<TeacherCourseDetails />}
+          />
           <Route path="/contactUs" element={<ContactUsForm />} />
           <Route path="/dashboard" element={<HomeScreen />} />
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
@@ -67,7 +74,10 @@ const MainContent = () => {
           <Route path="/admin" element={<AdminProfile />} />
           <Route path="/profile" element={<ShowStudent />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/teacher/coursedetails" element={<TeacherCourseDetails />} />
+          <Route
+            path="/teacher/coursedetails"
+            element={<TeacherCourseDetails />}
+          />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/about" element={<About />} />
           
