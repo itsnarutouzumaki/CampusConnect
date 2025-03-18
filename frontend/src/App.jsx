@@ -10,7 +10,6 @@ import Quiz from "./components/Quiz.jsx";
 import LandingPage from "./components/LandingPage/LandingPage";
 import LoginSignupForm from "./components/Students/LoginSignup";
 import Course from "./components/Students/Course";
-import Assignment from "./components/Students/Assignment";
 import CopyrightFooter from "./components/Footer.jsx";
 import ContactUsForm from "./components/Contact.jsx";
 import HomeScreen from "./components/Students/Dashboard";
@@ -47,40 +46,41 @@ const App = () => {
 const MainContent = () => {
   const location = useLocation();
 
-  // Display Navbar on all pages except landing and teacher login pages
-  const isLandingPage = location.pathname === "/";
-  const isTeacherLogin = location.pathname === "/teacher/login";
+  const showNavbar =
+    location.pathname === "/" ||
+    location.pathname.includes("login") ||
+    location.pathname.includes("admin") ||
+    location.pathname.includes("teacher");
 
   return (
     <>
       <Toaster position="top-center" />
 
-      {!isLandingPage && !isTeacherLogin && <Navbar />}
+      {!showNavbar && <Navbar />}
 
       <div className="">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/loginsignup" element={<LoginSignupForm />} />
           <Route path="/course" element={<Course />} />
-          <Route path="/coursedetails" element={<CourseDetails />} />
-          <Route
-            path="/TeacherCourseDetails"
-            element={<TeacherCourseDetails />}
-          />
+          <Route path="/coursedetails/:id" element={<CourseDetails />} />
           <Route path="/contactUs" element={<ContactUsForm />} />
           <Route path="/dashboard" element={<HomeScreen />} />
-          <Route path="/teacher/login" element={<TeacherLoginForm />} />
-          <Route path="/teacher/profile" element={<TeacherProfile />} />
-          <Route path="/admin" element={<AdminProfile />} />
           <Route path="/profile" element={<ShowStudent />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route
-            path="/teacher/coursedetails"
-            element={<TeacherCourseDetails />}
-          />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/about" element={<About />} />
-          
+
+          {/* teacher section */}
+          <Route
+            path="/teacher/coursedetails/:id"
+            element={<TeacherCourseDetails />}
+          />
+          <Route path="/teacher/login" element={<TeacherLoginForm />} />
+          <Route path="/teacher/profile" element={<TeacherProfile />} />
+
+          {/* Admin Section */}
+          <Route path="/admin/profile" element={<AdminProfile />} />
         </Routes>
       </div>
     </>
