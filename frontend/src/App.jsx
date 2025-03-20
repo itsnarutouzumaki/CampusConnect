@@ -6,7 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
-import Quiz from "./components/Quiz.jsx";
+import Quiz from "./components/Students/Quiz_Window.jsx";
 import LandingPage from "./components/LandingPage/LandingPage";
 import LoginSignupForm from "./components/Students/LoginSignup";
 import Course from "./components/Students/Course";
@@ -15,7 +15,7 @@ import ContactUsForm from "./components/Contact.jsx";
 import HomeScreen from "./components/Students/Dashboard";
 import TeacherLoginForm from "./components/Teacher/Login";
 import TeacherProfile from "./components/Teacher/Profile";
-import AdminProfile from "./components/Admin";
+import AdminProfile from "./components/Admin/Admin.jsx";
 import "./app.css";
 import CourseDetails from "./components/Students/CourseDetails";
 import ShowStudent from "./components/ShowStudent";
@@ -24,6 +24,7 @@ import TeacherCourseDetails from "./components/Teacher/CourseDetails";
 import ParticlesComponent from "./styles/Particlebackground.jsx";
 import About from "./components/About.jsx";
 import { Toaster } from "react-hot-toast";
+import AdminLogin from "./components/Admin/Login.jsx";
 
 const App = () => {
   return (
@@ -66,7 +67,7 @@ const MainContent = () => {
           <Route path="/coursedetails/:id" element={<CourseDetails />} />
           <Route path="/contactUs" element={<ContactUsForm />} />
           <Route path="/dashboard" element={<HomeScreen />} />
-          <Route path="/profile" element={<ShowStudent />} />
+          <Route path="/profile/:username" element={<ShowStudent />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/about" element={<About />} />
@@ -80,7 +81,8 @@ const MainContent = () => {
           <Route path="/teacher/profile" element={<TeacherProfile />} />
 
           {/* Admin Section */}
-          <Route path="/admin/profile" element={<AdminProfile />} />
+          <Route path="/admin" element={<AdminProfile />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
         </Routes>
       </div>
     </>
