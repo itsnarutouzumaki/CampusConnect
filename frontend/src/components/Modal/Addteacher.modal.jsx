@@ -15,6 +15,7 @@ const EditTeacher = ({ closeModal }) => {
     email: "",
     password: "",
   });
+  
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
