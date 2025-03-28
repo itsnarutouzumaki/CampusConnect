@@ -61,14 +61,20 @@ const AddCourse = ({ closeModal }) => {
           required
         />
         <input
-          type="date"
-          placeholder="Expiry Date"
+          type="text"
+          placeholder="Course Coordinator Username"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           required
         />
         <input
-          type="time"
-          placeholder="Expiry Time"
+          type="date"
+          placeholder="Start Date"
+          className="m-2 rounded-lg p-2 w-[80%] text-black"
+          required
+        />
+        <input
+          type="date"
+          placeholder="Expiry Date"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           required
         />
@@ -79,7 +85,7 @@ const AddCourse = ({ closeModal }) => {
         />
         <input
           type="url"
-          placeholder="Google Drive Link"
+          placeholder="Course Details PDF(GoogleDrive Link)"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           required
         />
