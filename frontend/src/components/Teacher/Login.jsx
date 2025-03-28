@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
 const Login = () => {
-  // const [isLogin, setIsLogin] = useState(false); // Toggle between Signup/Login
+  const navigate = useNavigate(); // Initialize navigation
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -14,37 +16,44 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const url="http://localhost:8000/teachers/login"
+  const url = "http://localhost:8000/teachers/login";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
-    let api;
-    try{
-        api=await axios.post(url,{
-         email:formData.email,
-         password:formData.password
-       },{headers:{"Content-Type":"application/json"}
-      });
-     console.log(api.data);
-     
-    }catch(error){
-      setError(error.message);
+
+    try {
+      const api = await axios.post(
+        url,
+        {
+          email: formData.email,
+          password: formData.password,
+        },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      console.log(api.data);
+      setSuccessMessage("Login successful!");
+
+      // Redirect to Profile page
+      navigate("/teacher/profile");
+    } catch (error) {
+      setError(error.response?.data?.message || "Login failed!");
       console.log(error);
     }
-  } 
+  };
+
   return (
     <div className="flex justify-center items-center h-screen text-white">
       <div className="w-full max-w-lg p-6 bg-gray-900 rounded-lg shadow-lg">
-        <header className="text-2xl font-semibold text-center mb-6">
-          { "Login"}
-        </header>
+        <header className="text-2xl font-semibold text-center mb-6">Login</header>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          
-
           <div>
-            <label htmlFor="email" className="block text-sm font-medium">Email Address <span className="text-red-600 ml-1">*</span></label>
+            <label htmlFor="email" className="block text-sm font-medium">
+              Email Address <span className="text-red-600 ml-1">*</span>
+            </label>
             <input
               type="email"
               name="email"
@@ -57,7 +66,9 @@ const Login = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium">Password <span className="text-red-600 ml-1">*</span></label>
+            <label htmlFor="password" className="block text-sm font-medium">
+              Password <span className="text-red-600 ml-1">*</span>
+            </label>
             <input
               type="password"
               name="password"
@@ -70,7 +81,7 @@ const Login = () => {
           </div>
 
           <button type="submit" className="w-full bg-teal-600 py-2 rounded-lg hover:bg-teal-700 transition">
-            {"Login" }
+            Login
           </button>
         </form>
 
