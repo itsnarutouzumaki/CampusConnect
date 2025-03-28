@@ -5,11 +5,11 @@ import Chapter from "./Chapter";
 import AddChapter from "../Modal/AddChapter.modal";
 import AddAssignment from "../Modal/AddAssignment.modal";
 import AddLecture from "../Modal/AddLecture.modal";
-import AddQuiz from "../Modal/AddQuiz.modal";
+// import AddQuiz from "../Modal/AddQuiz.modal";
 import EditCourse from "../Modal/EditCourse.Modal";
 import Lecture from "./Lecture";
 import Quiz from "./Quiz";
-
+import AddQuiz from "../AddQuiz";
 const courseData = {
   name: "Name Of Course",
   code: "CS3102",
