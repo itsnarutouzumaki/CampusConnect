@@ -2,9 +2,11 @@ import React, { useState } from "react";
 
 function AddQuiz() {
   const [quizName, setQuizName] = useState("");
-  const [questions, setQuestions] = useState(
-    Array(10).fill({ question: "", answers: ["", "", "", ""], correctAnswer: "" })
-  );
+  const [quizDate, setQuizDate] = useState("");
+  const [quizTime, setQuizTime] = useState("");
+  const [questions, setQuestions] = useState([
+    { question: "", answers: ["", "", "", ""], correctAnswer: "" }
+  ]);
 
   const handleQuestionChange = (index, value) => {
     const newQuestions = [...questions];
@@ -24,13 +26,16 @@ function AddQuiz() {
     setQuestions(newQuestions);
   };
 
+  const handleAddQuestion = () => {
+    setQuestions([...questions, { question: "", answers: ["", "", "", ""], correctAnswer: "" }]);
+  };
+
   const handleSubmit = () => {
-    console.log({ quizName, questions });
+    console.log({ quizName, quizDate, quizTime, questions });
     alert("Quiz submitted! Check the console for details.");
   };
 
   return (
-    
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold text-center mb-4">Add a Quiz</h2>
       
@@ -43,6 +48,23 @@ function AddQuiz() {
         className="w-full p-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
 
+      {/* Date & Time Inputs */}
+      <div className="flex gap-4 mb-4">
+        <input
+          type="date"
+          value={quizDate}
+          onChange={(e) => setQuizDate(e.target.value)}
+          className="w-1/2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="time"
+          value={quizTime}
+          onChange={(e) => setQuizTime(e.target.value)}
+          className="w-1/2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Dynamic Questions */}
       {questions.map((q, qIndex) => (
         <div key={qIndex} className="p-4 mb-4 border border-gray-200 rounded-lg bg-gray-50">
           <h3 className="text-lg font-semibold mb-2">Question {qIndex + 1}</h3>
@@ -83,8 +105,16 @@ function AddQuiz() {
         </div>
       ))}
 
+      {/* Add New Question Button */}
+      <button
+        onClick={handleAddQuestion}
+        className="w-full mt-2 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition"
+      >
+        Add Another Question
+      </button>
+
       {/* Submit Button */}
-      <button 
+      <button
         onClick={handleSubmit}
         className="w-full mt-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
       >
