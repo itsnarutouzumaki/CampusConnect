@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Course = require('../models/courseschema.js');
 const response=require('../utils/apiresponse.js');
-
+const studentenrolled=require('../models/studentenrolled.js');  
 // add a course
 const addCourse = async (req, res) => {
     let { title, courseId, description, price, tutor} = req.body;
@@ -36,6 +36,61 @@ const getAllCourses = async (req, res) => {
         return res.json({status:'failed',message:'error',err});
     }
 };
-
-
-module.exports = { addCourse, getAllCourses };
+const getCoursesByEnrolled=async(req,res)=>{
+ const data=[
+    {
+      $match: {
+        student_id:req.student_id
+      },
+    },
+    {
+      $lookup: {
+        from: "courses",
+        localField: "course_id",
+        foreignField: "_id",
+        as: "details",
+      },
+    },
+    {
+      $unwind: {
+        path: "$details",
+      },
+    },
+    {
+      $replaceRoot: {
+      newRoot: "$details",
+      },
+    },
+  ]  ;
+  const d=await studentenrolled.aggregate(data);
+  return  res.json(new response(200, 'Course data retrived', d));
+}
+const  getCoursesByLive=async(req,res)=>{
+    const data=[{
+        $unwind:{
+          path:"$isActive"
+        },
+      },
+       {
+         $match:{
+           isActive:"live"
+         }
+       }];
+       const d=await Course.aggregate(data);
+       return res.json(new response(200, 'Course data retrived', d));
+}
+const getCoursesByUpcoming=async(req,res)=>{
+    const data=[{
+        $unwind:{
+          path:"$isActive"
+        },
+      },
+       {
+         $match:{
+           isActive:"upcoming"
+         }
+       }];
+       const d=await Course.aggregate(data);
+       return res.json(new response(200, 'Course data retrived', d));
+}
+module.exports = { addCourse, getAllCourses ,getCoursesByEnrolled,getCoursesByLive,getCoursesByUpcoming};   

@@ -28,47 +28,21 @@ const CourseCard = ({ image, name, description }) => {
 };
 
 const Course = () => {
-  const [courses, setCourses] = useState([
-    {
-      id: 1,
-      img: "https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg",
-      name: "Introduction to Programming",
-      description: "Learn the basics of programming with Python and JavaScript."
-    },
-    {
-      id: 2,
-      img: "https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg",
-      name: "Data Structures & Algorithms",
-      description: "Master fundamental data structures and algorithms for coding interviews."
-    },
-    {
-      id: 3,
-      img: "https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg",
-      name: "Full Stack Web Development",
-      description: "Build real-world web applications with React, Node.js, and MongoDB."
-    },
-    {
-      id: 4,
-      img: "https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg",
-      name: "Machine Learning Basics",
-      description: "Understand key concepts of machine learning and build predictive models."
-    }
-  ]);
+  const [courses, setCourses] = useState([]) 
 
-  // const fetchCourses = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "http://localhost:1000/backend/course/all"
-  //     );
-  //     setCourses(response.data.course || []);
-  //   } catch (error) {
-  //     console.error("Error fetching courses: ", error);
-  //   }
-  // };
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/course/getallcourses');
+        setCourses(response.data);
+        console.log(response);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
 
-  // useEffect(() => {
-  //   fetchCourses();
-  // }, []);
+    fetchCourses();
+  }, []);
 
   return (
     <div className="h-screen w-full p-6 mx-auto">
