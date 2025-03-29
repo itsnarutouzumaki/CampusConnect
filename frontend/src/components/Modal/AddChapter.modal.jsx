@@ -1,13 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
-const AddChapter = ({ closeModal }) => {
+const AddChapter = ({ courseID, closeModal }) => {
+  const [data, setData] = useState({});
+
   useEffect(() => {
     document.body.style.overflowY = "hidden";
     return () => {
       document.body.style.overflowY = "scroll";
     };
   }, []);
+
+  const handleAddChapter = async () => {
+    const chapterData = { ...data, course: courseID };
+    console.log(chapterData);
+
+    try {
+      const response = await axios.post("/api/chapterLecture/addChapter", chapterData, {
+        headers: { "Content-Type": "application/json" },
+      });
+      console.log("Chapter added successfully:", response.data);
+
+      toast.success("Chapter added successfully!", {
+        position: "top-center",
+        duration: 2000,
+      });
+
+    } catch (error) {
+      console.error("Error adding chapter:", error);
+    }
+    // Close the modal after adding the chapter
+    closeModal();
+  };
 
   return ReactDOM.createPortal(
     <div
@@ -25,17 +51,19 @@ const AddChapter = ({ closeModal }) => {
           type="text"
           placeholder="Chapter Name"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={(e) => setData({ ...data, title: e.target.value })}
           required
         />
         <input
           type="url"
           placeholder="Google Drive Link"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={(e) => setData({ ...data, url: e.target.value })}
           required
         />
         <button
           className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
-          onClick={closeModal}
+          onClick={handleAddChapter}
         >
           Add Chapter
         </button>

@@ -5,11 +5,12 @@ import Chapter from "./Chapter";
 import AddChapter from "../Modal/AddChapter.modal";
 import AddAssignment from "../Modal/AddAssignment.modal";
 import AddLecture from "../Modal/AddLecture.modal";
-// import AddQuiz from "../Modal/AddQuiz.modal";
 import EditCourse from "../Modal/EditCourse.Modal";
 import Lecture from "./Lecture";
 import Quiz from "./Quiz";
 import AddQuiz from "../AddQuiz";
+import { useParams } from "react-router-dom";
+
 const courseData = {
   name: "Name Of Course",
   code: "CS3102",
@@ -20,7 +21,7 @@ const courseData = {
     "Dive deep into modern web technologies, mastering frontend frameworks, backend APIs, and database management. This course provides comprehensive learning materials and assignments to prepare you for real-world development.",
 };
 
-const AddButton = ({ selectedOption }) => {
+const AddButton = ({ selectedOption, courseId }) => {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
 
@@ -49,13 +50,13 @@ const AddButton = ({ selectedOption }) => {
   const getModalComponent = () => {
     switch (selectedOption) {
       case "Chapter":
-        return <AddChapter closeModal={closeModal} />;
+        return <AddChapter closeModal={closeModal} courseID={courseId} />;
       case "Assignment":
-        return <AddAssignment closeModal={closeModal} />;
+        return <AddAssignment closeModal={closeModal} courseID={courseId} />;
       case "Lecture":
-        return <AddLecture closeModal={closeModal} />;
+        return <AddLecture closeModal={closeModal} courseID={courseId} />;
       case "Quiz":
-        return <AddQuiz closeModal={closeModal} />;
+        return <AddQuiz closeModal={closeModal} courseID={courseId} />;
       default:
         return null;
     }
@@ -77,6 +78,8 @@ const AddButton = ({ selectedOption }) => {
 const TeacherCourseDetails = () => {
   const [selectedOption, setSelectedOption] = useState("Chapter");
   const [showEditCourseModal, setShowEditCourseModal] = useState(false);
+
+  const { courseId } = useParams();
 
   const renderContent = () => {
     switch (selectedOption) {
@@ -136,7 +139,7 @@ const TeacherCourseDetails = () => {
       {renderContent()}
       
       {/* Add Button - Changes Based on Selection */}
-      <AddButton selectedOption={selectedOption} />
+      <AddButton selectedOption={selectedOption} courseId={courseId} />
 
       {/* Edit Course Modal */}
       {showEditCourseModal && <EditCourse closeModal={() => setShowEditCourseModal(false)} />}
