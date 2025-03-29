@@ -16,6 +16,7 @@ const studentquizschema=new Schema({
         type:String,
         default:0
     }
-}
+},
+{collection:'studentquiz'}
 );
-module.exports=mongoose.model("studetnquiz",studentquizschema);
+module.exports=mongoose.model("studentquiz",studentquizschema);
