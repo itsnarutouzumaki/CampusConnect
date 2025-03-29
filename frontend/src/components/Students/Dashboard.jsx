@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ChartComponent from "./Chart";
 import EditStudent from "../Modal/EditStudent.modal";
 import { FiEdit2 } from "react-icons/fi";
+import AddGoal from "../Modal/AddGoal.modal";
 
 const HomeScreen = ({
   userData = {
@@ -41,16 +42,8 @@ const HomeScreen = ({
     setActiveGoals((prevGoals) => prevGoals.filter((goal) => goal.id !== id));
   };
 
-  const addGoal = () => {
-    const newGoal = {
-      id: activeGoals.length + 1,
-      goal: prompt("Enter the new goal:"),
-      progress: "0/5",
-    };
-    if (newGoal.goal) {
-      setActiveGoals((prevGoals) => [...prevGoals, newGoal]);
-    }
-  };
+  const [AddGoalModal, setAddGoalModal] = useState(false)
+  const closeModalAddGoal = () => setAddGoalModal(false);
 
   const [showEditStudentModal, setShowEditStudentModal] = useState(false);
   const closeModalEditStudent = () => setShowEditStudentModal(false);
@@ -79,9 +72,6 @@ const HomeScreen = ({
           <h1 className="text-2xl text-white font-mono italic">
             {profile.name}
           </h1>
-          <p className="text-gray-300 text-base italic underline">
-            @{profile.username}
-          </p>
 
           <p className="text-gray-300 text-sm italic">{profile.education}</p>
 
@@ -134,14 +124,14 @@ const HomeScreen = ({
         </ul>
         <div className="flex justify-center mt-4">
           <button
-            onClick={addGoal}
+            onClick={() => setAddGoalModal(true)}
             className="text-white bg-teal-500 px-3 py-1 rounded-lg hover:bg-teal-800 transition"
           >
             Add Goal
           </button>
         </div>
       </section>
-
+      {AddGoalModal && <AddGoal closeModal={closeModalAddGoal} />}
       {/* Upcoming Deadlines */}
       <section className="bg-white/20 backdrop-blur-[10%] p-6 rounded-lg shadow-md flex flex-col justify-between transition-transform transform hover:shadow-white">
         <h2 className="text-xl font-semibold text-white mb-4">

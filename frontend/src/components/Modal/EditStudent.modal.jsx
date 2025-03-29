@@ -56,19 +56,7 @@ const EditStudent = ({ closeModal }) => {
         />
         <input
           type="text"
-          placeholder="Username"
-          className="m-2 rounded-lg p-2 w-[80%] text-black"
-          required
-        />
-        <input
-          type="text"
           placeholder="Bio"
-          className="m-2 rounded-lg p-2 w-[80%] text-black"
-          required
-        />
-        <input
-          type=""
-          placeholder="Email"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           required
         />
