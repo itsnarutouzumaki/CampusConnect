@@ -56,16 +56,16 @@ const uploadFile = (req, res) => {
 //  Submit Assignment
 const submitAssignment = async (req, res) => {
     const { assignmentId } = req.params;
-    const { url } = req.body; 
+    const { fileUrl } = req.body; 
     // console.log(assignmentId, url); 
-    if (!assignmentId || !url) {
+    if (!assignmentId || !fileUrl) {
         return res.status(400).json({ message: 'Assignment ID and file URL are required' });
     }
 
     try {
         const updatedAssignment = await Assignment.findByIdAndUpdate(
             assignmentId,
-            { url, isSubmitted: true, submittedAt: new Date() },
+            { fileUrl, isSubmitted: true, submittedAt: new Date() },
             { new: true }
         );
 
@@ -90,13 +90,13 @@ const viewAssignment = async (req, res) => {
 
     try {
         const assignment = await Assignment.findById(assignmentId);
-        if (!assignment || !assignment.url) {
+        if (!assignment || !assignment.fileUrl) {
             return res.status(404).json({ message: 'Assignment or file not found' });
         }
 
         res.status(200).json({
             message: 'Assignment found',
-            fileUrl: assignment.url
+            fileUrl: assignment.fileUrl
         });
     } catch (error) {
         // console.error('Error fetching assignment:', error);

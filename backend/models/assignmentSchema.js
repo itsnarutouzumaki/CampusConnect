@@ -10,6 +10,10 @@ const assignmentSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    fileUrl:{
+        type:String,
+        required: true
+    },
     dueDate: {
         type: Date,
         required: true
