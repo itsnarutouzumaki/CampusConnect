@@ -11,4 +11,4 @@ app.use(bodyParser.urlencoded({ extended: true })); // Add this line to parse UR
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
-app.use('/',routes);
+app.use('/api/',routes);
