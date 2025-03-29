@@ -27,6 +27,7 @@ import About from "./components/About.jsx";
 import { Toaster } from "react-hot-toast";
 import AdminLogin from "./components/Admin/Login.jsx";
 import Error from "./components/Error.jsx";
+import ViewResult from "./components/Students/ViewResult.jsx";
 const App = () => {
   return (
     <>
@@ -73,6 +74,7 @@ const MainContent = () => {
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/about" element={<About />} />
           <Route path="/error" element={<Error />} />
+          <Route path="/viewresult" element={<ViewResult />} />
           {/* teacher section */}
           <Route
             path="/teacher/coursedetails/:id"
