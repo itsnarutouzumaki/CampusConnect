@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 const quizid = '67a741b20936cb668a827d69';
-export default function Quiz() {
+export default function QuizWindow() {
   const [questions, setQuestions] = useState([]);
   const [time, setTime] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
