@@ -1,5 +1,4 @@
 const Assignment=require('../models/assignmentSchema');
-let uploadedFile = null;
 
 // add an assignment
 const addAssignment = async (req, res) => {
@@ -35,65 +34,8 @@ const editAssignment = async (req, res) => {
     }
 }
 
-
-//  Upload File 
-const uploadFile = (req, res) => {
-    console.log('File received:', req.file);
-    if (!req.file) {
-        return res.status(400).json({ message: 'No file uploaded' });
-    }
-
-    uploadedFile = req.file.path;
-
-    res.status(200).json({
-        message: 'File uploaded successfully',
-        fileUrl: uploadedFile
-    });
-};
-
-//  Submit Assignment
-const submitAssignment = async (req, res) => {
-    const { title, course } = req.body;
-
-    if (!title || !course || !uploadedFile) {
-        return res.status(400).json({ message: 'All fields are required' });
-    }
-
-    try {
-        const newAssignment = new Assignment({
-            title,
-            course,
-            url: uploadedFile
-        });
-
-        await newAssignment.save();
-        uploadedFile = null;
-
-        res.status(201).json({
-            message: 'Assignment submitted successfully!',
-            assignment: newAssignment
-        });
-    } catch (error) {
-        res.status(500).json({ message: 'Error saving assignment', error });
-    }
-};
-
-//  View Assignment
-const viewAssignment = (req, res) => {
-    const { url } = req.query;
-
-    if (!url) {
-        return res.status(400).json({ message: 'File URL is required' });
-    }
-
-    res.redirect(url);
-};
-
 module.exports = {
     addAssignment,
     getAllAssignments,
-    editAssignment,
-    uploadFile,
-    submitAssignment,
-    viewAssignment
+    editAssignment
 }

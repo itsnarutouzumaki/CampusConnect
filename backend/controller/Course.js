@@ -85,4 +85,20 @@ const getCoursesByUpcoming=async(req,res)=>{
        const d=await Course.aggregate(data);
        return res.json(new response(200, 'Course data retrived', d));
 }
-module.exports = { addCourse, getAllCourses ,getCoursesByEnrolled,getCoursesByLive,getCoursesByUpcoming};  
+const enrollStudent=async (req, res) => {
+    const { student_id, course_id } = req.body;
+    if (!student_id || !course_id) {
+        return res.status(400).json({status: 'failed', message: 'Missing required fields'});
+    }
+    try{
+      const course=new mongoose.Types.ObjectId(course_id);  
+        const enrollment = new studentenrolled({ student_id,course});
+        await enrollment.save();
+        return res.json(new response(200, {enrollment},'Student enrolled successfully'));
+    } catch(err) {
+        return res.json({status:'failed',message:'error',err});
+    }
+}
+module.exports = { addCourse, getAllCourses ,getCoursesByEnrolled,getCoursesByLive,getCoursesByUpcoming,
+  enrollStudent
+};  

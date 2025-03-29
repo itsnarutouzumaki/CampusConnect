@@ -52,11 +52,10 @@ const login = async (req, res) => {
     new apiresponse(200, { student, token }, "User logged in successfully")
   );
 };
-
-
 const userdetails = async (req, res) => {
   const details = await item2.findOne({ email: req.body.email });
   res.json(new apiresponse(200, "User details", { details }));
+
 };
 const updatedetails = async (req, res) => {
   const details = await item2.findOneAndUpdate(

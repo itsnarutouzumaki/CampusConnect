@@ -26,17 +26,38 @@ const takequiz=async(req,res)=>{
     res.json(new apiresponse(200,'quiz taken',{data}));
 };
 const submitquiz=async(req,res)=>{
-    const authHeader = req.headers.authorization;
+    const data=[{
+        $match:{
+            _id:new mongoose.Types.ObjectId(req.body.quiz_id)
+          }},{
+        $project: {
+         correctOptions: "$questions.correctoption" 
+        }
+      }];
+      const fetchdata=await quiz.aggregate(data);
+      const gienarray=JSON.parse(req.body.options);
+     const resultArray = fetchdata[0].correctOptions;
+      
+      var count=0;
+      for(let index=0;index<resultArray.length;index++){
+       console.log('resultArray[index]',resultArray[index]);
+        
+        if(resultArray[index].toString()===gienarray[index].toString()){
+            count++;
+        }
+      }
+      const storedata=new studentquiz({
+        quizid:req.body.quiz_id,
+        studentid:req.body.student_id,
+        marks:count,
+        total_marks:resultArray.length
+      });
+      const savedata=await storedata.save();
+      res.json(new apiresponse(200,'quiz submitted',savedata)); 
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return res.status(401).json({ message: "Unauthorized: No token provided" });
-    }
-
-    const token = authHeader.split(" ")[1];
-    const d=jwt.decode(token);
-    const data=new studentquiz(d._id,req.body.quiz_id,req.body.option);
-    const saveddata=await data.save();
-    res.json(new apiresponse(200,'quiz submitted',{saveddata}));
+    // const data=new studentquiz(d._id,req.body.quiz_id,);
+    // const saveddata=await data.save();
+    // res.json(new apiresponse(200,'quiz submitted',{saveddata}));
 };
 module.exports={
     addquiz,

@@ -4,7 +4,6 @@ const router=express.Router();
 
 // signup
 router.post('/signup',checkUserExists,signup);
-
 //login 
 router.post('/login',login);
 

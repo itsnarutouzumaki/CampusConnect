@@ -9,8 +9,13 @@ const studentquizschema=new Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'students'
     },
-    option:{
-        type:[String]
+    marks:{
+        type:String
+    },
+    total_marks:{
+        type:String,
+        default:0
     }
-});
-module.exports=studentquizschema;
+}
+);
+module.exports=mongoose.model("studetnquiz",studentquizschema);
