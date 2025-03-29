@@ -26,6 +26,7 @@ import ParticlesComponent from "./styles/Particlebackground.jsx";
 import About from "./components/About.jsx";
 import { Toaster } from "react-hot-toast";
 import AdminLogin from "./components/Admin/Login.jsx";
+import Error from "./components/Error.jsx";
 const App = () => {
   return (
     <>
@@ -71,7 +72,7 @@ const MainContent = () => {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/about" element={<About />} />
-
+          <Route path="/error" element={<Error />} />
           {/* teacher section */}
           <Route
             path="/teacher/coursedetails/:id"
