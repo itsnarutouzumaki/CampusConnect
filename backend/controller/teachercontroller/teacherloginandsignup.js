@@ -6,14 +6,14 @@ const dotenv = require('dotenv');
 dotenv.config();
 const checkUserExists = async (req, res, next) => {
     const { email } = req.body;
-
-    try {
+  try {
         const teacher = await Teacher.findOne({ email });
         if (teacher) {
             return res.status(400).send('User already exists');
         }
         next();
-    } catch (err) {
+      }
+ catch (err) {
         res.status(500).send('Server error');
     }
 };

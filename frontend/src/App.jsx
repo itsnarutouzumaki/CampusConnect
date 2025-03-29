@@ -26,7 +26,6 @@ import ParticlesComponent from "./styles/Particlebackground.jsx";
 import About from "./components/About.jsx";
 import { Toaster } from "react-hot-toast";
 import AdminLogin from "./components/Admin/Login.jsx";
-import AddQuiz from "./components/Teacher/AddQuiz.jsx";
 const App = () => {
   return (
     <>
