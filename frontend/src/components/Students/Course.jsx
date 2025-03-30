@@ -3,17 +3,15 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 // CourseCard component to display individual course
-const CourseCard = ({ id,image, name, description }) => {
+const CourseCard = ({ id, image, name, description }) => {
   const truncate = (text, wordLimit) => {
     const words = text;
-    return words.length > wordLimit
-      ? words.slice(0, wordLimit) + " ..."
-      : text;
+    return words.length > wordLimit ? words.slice(0, wordLimit) + " ..." : text;
   };
 
   return (
     <Link
-      to='/coursedetails/${id}'
+      to="/coursedetails/${id}"
       className="bg-white/20 backdrop-blur-[10%] rounded-lg shadow-lg shadow-black/50 p-4 hover:shadow-2xl hover:shadow-black/80 cursor-pointer transition-shadow duration-300"
     >
       <img
@@ -28,16 +26,18 @@ const CourseCard = ({ id,image, name, description }) => {
 };
 
 const Course = () => {
-  const [courses, setCourses] = useState([]) 
+  const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/course/getallcourses');
+        const response = await axios.get(
+          "http://localhost:8000/api/course/getallcourses"
+        );
         setCourses(response.data);
         console.log(response);
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error("Error fetching courses:", error);
       }
     };
 

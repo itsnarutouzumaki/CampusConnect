@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 const LoginSignupForm = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true); // Toggle between Signup/Login
@@ -22,12 +22,16 @@ const LoginSignupForm = () => {
     setSuccessMessage("");
 
     const url = isLogin
-      ? "http://localhost:8000/students/studentlogin"
-      : "http://localhost:8000/students/studentregister";
+      ? "http://localhost:8000/api/students/studentlogin"
+      : "http://localhost:8000/api/students/studentregister";
     const payload = isLogin
       ? { email: formData.email, password: formData.password }
-      : { fullname: formData.fullName, email: formData.email, password: formData.password };
-try {
+      : {
+          fullname: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+        };
+    try {
       // const response = await fetch(url, {
       //   method: "POST",
       //   headers: { "Content-Type": "application/json" },
@@ -35,13 +39,15 @@ try {
       // });
 
       const data = await axios.post(url, payload);
-     console.log(data);
+      console.log(data);
       //if ) throw new Error(data.message || "Something went wrong");
-      setSuccessMessage(isLogin ? "Student login successful!" : "Student signup successful!");
-      if(isLogin){
-        navigate('/course');
-      }else{
-        navigate('/login');
+      setSuccessMessage(
+        isLogin ? "Student login successful!" : "Student signup successful!"
+      );
+      if (isLogin) {
+        navigate("/course");
+      } else {
+        navigate("/login");
       }
     } catch (error) {
       setError(error.message);
@@ -104,18 +110,26 @@ try {
             />
           </div>
 
-          <button type="submit" className="w-full bg-teal-600 py-2 rounded-lg hover:bg-teal-700 transition">
+          <button
+            type="submit"
+            className="w-full bg-teal-600 py-2 rounded-lg hover:bg-teal-700 transition"
+          >
             {isLogin ? "Login" : "Signup"}
           </button>
         </form>
 
         {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
-        {successMessage && <p className="mt-4 text-green-500 text-center">{successMessage}</p>}
+        {successMessage && (
+          <p className="mt-4 text-green-500 text-center">{successMessage}</p>
+        )}
 
         <div className="mt-5 flex justify-center">
-          <p>{isLogin ? "Don't have an account? " : "Already have an account? "}</p>&nbsp;&nbsp;
-          <span 
-            className="text-red-600 hover:underline transition cursor-pointer" 
+          <p>
+            {isLogin ? "Don't have an account? " : "Already have an account? "}
+          </p>
+          &nbsp;&nbsp;
+          <span
+            className="text-red-600 hover:underline transition cursor-pointer"
             onClick={() => setIsLogin(!isLogin)}
           >
             {isLogin ? " Switch to Signup" : "Switch to Login"}
