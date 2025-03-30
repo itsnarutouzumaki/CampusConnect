@@ -67,7 +67,7 @@ const MainContent = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/loginsignup" element={<LoginSignupForm />} />
           <Route path="/course" element={<Course />} />
-          <Route path="/coursedetails/:id" element={<CourseDetails />} />
+          <Route path="/coursedetails/:courseId" element={<CourseDetails />} />
           <Route path="/contactUs" element={<ContactUsForm />} />
           <Route path="/dashboard" element={<HomeScreen />} />
           <Route path="/profile/:username" element={<ShowStudent />} />
@@ -78,7 +78,7 @@ const MainContent = () => {
           <Route path="/viewresult" element={<ViewResult />} />
           {/* teacher section */}
           <Route
-            path="/teacher/coursedetails/:id"
+            path="/teacher/coursedetails/:courseId"
             element={<TeacherCourseDetails />}
           />
           <Route path="/teacher/login" element={<TeacherLoginForm />} />

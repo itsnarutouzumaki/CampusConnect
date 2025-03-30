@@ -1,4 +1,5 @@
 const express = require('express');
+const admin= require('./adminroute.js');
 const student = require('./studentroutes.js');
 const teacher = require('./teacherroute.js');
 const course = require('./courseroute.js');
@@ -12,4 +13,5 @@ router.use('/teachers', teacher);
 router.use('/course', course);
 router.use('/assignment', assignment);
 router.use('/chapterLecture', chapterLecture);
+router.use('/admin',admin);
 module.exports = router;
