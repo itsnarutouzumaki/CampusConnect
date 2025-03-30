@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const apiresponse = require("../../utils/apiresponse.js");
 
-
 const checkUserExists = async (req, res, next) => {
   const email = req.body.email;
   try {
@@ -17,8 +16,6 @@ const checkUserExists = async (req, res, next) => {
     res.status(500).send("Server error");
   }
 };
-
-
 
 const signup = async (req, res) => {
   const { fullname, email, password } = req.body;
@@ -34,7 +31,6 @@ const signup = async (req, res) => {
   );
 };
 
-
 const login = async (req, res) => {
   const { email, password } = req.body;
   const student = await item2.findOne({ email });
@@ -45,7 +41,7 @@ const login = async (req, res) => {
   if (!isMatch) {
     return res.status(400).send("Invalid email or password");
   }
-  
+
   // Generate JWT token
   const token = jwt.sign({ _id: student._id }, process.env.JWT_SECRET, {
     expiresIn: "1h",
@@ -53,10 +49,10 @@ const login = async (req, res) => {
 
   // Store token in HTTP-only cookie
   res.cookie("auth_token", token, {
-    httpOnly: true,  // Prevent client-side JavaScript access
-    secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-    sameSite: "Strict", // Prevent CSRF attacks
-    maxAge: 60 * 60 * 1000, // 1 hour expiration
+    httpOnly: true,
+    secure: false,
+    sameSite: "Strict",
+    domain: "localhost",
   });
 
   res.json(new apiresponse(200, { student }, "User logged in successfully"));

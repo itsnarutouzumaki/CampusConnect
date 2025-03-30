@@ -29,6 +29,7 @@ import AdminLogin from "./components/Admin/Login.jsx";
 import QuizWindow from "./components/Students/Quiz_Window";
 import Error from "./components/Error.jsx";
 import ViewResult from "./components/Students/ViewResult.jsx";
+import Loading from "./components/Loading.jsx";
 const App = () => {
   return (
     <>
@@ -72,10 +73,11 @@ const MainContent = () => {
           <Route path="/dashboard" element={<HomeScreen />} />
           <Route path="/profile/:username" element={<ShowStudent />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/quiz/:id" element={<QuizWindow />} />
+          <Route path="/quiz" element={<Quiz />} />
           <Route path="/about" element={<About />} />
           <Route path="/error" element={<Error />} />
           <Route path="/viewresult" element={<ViewResult />} />
+          <Route path="/loading" element={<Loading />} />
           {/* teacher section */}
           <Route
             path="/teacher/coursedetails/:courseId"

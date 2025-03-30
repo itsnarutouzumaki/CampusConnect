@@ -29,8 +29,12 @@ const LoginSignupForm = () => {
       : "/api/students/studentregister";
     const payload = isLogin
       ? { email: formData.email, password: formData.password }
-      : { fullname: formData.fullName, email: formData.email, password: formData.password };
-try {
+      : {
+          fullname: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+        };
+    try {
       // const response = await fetch(url, {
       //   method: "POST",
       //   headers: { "Content-Type": "application/json" },
@@ -114,18 +118,26 @@ try {
             />
           </div>
 
-          <button type="submit" className="w-full bg-teal-600 py-2 rounded-lg hover:bg-teal-700 transition">
+          <button
+            type="submit"
+            className="w-full bg-teal-600 py-2 rounded-lg hover:bg-teal-700 transition"
+          >
             {isLogin ? "Login" : "Signup"}
           </button>
         </form>
 
         {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
-        {successMessage && <p className="mt-4 text-green-500 text-center">{successMessage}</p>}
+        {successMessage && (
+          <p className="mt-4 text-green-500 text-center">{successMessage}</p>
+        )}
 
         <div className="mt-5 flex justify-center">
-          <p>{isLogin ? "Don't have an account? " : "Already have an account? "}</p>&nbsp;&nbsp;
-          <span 
-            className="text-red-600 hover:underline transition cursor-pointer" 
+          <p>
+            {isLogin ? "Don't have an account? " : "Already have an account? "}
+          </p>
+          &nbsp;&nbsp;
+          <span
+            className="text-red-600 hover:underline transition cursor-pointer"
             onClick={() => setIsLogin(!isLogin)}
           >
             {isLogin ? " Switch to Signup" : "Switch to Login"}

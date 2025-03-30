@@ -10,7 +10,7 @@ export default function QuizWindow() {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const api = await axios.post('http://localhost:8000/quiz/takequiz', { _id: quizid });
+        const api = await axios.post('/api/quiz/takequiz', { _id: quizid });
         const ques = api.data.message.data.questions;
         const formattedQuestions = ques.map((q, index) => ({
           id: index + 1,

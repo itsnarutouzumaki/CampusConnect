@@ -3,6 +3,7 @@ const router=express.Router();
 const studentController=require('../controller/studentcontroller/studentregistrationandsignup.js');
 const jwt=require('../');
 const studentmw=require('../middleware/jwttoken.js');
+
 router.post('/studentlogin',studentController.login);
 router.post('/studentregister',studentController.checkUserExists,studentController.signup);
 router.post('/updatedetails',studentmw.authenticateJWT,studentController.updatedetails);

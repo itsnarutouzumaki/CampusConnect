@@ -16,7 +16,7 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const url = "http://localhost:8000/teachers/login";
+  const url = "https://campusconnect-qm43.onrender.com/teachers/login";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +47,9 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center h-screen text-white">
       <div className="w-full max-w-lg p-6 bg-gray-900 rounded-lg shadow-lg">
-        <header className="text-2xl font-semibold text-center mb-6">Login</header>
+        <header className="text-2xl font-semibold text-center mb-6">
+          Login
+        </header>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -80,13 +82,18 @@ const Login = () => {
             />
           </div>
 
-          <button type="submit" className="w-full bg-teal-600 py-2 rounded-lg hover:bg-teal-700 transition">
+          <button
+            type="submit"
+            className="w-full bg-teal-600 py-2 rounded-lg hover:bg-teal-700 transition"
+          >
             Login
           </button>
         </form>
 
         {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
-        {successMessage && <p className="mt-4 text-green-500 text-center">{successMessage}</p>}
+        {successMessage && (
+          <p className="mt-4 text-green-500 text-center">{successMessage}</p>
+        )}
       </div>
     </div>
   );
