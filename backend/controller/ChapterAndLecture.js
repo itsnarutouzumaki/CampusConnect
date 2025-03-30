@@ -1,7 +1,7 @@
 const { Chapter, Lecture } = require('../models/chapterLectureSchema');
 const Courses=require('../models/courseschema');
 const response=require('../utils/apiresponse');
-
+const { default: mongoose } = require("mongoose");
 // Add a chapter
 const addChapter = async (req, res) => {
     const {title,url,course} = req.body;
@@ -48,7 +48,9 @@ const editChapter = async (req, res) => {
 // add a lecture
 const addLecture = async (req, res) => {
     const {title,videoUrl,duration,startDate,course} = req.body;
-    const isPresent= await Courses.findById(course);
+    const course_id=new mongoose.Types.ObjectId(course);
+    console.log(course_id);
+    const isPresent= await Courses.findOne({_id:course_id});
     if(!isPresent){
         return res.json({status:'failure',message:'course not found'});
     }

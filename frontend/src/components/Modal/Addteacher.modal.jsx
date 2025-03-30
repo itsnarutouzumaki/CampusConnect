@@ -23,7 +23,7 @@ const EditTeacher = ({ closeModal }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const url = "http://localhost:8000/teachers/signup";
+  const url = "/api/teachers/signup";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +37,7 @@ const EditTeacher = ({ closeModal }) => {
           email: formData.email,
           password: formData.password,
         },
-        { headers: { "Content-Type": "application/json" } }
-      );
-      console.log(api.data);
+  );
       setSuccessMessage("Teacher added successfully!");
       closeModal();
     } catch (error) {
