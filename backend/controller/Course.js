@@ -3,6 +3,8 @@ const Course = require('../models/courseschema.js');
 const ApiResponse=require('../utils/apiresponse.js');
 const studentenrolled=require('../models/studentenrolled.js'); 
 const { findById } = require('../models/teacherschema.js');
+const teacher=require('../models/teacherschema.js');
+const { response } = require('express');
 let uploadedFile=null;
 // add a course
 const addCourse = async (req, res) => {
@@ -15,14 +17,10 @@ const addCourse = async (req, res) => {
     if (!req.file) {
       return res.json(new ApiResponse(200,{},'No file uploaded'));
   }
-
-  
   uploadedFile = req.file.path;  
-  
     if(expiryDate<startDate){
         return res.json(new ApiResponse(400,'expiry date should be greater than start date'));
     }
-
     if(price<0){
         return res.json(new ApiResponse(400,'price should be greater than 0'));
     }
@@ -31,11 +29,18 @@ const addCourse = async (req, res) => {
     if (isPresent) {
         return res.json(new ApiResponse(400,{},'Course already exists'));
     }
+const data=await teacher.findOne({email:coordinator});
+if(!data)
+{
+  return res.json(new ApiResponse(400,{},'Coordinator does not exist'));
+}
 
     try{
       const startDate1=new Date(startDate);
       const expiryDate1=new Date(expiryDate);
-       const course = await Course.create({ title,courseId,coordinator,startDate:startDate1,expiryDate:expiryDate1,description,pdfLink,price,image:uploadedFile});
+       const course = await Course.create({ title,courseId,coordinator,startDate:startDate1,expiryDate:expiryDate1,description,pdfLink,price,image:uploadedFile,
+        coordinator_name:data.name
+       });
        return res.json(new ApiResponse(200,course,'Course created successfully'));
    }
    catch(err){
@@ -128,6 +133,23 @@ const isEnrolled= async(req,res)=>{
       return res.json(new ApiResponse(200,{isEnrolled:'true',course},'student'));
   }
 }
+const updatedetails=async (req, res) => {
+  const data=await teacher.findOne({email:req.body.coordinator});
+  const courseId=new mongoose.Types.ObjectId(req.body.courseId);
+ const coordinator=req.body.coordinator;
+ const course=new mongoose.Types.ObjectId(req.body.courseId);
+
+  const coursedetails=await Course.findOneAndUpdate(
+    {
+      _id:course
+    },
+    { $set:{
+      coordinator_name:data.name,
+   coordinator:coordinator   
+    }}
+  );
+ response.json(new ApiResponse(200,coursedetails,'course updated successfully'));
+}
 module.exports = { addCourse ,uploadImg, 
-  getAllCoursesData,enrollStudent,isEnrolled
+  getAllCoursesData,enrollStudent,isEnrolled,updatedetails
 };  

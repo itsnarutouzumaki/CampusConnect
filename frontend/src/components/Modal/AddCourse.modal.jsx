@@ -8,7 +8,6 @@ const AddCourse = ({ closeModal }) => {
     title: "",
     courseId: "",
     coordinator: "",
-    teacherName: "",
     startDate: "",
     expiryDate: "",
     description: "",
@@ -66,7 +65,8 @@ const AddCourse = ({ closeModal }) => {
     
     try {
 
-      await axios.post("http://localhost:8000/api/course/addcourse", formData);
+      const response=await axios.post("/api/course/addcourse", formData);
+      console.log(response);
       alert("Course added successfully!");
       closeModal();
     } catch (error) {
@@ -112,15 +112,6 @@ const AddCourse = ({ closeModal }) => {
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           onChange={handleInputChange}
           value={data.coordinator}
-          required
-        />
-        <input
-          type="text"
-          name="teacherName"
-          placeholder="Course Coordinator Name"
-          className="m-2 rounded-lg p-2 w-[80%] text-black"
-          onChange={handleInputChange}
-          value={data.teacherName}
           required
         />
         <div className="flex w-full justify-center items-center px-10">

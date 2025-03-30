@@ -122,9 +122,6 @@ const AdminProfile = () => {
         </div>
         <div className="w-full h-fit bg-grey-800/20 rounded-lg flex justify-evenly mt-6 py-2">
           <button className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer">
-            Change Password
-          </button>
-          <button className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer">
             Logout
           </button>
         </div>

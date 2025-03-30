@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 const ChangeCourseCoordinator = ({ closeModal }) => {
   const [formData, setFormData] = useState({
     courseId: "",
-    newCoordinator: "",
+    coordinator: "",
     password: ""
   });
   const [error, setError] = useState("");
@@ -26,7 +26,7 @@ const ChangeCourseCoordinator = ({ closeModal }) => {
 
   const handleSubmit = async () => {
     // Basic validation
-    if (!formData.courseId || !formData.newCoordinator || !formData.password) {
+    if (!formData.courseId || !formData.coordinator || !formData.password) {
       setError("All fields are required!");
       return;
     }
@@ -70,11 +70,11 @@ const ChangeCourseCoordinator = ({ closeModal }) => {
         />
         <input
           type="text"
-          name="newCoordinator"
-          placeholder="New Course Coordinator Username"
+          name="coordinator"
+          placeholder="New Course Coordinator Email"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           onChange={handleInputChange}
-          value={formData.newCoordinator}
+          value={formData.coordinator}
           required
         />
         <input

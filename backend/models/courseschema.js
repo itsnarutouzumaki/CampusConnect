@@ -25,6 +25,9 @@ const courseSchema = new mongoose.Schema({
     coordinator: {
        type: String,
     },
+    coordinator_name: {
+        type: String,
+     },
     startDate: {
         type: Date
     },
