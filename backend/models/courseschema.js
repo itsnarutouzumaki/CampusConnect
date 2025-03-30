@@ -19,29 +19,18 @@ const courseSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    isActive:{
-        type:['active','completed','upcoming'],
-        default:'upcoming'
-    },
-    tutor: {
+    coordinator: {
        type: String
-        
     },
-    studyMaterial: {
-        type: [String],
+    startDate: {
+        type: Date
+    },
+    expiryDate:{
+        type: Date
+    },
+    pdfLink:{
+        type:String
     }
-    // },quiz:{
-    //     type: [mongoose.Schema.Types.ObjectId],
-    //     ref: 'teacher'
-    // },
-    // assignments:{
-    //     type: [mongoose.Schema.Types.ObjectId],
-    //     ref:'teacher'
-    // }
-     ,
-    lecture:{
-        type: [String]
-    }    
 }, {
     timestamps: true
 });
