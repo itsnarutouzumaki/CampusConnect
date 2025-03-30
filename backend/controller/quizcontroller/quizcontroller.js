@@ -63,9 +63,17 @@ const submitquiz = async (req, res) => {
   // const saveddata=await data.save();
   // res.json(new apiresponse(200,'quiz submitted',{saveddata}));
 };
+const viewresult=async (req, res) => {
+    const studentid= new mongoose.Types.ObjectId(req.body.student_id);
+    const quizid= new mongoose.Types.ObjectId(req.body.quiz_id);
+const data=await studentquiz.findOne({studentid:studentid,quizid:quizid});
+return res.json(new apiresponse(200,'quiz result fetched',data));
+}
+
 module.exports = {
   addquiz,
   viewquizes,
   takequiz,
   submitquiz,
+  viewresult
 };
