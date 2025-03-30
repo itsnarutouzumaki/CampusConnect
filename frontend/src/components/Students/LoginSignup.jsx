@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
+import toast from "react-hot-toast";
+
+
 const LoginSignupForm = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true); // Toggle between Signup/Login
@@ -22,8 +25,8 @@ const LoginSignupForm = () => {
     setSuccessMessage("");
 
     const url = isLogin
-      ? "http://localhost:8000/api/students/studentlogin"
-      : "http://localhost:8000/api/students/studentregister";
+      ? "/api/students/studentlogin"
+      : "/api/students/studentregister";
     const payload = isLogin
       ? { email: formData.email, password: formData.password }
       : {
@@ -39,15 +42,20 @@ const LoginSignupForm = () => {
       // });
 
       const data = await axios.post(url, payload);
-      console.log(data);
-      //if ) throw new Error(data.message || "Something went wrong");
-      setSuccessMessage(
-        isLogin ? "Student login successful!" : "Student signup successful!"
-      );
-      if (isLogin) {
-        navigate("/course");
-      } else {
-        navigate("/login");
+      console.log("data");
+      console.log(data.data.data.student.fullname);
+      if(isLogin && data.status == 200) localStorage.setItem("userName", data.data.data.student.fullname);
+
+      setSuccessMessage(isLogin ? "Student login successful!" : "Student signup successful!");
+      toast.success(successMessage, {
+        position: "top-center",
+        duration: 2000,
+      });
+
+      if(isLogin){
+        navigate('/course');
+      }else{
+        navigate('/login');
       }
     } catch (error) {
       setError(error.message);
