@@ -35,13 +35,12 @@ const AddCourse = ({ closeModal }) => {
   };
 
   const handleSubmit = async () => {
-    // First handle file upload if exists
     if (selectedFile) {
       const formData = new FormData();
       formData.append("file", selectedFile);
 
       try {
-        await axios.post("/upload", formData, {
+        await axios.post("/api/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       } catch (error) {
@@ -51,7 +50,7 @@ const AddCourse = ({ closeModal }) => {
       }
     }
 
-    // Then handle course data submission
+    
     try {
       await axios.post("/courses", data);
       alert("Course added successfully!");

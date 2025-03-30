@@ -138,15 +138,6 @@ const Navbar = () => {
               </Link>
             </li>
 
-            <li key="about" className="py-0.5 px-1 md:px-2">
-              <Link
-                to="/about"
-                className="text-white no-underline hover:bg-white/30 hover:rounded-md px-1 py-0.5"
-              >
-                About
-              </Link>
-            </li>
-
             <li key="contact" className="py-0.5 px-1 md:px-2">
               <Link
                 to="/contactUs"
@@ -167,6 +158,15 @@ const Navbar = () => {
               </div>
 
               {userName == null ? notLoggedInComponent : loggedInComponent}
+            </li>
+
+            <li key="about" className="py-0.5 px-1 md:px-2">
+              <Link
+                to="/about"
+                className="text-white no-underline hover:bg-white/30 hover:rounded-md px-1 py-0.5"
+              >
+                About
+              </Link>
             </li>
           </ul>
         </div>

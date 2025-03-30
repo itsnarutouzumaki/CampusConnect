@@ -113,8 +113,16 @@ const TeacherProfile = () => {
           </p>
         </div>
       </div>
+      <div className="w-full h-fit bg-white/20 mb-2 rounded-lg flex justify-evenly py-2">
+          <button className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer">
+            Change Password
+          </button>
+          <button className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer">
+            Logout
+          </button>
+        </div>
 
-      <div className="w-full flex flex-col items-center my-4 rounded-lg bg-white/20 backdrop-blur-[10%] p-2 hover:shadow-lg transition-shadow duration-300">
+      <div className="w-full flex flex-col items-center rounded-lg bg-white/20 backdrop-blur-[10%] p-2 hover:shadow-lg transition-shadow duration-300">
         <h2 className="text-2xl font-semibold underline text-white mb-4">
           Your Courses
         </h2>
