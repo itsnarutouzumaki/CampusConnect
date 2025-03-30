@@ -35,33 +35,22 @@ const AddCourse = ({ closeModal }) => {
   };
 
   const handleSubmit = async () => {
-    // First handle file upload if exists
-    const formData = new FormData();
     if (selectedFile) {
       
       formData.append("file", selectedFile);
-      formData.append("courseId", data.courseId);
-      formData.append("coordinator",data.coordinator);
-      formData.append("startDate",data.startDate);
-      formData.append("expiryDate",data.expiryDate);
-      formData.append("description",data.description);
-      formData.append("pdfLink",data.pdfLink);
-      formData.append("Price",data.Price);
-      formData.append("title",data.title);  // Include title in the form data
-      // Include courseId in the form data  
 
-      // try {
-      //   await axios.post("/upload", formData, {
-      //     headers: { "Content-Type": "multipart/form-data" },
-      //   });
-      // } catch (error) {
-      //   console.error("Error uploading file:", error);
-      //   alert("File upload failed.");
-      //   return;
-      // }
+      try {
+        await axios.post("/api/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        alert("File upload failed.");
+        return;
+      }
     }
 
-    // Then handle course data submission
+    
     try {
       await axios.post("/api/course/addcourse", formData);
       alert("Course added successfully!");
@@ -86,7 +75,7 @@ const AddCourse = ({ closeModal }) => {
         </h3>
         <input
           type="text"
-          name="name"
+          name="title"
           placeholder="Course Name"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           onChange={handleInputChange}

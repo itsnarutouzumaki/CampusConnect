@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-
 
 const LoginSignupForm = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true); // Toggle between Signup/Login
+  const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     password: "",
   });
   const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,7 +20,6 @@ const LoginSignupForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setSuccessMessage("");
 
     const url = isLogin
       ? "/api/students/studentlogin"
@@ -34,32 +31,29 @@ const LoginSignupForm = () => {
           email: formData.email,
           password: formData.password,
         };
+
     try {
-      // const response = await fetch(url, {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(payload),
-      // });
+      const { data, status } = await axios.post(url, payload);
 
-      const data = await axios.post(url, payload);
-      console.log("data");
-      console.log(data.data.data.student.fullname);
-      if(isLogin && data.status == 200) localStorage.setItem("userName", data.data.data.student.fullname);
+      if (isLogin && status === 200) {
+        localStorage.setItem("userName", data.data.student.fullname);
+      }
 
-      setSuccessMessage(isLogin ? "Student login successful!" : "Student signup successful!");
-      toast.success(successMessage, {
+      toast.success(isLogin ? "You loggedin successfully!" : "Student signedup successfully!", {
         position: "top-center",
         duration: 2000,
       });
 
-      if(isLogin){
-        navigate('/course');
-      }else{
-        navigate('/login');
+      if (isLogin) {
+        navigate("/course");
+      } else {
+        navigate("/login");
       }
     } catch (error) {
-      setError(error.message);
-      console.log(error);
+      const errorMessage =
+        error.response?.data?.message || "An error occurred. Please try again.";
+      setError(errorMessage);
+      console.error(error);
     }
   };
 
@@ -127,9 +121,6 @@ const LoginSignupForm = () => {
         </form>
 
         {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
-        {successMessage && (
-          <p className="mt-4 text-green-500 text-center">{successMessage}</p>
-        )}
 
         <div className="mt-5 flex justify-center">
           <p>
@@ -140,7 +131,7 @@ const LoginSignupForm = () => {
             className="text-red-600 hover:underline transition cursor-pointer"
             onClick={() => setIsLogin(!isLogin)}
           >
-            {isLogin ? " Switch to Signup" : "Switch to Login"}
+            {isLogin ? "Switch to Signup" : "Switch to Login"}
           </span>
         </div>
       </div>
