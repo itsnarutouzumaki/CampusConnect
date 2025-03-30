@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-// CourseCard component to display individual course
 const CourseCard = ({ id, image, name, description }) => {
   const truncate = (text, wordLimit) => {
-    const words = text;
-    return words.length > wordLimit ? words.slice(0, wordLimit) + " ..." : text;
+    return text.length > wordLimit ? text.slice(0, wordLimit) + " ..." : text;
   };
 
   return (
     <Link
-      to="/coursedetails/${id}"
+      to={`/coursedetails/${id}`}
       className="bg-white/20 backdrop-blur-[10%] rounded-lg shadow-lg shadow-black/50 p-4 hover:shadow-2xl hover:shadow-black/80 cursor-pointer transition-shadow duration-300"
     >
       <img
@@ -26,16 +24,19 @@ const CourseCard = ({ id, image, name, description }) => {
 };
 
 const Course = () => {
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState({
+    enrolled: [],
+    live: [],
+    upcoming: [],
+  });
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8000/api/course/getallcourses"
-        );
-        setCourses(response.data);
-        console.log(response);
+        const response = await axios.post("/api/course/getallcourses", {
+          _id: "67a3658e6306a7200c8c0745",
+        });
+        setCourses(response.data.data);
       } catch (error) {
         console.error("Error fetching courses:", error);
       }
@@ -46,51 +47,58 @@ const Course = () => {
 
   return (
     <div className="h-screen w-full p-6 mx-auto">
-      <h1 className="text-white font-bold text-2xl my-4">Your Enrolled</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {Array.isArray(courses) && courses.length > 0 ? (
-          courses.map((course, index) => (
-            <CourseCard
-              key={index}
-              image={course.img}
-              name={course.name}
-              description={course.description}
-            />
-          ))
-        ) : (
-          <p>No courses available or loading...</p>
-        )}
-      </div>
-      <h1 className="text-white font-bold text-2xl my-4">Live Course</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {Array.isArray(courses) && courses.length > 0 ? (
-          courses.map((course, index) => (
-            <CourseCard
-              key={index}
-              image={course.img}
-              name={course.name}
-              description={course.description}
-            />
-          ))
-        ) : (
-          <p>No courses available or loading...</p>
-        )}
-      </div>
-      <h1 className="text-white font-bold text-2xl my-4">Upcoming Course</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {Array.isArray(courses) && courses.length > 0 ? (
-          courses.map((course, index) => (
-            <CourseCard
-              key={index}
-              image={course.img}
-              name={course.name}
-              description={course.description}
-            />
-          ))
-        ) : (
-          <p>No courses available or loading...</p>
-        )}
-      </div>
+      {courses.enrolled.length > 0 && (
+        <>
+          <h1 className="text-white font-bold text-2xl my-4">Your Enrolled</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {courses.enrolled.map((course) => (
+              <CourseCard
+                key={course._id}
+                id={course._id}
+                image={course.image}
+                name={course.title}
+                description={course.description}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {courses.live.length > 0 && (
+        <>
+          <h1 className="text-white font-bold text-2xl my-4">Live Courses</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {courses.live.map((course) => (
+              <CourseCard
+                key={course._id}
+                id={course._id}
+                image={course.image}
+                name={course.title}
+                description={course.description}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {courses.upcoming.length > 0 && (
+        <>
+          <h1 className="text-white font-bold text-2xl my-4">
+            Upcoming Courses
+          </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {courses.upcoming.map((course) => (
+              <CourseCard
+                key={course._id}
+                id={course._id}
+                image={course.image}
+                name={course.title}
+                description={course.description}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

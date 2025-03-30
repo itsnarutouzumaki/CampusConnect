@@ -75,7 +75,7 @@ const AddCourse = ({ closeModal }) => {
         </h3>
         <input
           type="text"
-          name="name"
+          name="title"
           placeholder="Course Name"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           onChange={handleInputChange}
