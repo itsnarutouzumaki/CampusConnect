@@ -86,7 +86,7 @@ const getAllCoursesData = async (req, res) => {
     const enrolledCourses = await studentenrolled.aggregate(enrolledPipeline);
     // Fetch live courses
     const livePipeline = [
-      { $match: { startDate: { $lte: currentDate }, endDate: { $gte: currentDate } } }
+      { $match: { startDate: { $lte: currentDate }, expiryDate: { $gte: currentDate } } }
     ];
     const liveCourses = await Course.aggregate(livePipeline);
     // Fetch upcoming courses

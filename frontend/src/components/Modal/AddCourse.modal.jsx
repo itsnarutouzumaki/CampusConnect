@@ -65,7 +65,7 @@ const AddCourse = ({ closeModal }) => {
     
     try {
 
-      await axios.post("/api/course/addcourse", formData);
+      await axios.post("http://localhost:8000/api/course/addcourse", formData);
       alert("Course added successfully!");
       closeModal();
     } catch (error) {
