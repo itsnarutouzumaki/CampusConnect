@@ -1,11 +1,11 @@
-const Admins=require('../models/admin');
+const Admins=require('../models/admin.js');
 
 //login 
 const login= async(req,res) =>{
     const {email,password} =req.body;
 
    try{
-    const admin = await Admins.findById(email);
+    const admin = await Admins.findById({email});
 
     if(!admin){
         return res.json({message: "email is not exist"});

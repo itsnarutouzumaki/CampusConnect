@@ -1,24 +1,24 @@
 const mongoose = require('mongoose');
 const Course = require('../models/courseschema.js');
 const response=require('../utils/apiresponse.js');
-const studentenrolled=require('../models/studentenrolled.js');  
+const studentenrolled=require('../models/studentenrolled.js'); 
+
+// add a course
 const addCourse = async (req, res) => {
-    let { title, courseId, description, price, tutor} = req.body;
-    if (!title || !courseId || !description || !price || !tutor) {
-        return res.status(400).json({status: 'failed', message: 'Missing required fields'});
-    }
-    if (!courseId) {
-        return res.status(400).json({ status: 'failed', message: 'courseId is required' });
+    let { title,courseId,coordinator,startDate,expiryDate,description,pdfLink} = req.body;
+    const isPresent=Course.findById({courseId});
+    if(isPresent){
+      return res.json({status:'failed',message:'course is already present '});
     }
     try{
-    const course=new Course(req.body);
-       const data=await course.save();
-       return res.send({status:'success',message:'course added successfully',course:data});
+       const course = await Course.create({ title,courseId,coordinator,startDate,expiryDate,description,pdfLink});
+       return res.json(new response(200,data,'Course created successfully'));
    }
    catch(err){
-        return res.json({status:'failed',message:'error',err:err});
+        return res.json({status:'failed',message:'error',err:err.message});
     }
 };
+
 // get all courses
 const getAllCourses = async (req, res) => {
     try{
@@ -28,6 +28,7 @@ const getAllCourses = async (req, res) => {
         return res.json({status:'failed',message:'error',err});
     }
 };
+
 const getCoursesByEnrolled=async(req,res)=>{
  const data=[
     {
