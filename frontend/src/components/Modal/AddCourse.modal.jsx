@@ -8,6 +8,7 @@ const AddCourse = ({ closeModal }) => {
     title: "",
     courseId: "",
     coordinator: "",
+    teacherName: "",
     startDate: "",
     expiryDate: "",
     description: "",
@@ -114,23 +115,38 @@ const AddCourse = ({ closeModal }) => {
           required
         />
         <input
+          type="text"
+          name="teacherName"
+          placeholder="Course Coordinator Name"
+          className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={data.teacherName}
+          required
+        />
+        <div className="flex w-full justify-center items-center px-10">
+        <span className="text-sm justify-self-center font-semibold italic place-self-center">Start Date</span>
+        <input
           type="date"
           name="startDate"
           placeholder="Start Date"
-          className="m-2 rounded-lg p-2 w-[80%] text-black"
+          className="m-2 rounded-lg p-2 w-[75%] text-black"
           onChange={handleInputChange}
           value={data.startDate}
           required
         />
+        </div>
+        <div className="flex w-full justify-center items-center px-10">
+        <span className="text-sm justify-self-center font-semibold italic place-self-center">Expiry Date</span>
         <input
           type="date"
           name="expiryDate"
           placeholder="Expiry Date"
-          className="m-2 rounded-lg p-2 w-[80%] text-black"
+          className="m-2 rounded-lg p-2 w-[75%] text-black"
           onChange={handleInputChange}
           value={data.expiryDate}
           required
         />
+        </div>
         <textarea
           name="description"
           placeholder="Course Description"

@@ -3,6 +3,7 @@ const item2 = require("../../models/studentschema.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const apiresponse = require("../../utils/apiresponse.js");
+const { default: mongoose } = require("mongoose");
 
 const checkUserExists = async (req, res, next) => {
   const email = req.body.email;
@@ -62,8 +63,9 @@ const userdetails = async (req, res) => {
   const details = await item2.findOne({ email: req.body.email });
 };
 const updatedetails = async (req, res) => {
+  const id=new mongoose.Types.ObjectId(req.body.student_id);  
   const details = await item2.findOneAndUpdate(
-    { email: req.body.email },
+    { _id:id},
     { $set: req.body },
     { new: true }
   );

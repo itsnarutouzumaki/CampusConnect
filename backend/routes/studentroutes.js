@@ -6,6 +6,6 @@ const studentmw=require('../middleware/jwttoken.js');
 
 router.post('/studentlogin',studentController.login);
 router.post('/studentregister',studentController.checkUserExists,studentController.signup);
-router.post('/updatedetails',studentmw.authenticateJWT,studentController.updatedetails);
-router.post('/userdetails',studentmw.authenticateJWT,studentController.userdetails);
+router.post('/updatedetails',studentController.updatedetails);
+router.post('/userdetails',studentController.userdetails);
 module.exports=router;

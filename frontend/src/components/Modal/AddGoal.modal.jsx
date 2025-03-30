@@ -11,6 +11,16 @@ const AddGoal = ({ closeModal }) => {
       document.body.style.overflowY = "scroll";
     };
   }, []);
+  const  handleSubmit = async () => {
+    
+    const vardata=[data.goal];
+    console.log(vardata);
+    const response=await axios.post("/api/students/updatedetails",{student_id:"67e69e10f35015ee792daeec",studyGoals:vardata});
+    console.log(response);
+    if(response.data.status===200){
+      alert("Goal Added Successfully");
+      closeModal();
+  }}
 
   const [data, setdata] = useState({});
 
@@ -36,7 +46,7 @@ const AddGoal = ({ closeModal }) => {
         />   
         <button
           className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
-          onClick={closeModal}
+          onClick={handleSubmit}
         >
           Add Goal
         </button>
