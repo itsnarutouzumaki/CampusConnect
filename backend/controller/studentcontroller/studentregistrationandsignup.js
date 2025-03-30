@@ -45,16 +45,25 @@ const login = async (req, res) => {
   if (!isMatch) {
     return res.status(400).send("Invalid email or password");
   }
+  
+  // Generate JWT token
   const token = jwt.sign({ _id: student._id }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
-  res.json(
-    new apiresponse(200, { student, token }, "User logged in successfully")
-  );
+
+  // Store token in HTTP-only cookie
+  res.cookie("auth_token", token, {
+    httpOnly: true,  // Prevent client-side JavaScript access
+    secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+    sameSite: "Strict", // Prevent CSRF attacks
+    maxAge: 60 * 60 * 1000, // 1 hour expiration
+  });
+
+  res.json(new apiresponse(200, { student }, "User logged in successfully"));
 };
+
 const userdetails = async (req, res) => {
   const details = await item2.findOne({ email: req.body.email });
- 
 };
 const updatedetails = async (req, res) => {
   const details = await item2.findOneAndUpdate(
@@ -64,7 +73,6 @@ const updatedetails = async (req, res) => {
   );
   res.json(new apiresponse(200, "User details updated", { details }));
 };
-
 module.exports = {
   signup,
   checkUserExists,
