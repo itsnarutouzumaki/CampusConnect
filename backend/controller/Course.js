@@ -102,8 +102,17 @@ const getAllCoursesData = async (req, res) => {
     return res.status(500).json(new ApiResponse(500, null, 'Error fetching course data'));
   }
 };
-
+const enrollStudent=async (req, res) => {
+  const student_id=req.body_id;
+  const course_id=new mongoose.Types.ObjectId(req.body.course_id);
+  try {
+    const enrollment = await studentenrolled.create({ student_id, course_id });
+    return res.json(new ApiResponse(200, enrollment, 'Student enrolled successfully'));
+  } catch (error) {
+    return res.status(500).json(new ApiResponse(500, null, 'Error enrolling student'));
+  }
+}
 
 module.exports = { addCourse ,uploadImg, 
-  getAllCoursesData,
+  getAllCoursesData,enrollStudent
 };  
