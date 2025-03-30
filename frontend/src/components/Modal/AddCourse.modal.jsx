@@ -36,24 +36,34 @@ const AddCourse = ({ closeModal }) => {
 
   const handleSubmit = async () => {
     // First handle file upload if exists
+    const formData = new FormData();
     if (selectedFile) {
-      const formData = new FormData();
+      
       formData.append("file", selectedFile);
+      formData.append("courseId", data.courseId);
+      formData.append("coordinator",data.coordinator);
+      formData.append("startDate",data.startDate);
+      formData.append("expiryDate",data.expiryDate);
+      formData.append("description",data.description);
+      formData.append("pdfLink",data.pdfLink);
+      formData.append("Price",data.Price);
+      formData.append("title",data.title);  // Include title in the form data
+      // Include courseId in the form data  
 
-      try {
-        await axios.post("/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        alert("File upload failed.");
-        return;
-      }
+      // try {
+      //   await axios.post("/upload", formData, {
+      //     headers: { "Content-Type": "multipart/form-data" },
+      //   });
+      // } catch (error) {
+      //   console.error("Error uploading file:", error);
+      //   alert("File upload failed.");
+      //   return;
+      // }
     }
 
     // Then handle course data submission
     try {
-      await axios.post("/courses", data);
+      await axios.post("/api/course/addcourse", formData);
       alert("Course added successfully!");
       closeModal();
     } catch (error) {
