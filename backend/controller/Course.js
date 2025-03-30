@@ -32,7 +32,9 @@ const addCourse = async (req, res) => {
     }
 
     try{
-       const course = await Course.create({ title,courseId,coordinator,startDate,expiryDate,description,pdfLink,price,image:uploadedFile});
+      const startDate1=new Date(startDate);
+      const expiryDate1=new Date(expiryDate);
+       const course = await Course.create({ title,courseId,coordinator,startDate:startDate1,expiryDate:expiryDate1,description,pdfLink,price,image:uploadedFile});
        return res.json(new ApiResponse(200,course,'Course created successfully'));
    }
    catch(err){

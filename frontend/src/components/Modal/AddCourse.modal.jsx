@@ -35,23 +35,36 @@ const AddCourse = ({ closeModal }) => {
   };
 
   const handleSubmit = async () => {
+    const formData=new FormData();
+    formData.append("title",data.title);
+    formData.append("courseId",data.courseId);
+    formData.append("coordinator",data.coordinator);
+    formData.append("startDate",data.startDate);
+    formData.append("expiryDate",data.expiryDate);
+    formData.append("description",data.description);
+    formData.append("pdfLink", data.pdfLink);
+    formData.append("price", data.Price);
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+  });
     if (selectedFile) {
       
       formData.append("file", selectedFile);
 
-      try {
-        await axios.post("/api/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        alert("File upload failed.");
-        return;
-      }
+      // try {
+      //   await axios.post("/api/upload", formData, {
+      //     headers: { "Content-Type": "multipart/form-data" },
+      //   });
+      // } catch (error) {
+      //   console.error("Error uploading file:", error);
+      //   alert("File upload failed.");
+      //   return;
+      // }
     }
 
     
     try {
+
       await axios.post("/api/course/addcourse", formData);
       alert("Course added successfully!");
       closeModal();
