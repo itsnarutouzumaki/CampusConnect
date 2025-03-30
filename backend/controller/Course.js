@@ -59,18 +59,18 @@ const getCoursesByEnrolled=async(req,res)=>{
   return  res.json(new response(200, 'Course data retrived', d));
 }
 const  getCoursesByLive=async(req,res)=>{
-    const data=[{
-        $unwind:{
-          path:"$isActive"
-        },
-      },
-       {
-         $match:{
-           isActive:"live"
-         }
-       }];
-       const d=await Course.aggregate(data);
-       return res.json(new response(200, 'Course data retrived', d));
+  const currentDate = new Date(); // Get the current date
+
+  const pipeline = [
+    {
+      $match: {
+        start_date: { $lte: currentDate }, // start_date <= currentDate
+        end_date: { $gte: currentDate }    // end_date >= currentDate
+      }
+    }
+  ];
+  const data=await Course.aggregate(pipeline);
+  return res.json(new response(200, 'Course data retrived', data));
 }
 const getCoursesByUpcoming=async(req,res)=>{
     const data=[{
