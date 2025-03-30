@@ -12,6 +12,8 @@ const AddGoal = ({ closeModal }) => {
     };
   }, []);
 
+  const [data, setdata] = useState({});
+
   
   return ReactDOM.createPortal(
     <div
@@ -29,6 +31,7 @@ const AddGoal = ({ closeModal }) => {
           type="text"
           placeholder="Goal Description"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={(e)=> setdata({ ...data, goal: e.target.value })}
           required
         />   
         <button

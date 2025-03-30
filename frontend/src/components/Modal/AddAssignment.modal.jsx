@@ -1,13 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
-const AddAssignment = ({ closeModal }) => {
+const AddAssignment = ({ courseID,closeModal }) => {
   useEffect(() => {
     document.body.style.overflowY = "hidden";
     return () => {
       document.body.style.overflowY = "scroll";
     };
   }, []);
+
+  const [data, setdata] = useState({});
+  const HandleAddAssignment=async()=>{
+    setdata({...data,course: courseID});
+  }
 
   return ReactDOM.createPortal(
     <div
@@ -25,29 +30,33 @@ const AddAssignment = ({ closeModal }) => {
           type="text"
           placeholder="Assignment Name"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={(e) => setdata({ ...data, title: e.target.value })}
           required
         />
         <input
           type="date"
           placeholder="Expiry Date"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={(e) => setdata({ ...data, date: e.target.value })}
           required
         />
         <input
           type="time"
           placeholder="Expiry Time"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={(e) => setdata({ ...data, time: e.target.value })}
           required
         />
         <input
           type="url"
           placeholder="Google Drive Link"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={(e) => setdata({ ...data, url: e.target.value })}
           required
         />
         <button
           className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
-          onClick={closeModal}
+          onClick={HandleAddAssignment}
         >
           Add Assignment
         </button>

@@ -31,7 +31,6 @@ const AddChapter = ({ courseID, closeModal }) => {
     } catch (error) {
       console.error("Error adding chapter:", error);
     }
-    // Close the modal after adding the chapter
     closeModal();
   };
 

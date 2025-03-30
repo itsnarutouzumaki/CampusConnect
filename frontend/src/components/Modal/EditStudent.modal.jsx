@@ -2,8 +2,17 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
-const EditStudent = ({ closeModal }) => {
+const EditStudent = ({ closeModal, studentData, onStudentUpdated }) => {
+  const [formData, setFormData] = useState({
+    name: studentData?.name || "",
+    bio: studentData?.bio || "",
+    education: studentData?.education || "",
+    institute: studentData?.institute || "",
+    profileImage: studentData?.profileImage || ""
+  });
   const [selectedFile, setSelectedFile] = useState(null);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     document.body.style.overflowY = "hidden";
@@ -12,27 +21,66 @@ const EditStudent = ({ closeModal }) => {
     };
   }, []);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleUpload = async () => {
-    if (!selectedFile) {
-      alert("Please select a file first.");
-      return;
+  const validateForm = () => {
+    if (!formData.name.trim()) {
+      setError("Name is required");
+      return false;
     }
+    if (!formData.bio.trim()) {
+      setError("Bio is required");
+      return false;
+    }
+    return true;
+  };
 
-    const formData = new FormData();
-    formData.append("file", selectedFile);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
 
     try {
-      const response = await axios.post("/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      alert("File uploaded successfully!");
+      // Handle file upload if new file is selected
+      let imageUrl = formData.profileImage;
+      if (selectedFile) {
+        const uploadFormData = new FormData();
+        uploadFormData.append("file", selectedFile);
+        
+        const uploadResponse = await axios.post("/upload", uploadFormData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        imageUrl = uploadResponse.data.url; // Assuming the response contains the file URL
+      }
+
+      // Prepare student data with updated image URL
+      const updatedStudent = {
+        ...formData,
+        profileImage: imageUrl
+      };
+
+      // Update student data
+      const response = await axios.put(`/students/${studentData.id}`, updatedStudent);
+      onStudentUpdated(response.data);
+      closeModal();
     } catch (error) {
-      console.error("Error uploading file:", error);
-      alert("File upload failed.");
+      console.error("Error updating student:", error);
+      setError(error.response?.data?.message || "Failed to update student");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -48,40 +96,79 @@ const EditStudent = ({ closeModal }) => {
         <h3 className="font-black underline text-white text-lg my-3">
           Edit Student
         </h3>
-        <input
-          type="text"
-          placeholder="Name"
-          className="m-2 rounded-lg p-2 w-[80%] text-black"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Bio"
-          className="m-2 rounded-lg p-2 w-[80%] text-black"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Educational background"
-          className="m-2 rounded-lg p-2 w-[80%] text-black"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Institute Detail"
-          className="m-2 rounded-lg p-2 w-[80%] text-black"
-          required
-        />
-        <div >
-          <input type="file" onChange={handleFileChange} />
-          <button onClick={handleUpload} className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer">Upload</button>
-        </div>
-        <button
-          className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
-          onClick={closeModal}
-        >
-          Save Changes
-        </button>
+
+        {error && (
+          <div className="mb-4 p-2 bg-red-100 text-red-700 rounded w-[80%]">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="w-full">
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            className="m-2 rounded-lg p-2 w-[80%] text-black"
+            onChange={handleInputChange}
+            value={formData.name}
+            required
+          />
+          <input
+            type="text"
+            name="bio"
+            placeholder="Bio"
+            className="m-2 rounded-lg p-2 w-[80%] text-black"
+            onChange={handleInputChange}
+            value={formData.bio}
+            required
+          />
+          <input
+            type="text"
+            name="education"
+            placeholder="Educational background"
+            className="m-2 rounded-lg p-2 w-[80%] text-black"
+            onChange={handleInputChange}
+            value={formData.education}
+          />
+          <input
+            type="text"
+            name="institute"
+            placeholder="Institute Detail"
+            className="m-2 rounded-lg p-2 w-[80%] text-black"
+            onChange={handleInputChange}
+            value={formData.institute}
+          />
+
+          <div className="w-[80%] flex flex-col items-start my-2">
+            <label className="text-white mb-1">Profile Image:</label>
+            <input 
+              type="file" 
+              onChange={handleFileChange} 
+              className="w-full"
+              accept="image/*"
+            />
+            {selectedFile && (
+              <p className="text-sm text-gray-300 mt-1">
+                Selected: {selectedFile.name}
+              </p>
+            )}
+            {!selectedFile && formData.profileImage && (
+              <p className="text-sm text-gray-300 mt-1">
+                Current image will be kept
+              </p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`m-2 rounded-lg p-2 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer ${
+              isSubmitting ? "bg-gray-400" : "bg-blue-400"
+            }`}
+          >
+            {isSubmitting ? "Saving..." : "Save Changes"}
+          </button>
+        </form>
       </div>
     </div>,
     document.querySelector(".myPortalModalDiv")

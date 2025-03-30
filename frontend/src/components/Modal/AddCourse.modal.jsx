@@ -4,6 +4,16 @@ import axios from "axios";
 
 const AddCourse = ({ closeModal }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [data, setData] = useState({
+    title: "",
+    courseId: "",
+    coordinator: "",
+    startDate: "",
+    expiryDate: "",
+    description: "",
+    pdfLink: "",
+    Price: "",
+  });
 
   useEffect(() => {
     document.body.style.overflowY = "hidden";
@@ -16,23 +26,39 @@ const AddCourse = ({ closeModal }) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleUpload = async () => {
-    if (!selectedFile) {
-      alert("Please select a file first.");
-      return;
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async () => {
+    // First handle file upload if exists
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      try {
+        await axios.post("/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        alert("File upload failed.");
+        return;
+      }
     }
 
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
+    // Then handle course data submission
     try {
-      const response = await axios.post("/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      alert("File uploaded successfully!");
+      await axios.post("/courses", data);
+      alert("Course added successfully!");
+      closeModal();
     } catch (error) {
-      console.error("Error uploading file:", error);
-      alert("File upload failed.");
+      console.error("Error adding course:", error);
+      alert("Failed to add course.");
     }
   };
 
@@ -50,60 +76,84 @@ const AddCourse = ({ closeModal }) => {
         </h3>
         <input
           type="text"
+          name="name"
           placeholder="Course Name"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={data.title}
           required
         />
         <input
           type="text"
+          name="courseId"
           placeholder="Choose Unique Course ID"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={data.courseId}
           required
         />
         <input
           type="text"
-          placeholder="Course Coordinator Username"
+          name="coordinator"
+          placeholder="Course Coordinator email"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={data.coordinator}
           required
         />
         <input
           type="date"
+          name="startDate"
           placeholder="Start Date"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={data.startDate}
           required
         />
         <input
           type="date"
+          name="expiryDate"
           placeholder="Expiry Date"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={data.expiryDate}
           required
         />
         <textarea
+          name="description"
           placeholder="Course Description"
           className="m-2 rounded-lg p-2 w-[80%] h-24 text-black"
+          onChange={handleInputChange}
+          value={data.description}
           required
         />
         <input
           type="url"
+          name="pdfLink"
           placeholder="Course Details PDF(GoogleDrive Link)"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={data.pdfLink}
+          required
+        />
+        <input
+          type="text"
+          name="Price"
+          placeholder="Price"
+          className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={data.Price}
           required
         />
         <div>
           <input type="file" onChange={handleFileChange} />
           <button
-            onClick={handleUpload}
+            onClick={handleSubmit}
             className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
           >
-            Upload
+            Add Course
           </button>
         </div>
-        <button
-          className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
-          onClick={closeModal}
-        >
-          Add Course
-        </button>
       </div>
     </div>,
     document.querySelector(".myPortalModalDiv")
