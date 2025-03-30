@@ -1,21 +1,42 @@
 const mongoose = require('mongoose');
 const Course = require('../models/courseschema.js');
-const response=require('../utils/apiresponse.js');
+const ApiResponse=require('../utils/apiresponse.js');
 const studentenrolled=require('../models/studentenrolled.js'); 
-
+let uploadedFile=null;
 // add a course
 const addCourse = async (req, res) => {
-    let { title,courseId,coordinator,startDate,expiryDate,description,pdfLink} = req.body;
-    const isPresent=Course.findById({courseId});
-    if(isPresent){
-      return res.json({status:'failed',message:'course is already present '});
+    let { title,courseId,coordinator,startDate,expiryDate,description,pdfLink,price} = req.body;
+    console.log({title,courseId,coordinator,startDate,expiryDate,description,pdfLink,price});
+    if (!title || !courseId || !coordinator || !startDate || !expiryDate || !description || !pdfLink || !price) {
+        return res.json(new ApiResponse(400,'Please fill all the fields'));
     }
+
+    if (!req.file) {
+      return res.json(new ApiResponse(200,{},'No file uploaded'));
+  }
+
+  
+  uploadedFile = req.file.path;  
+  
+    if(expiryDate<startDate){
+        return res.json(new ApiResponse(400,'expiry date should be greater than start date'));
+    }
+
+    if(price<0){
+        return res.json(new ApiResponse(400,'price should be greater than 0'));
+    }
+
+    const isPresent = await Course.findOne({courseId});
+    if (isPresent) {
+        return res.json(new ApiResponse(400,{},'Course already exists'));
+    }
+
     try{
-       const course = await Course.create({ title,courseId,coordinator,startDate,expiryDate,description,pdfLink});
-       return res.json(new response(200,data,'Course created successfully'));
+       const course = await Course.create({ title,courseId,coordinator,startDate,expiryDate,description,pdfLink,price,image:uploadedFile});
+       return res.json(new ApiResponse(200,course,'Course created successfully'));
    }
    catch(err){
-        return res.json({status:'failed',message:'error',err:err.message});
+        return res.json(new ApiResponse(400,err.message,'Course creation failed'));
     }
 };
 
@@ -23,83 +44,66 @@ const addCourse = async (req, res) => {
 const getAllCourses = async (req, res) => {
     try{
         const courses=await Course.find();
-        return res.json(new response(200,courses,"courses fetched successfully"));
+        return res.json(new ApiResponse(200,courses,"courses fetched successfully"));
     }catch(err){
-        return res.json({status:'failed',message:'error',err});
+        return res.json(new ApiResponse(400,err,err.message));
     }
 };
 
-const getCoursesByEnrolled=async(req,res)=>{
- const data=[
-    {
-      $match: {
-        student_id:req.student_id
-      },
-    },
-    {
-      $lookup: {
-        from: "courses",
-        localField: "course_id",
-        foreignField: "_id",
-        as: "details",
-      },
-    },
-    {
-      $unwind: {
-        path: "$details",
-      },
-    },
-    {
-      $replaceRoot: {
-      newRoot: "$details",
-      },
-    },
-  ]  ;
-  const d=await studentenrolled.aggregate(data);
-  return  res.json(new response(200, 'Course data retrived', d));
-}
-const  getCoursesByLive=async(req,res)=>{
-  const currentDate = new Date(); // Get the current date
+//upload image
+const uploadImg = (req, res) => {
+  // console.log('File received:', req.file); // Debugging
 
-  const pipeline = [
-    {
-      $match: {
-        start_date: { $lte: currentDate }, // start_date <= currentDate
-        end_date: { $gte: currentDate }    // end_date >= currentDate
-      }
-    }
-  ];
-  const data=await Course.aggregate(pipeline);
-  return res.json(new response(200, 'Course data retrived', data));
-}
-const getCoursesByUpcoming=async(req,res)=>{
-    const data=[{
-        $unwind:{
-          path:"$isActive"
+  if (!req.file) {
+      return res.json(new ApiResponse(200,{},'No file uploaded'));
+  }
+
+  
+  uploadedFile = req.file.path;  
+
+  return res.json(new ApiResponse(200,{image: uploadedFile},'File uploaded successfully'));
+};
+const getAllCoursesData = async (req, res) => {
+  try {
+    const currentDate = new Date(); // Get the current date
+    // Fetch enrolled courses
+    const enrolledPipeline = [
+      { $match: { student_id: req.body._id } },
+      {
+        $lookup: {
+          from: "courses",
+          localField: "course_id",
+          foreignField: "_id",
+          as: "details",
         },
       },
-       {
-         $match:{
-           isActive:"upcoming"
-         }
-       }];
-       const d=await Course.aggregate(data);
-       return res.json(new response(200, 'Course data retrived', d));
-}
-const enrollStudent=async (req, res) => {
-    const { student_id, course_id } = req.body;
-    if (!student_id || !course_id) {
-        return res.status(400).json({status: 'failed', message: 'Missing required fields'});
-    }
-    try{
-      const course=new mongoose.Types.ObjectId(course_id);  
-        const enrollment = new studentenrolled({ student_id,course});
-        await enrollment.save();
-        return res.json(new response(200, {enrollment},'Student enrolled successfully'));
-    } catch(err) {
-        return res.json({status:'failed',message:'error',err});
-    }
-}
-module.exports = { addCourse, getAllCourses ,getCoursesByEnrolled,getCoursesByLive,getCoursesByUpcoming,
-  enrollStudent
+      { $unwind: "$details" },
+      { $replaceRoot: { newRoot: "$details" } }
+    ];
+    const enrolledCourses = await studentenrolled.aggregate(enrolledPipeline);
+    // Fetch live courses
+    const livePipeline = [
+      { $match: { startDate: { $lte: currentDate }, endDate: { $gte: currentDate } } }
+    ];
+    const liveCourses = await Course.aggregate(livePipeline);
+    // Fetch upcoming courses
+    const upcomingPipeline = [
+      { $match: { startDate: { $gt: currentDate } } }
+    ];
+    const upcomingCourses = await Course.aggregate(upcomingPipeline);
+    // Return response after fetching all data sequentially
+    return res.json(new ApiResponse(200, { 
+      enrolled: enrolledCourses, 
+      live: liveCourses, 
+      upcoming: upcomingCourses 
+    }, 'All course data retrieved'));
+
+  } catch (error) {
+    return res.status(500).json(new ApiResponse(500, null, 'Error fetching course data'));
+  }
+};
+
+
+module.exports = { addCourse ,uploadImg, 
+  getAllCoursesData,
 };  

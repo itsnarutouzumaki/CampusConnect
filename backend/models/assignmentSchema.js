@@ -6,16 +6,8 @@ const assignmentSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    url:{
-        type:String,
-        required:true
-    },
     fileUrl:{
         type:String,
-        required: true
-    },
-    dueDate: {
-        type: Date,
         required: true
     },
     course: {
@@ -23,20 +15,9 @@ const assignmentSchema = new mongoose.Schema({
         ref: 'Course',
         required: true
     },
-    isSubmitted:{
-        type: Boolean,
-        default: false
-    },
     dueDate:{
         type: Date,
         required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    submittedAt:{
-        type:Date
     }
 });
 

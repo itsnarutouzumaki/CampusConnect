@@ -6,10 +6,13 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    image:{
+        type:String,
+        default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQispiHXs97-4Iu_SVuaCsz1THi5xcCp_Fi5eK88cJTxMQD_EGfbFGu7xA&s"
+    },
     courseId:{
         type: String,
-       required: true,
-       unique: true
+       required: true
     },
     description: {
         type: String,

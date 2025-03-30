@@ -1,11 +1,13 @@
 const Assignment=require('../models/assignmentSchema');
+const response= require('../utils/apiresponse');
+const uploadedFile=null;
 
 // add an assignment
 const addAssignment = async (req, res) => {
     const { title, url, dueDate, course } = req.body;
     try {
         const assignment = await Assignment.create({ title, url, dueDate, course });
-        return res.json({ status: 'success', message: 'Assignment created successfully', assignment });
+        return res.json(new response(200,assignment,'assignment created successfully'));
     } catch (err) {
         return res.json({ status: 'failure', message:err.message });
     }
@@ -15,9 +17,9 @@ const addAssignment = async (req, res) => {
 const getAllAssignments = async (req, res) => {
     try {
         const assignments = await Assignment.find();
-        return res.json({ status: 'success', message: 'All Assignments fetched successfully', assignments });
+        return res.json(new response(200,assignments,'all assignments fetched successfully'));
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         return res.json({ status: 'failure', message: err.message });
     }
 }
@@ -28,7 +30,7 @@ const editAssignment = async (req, res) => {
     const { title, url, dueDate, course } = req.body;
     try {
         const assignment = await Assignment.findByIdAndUpdate(id, { title, url, dueDate, course }, { new: true });
-        return res.json({ status: 'success', message: 'Assignment updated successfully', assignment });
+        return res.json(new response(200,assignment,'assignment updated successfully'));
     } catch (err) {
         return res.json({ status: 'failure', message: err.message });
     }
@@ -46,10 +48,7 @@ const uploadFile = (req, res) => {
     
     uploadedFile = req.file.path;  
 
-    return res.status(200).json({
-        message: 'File uploaded successfully',
-        url: uploadedFile
-    });
+    return res.json(new response(200,{url: uploadedFile},'image uploaded successfully'));
 };
 
 
@@ -59,7 +58,7 @@ const submitAssignment = async (req, res) => {
     const { fileUrl } = req.body; 
     // console.log(assignmentId, url); 
     if (!assignmentId || !fileUrl) {
-        return res.status(400).json({ message: 'Assignment ID and file URL are required' });
+        return res.json({ message: 'Assignment ID and file URL are required' });
     }
 
     try {
@@ -70,13 +69,10 @@ const submitAssignment = async (req, res) => {
         );
 
         if (!updatedAssignment) {
-            return res.status(404).json({ message: 'Assignment not found' });
+            return res.json({ message: 'Assignment not found' });
         }
 
-        res.status(200).json({
-            message: 'Assignment submitted successfully!',
-            assignment: updatedAssignment
-        });
+        return res.json(new response(200,{assignment: updatedAssignment},'Assignment submitted successfully!'));
 
     } catch (error) {
         // console.log('Error submitting assignment:', error);
@@ -94,10 +90,7 @@ const viewAssignment = async (req, res) => {
             return res.status(404).json({ message: 'Assignment or file not found' });
         }
 
-        res.status(200).json({
-            message: 'Assignment found',
-            fileUrl: assignment.fileUrl
-        });
+        res.json(new response(200,{fileUrl: assignment.fileUrl},'Assignment found'));
     } catch (error) {
         // console.error('Error fetching assignment:', error);
         res.status(500).json({ message: 'Server error', error: error.message });

@@ -1,5 +1,6 @@
 const { Chapter, Lecture } = require('../models/chapterLectureSchema');
 const Courses=require('../models/courseschema');
+const response=require('../utils/apiresponse');
 
 // Add a chapter
 const addChapter = async (req, res) => {
@@ -10,7 +11,7 @@ const addChapter = async (req, res) => {
     }
     try{
         const chapter = await Chapter.create({title,url,course});
-        return res.json({status:'success',message:'chapter created successfully',chapter});
+        return res.json(new response(200,chapter,'chapter created succesfully'));
     }
     catch(err){
         return res.json({status:'failure',message:err.message});
@@ -21,7 +22,7 @@ const addChapter = async (req, res) => {
 const getAllChapters = async (req, res) => {
     try{
         const chapters = await Chapter.find();
-        return res.json({status:'success',message:'All chapters fetched successfully',chapters});
+        return res.json(new response(200,chapters,'All chapters fetched successfully'));
     }
     catch(err){
         return res.json({status:'failure',message:err.message});
@@ -37,7 +38,7 @@ const editChapter = async (req, res) => {
     }
     try{
         const chapter = await Chapter.findByIdAndUpdate(req.params.id,{title,url,course});
-        return res.json({status:'success',message:'chapter updated successfully',chapter});
+        return res.json(new response(200,chapter,'chapter updated successfully'));
     }
     catch(err){
         return res.json({status:'failure',message:err.message});
@@ -53,7 +54,7 @@ const addLecture = async (req, res) => {
     }
     try{
         const lecture = await Lecture.create({title,videoUrl,duration,startDate,course});
-        return res.json({status:'success',message:'Lecture created successfully',lecture});
+        return res.json(new response(200,lecture,'lecture created successfully'));
     }
     catch(err){
         return res.json({status:'failure',message:err.message});
@@ -63,7 +64,7 @@ const addLecture = async (req, res) => {
 const getAllLectures = async (req, res) => {
     try{
         const lectures = await Lecture.find();
-        return res.json({status:'success',message:'All lectures fetched successfully',lectures});
+        return res.json(new response(200,lectures,'all lectures fetched successfully'));
     }
     catch(err){
         return res.json({status:'failure',message:err.message});
@@ -79,7 +80,7 @@ const editLecture = async (req, res) => {
     }
     try{
         const lecture = await Lecture.findByIdAndUpdate(req.params.id,{title,videoUrl,duration,startDate,course});
-        return res.json({status:'success',message:'Lecture updated successfully',lecture});
+        return res.json(new response(200,lecture,'lecture updated successfully'));
     }
     catch(err){
         return res.json({status:'failure',message:err.message});
