@@ -123,7 +123,7 @@ const isEnrolled= async(req,res)=>{
   const studentId=req.params.studentId;
   const studentEnrolled= await studentenrolled.findOne({course_id:courseId,student_id:studentId});
   if(!studentEnrolled){
-      return res.json(new ApiResponse(400,{isEnrolled:'false',course},'student'));
+      return res.json(new ApiResponse(200,{isEnrolled:'false',course},'student'));
   }else{
       return res.json(new ApiResponse(200,{isEnrolled:'true',course},'student'));
   }
