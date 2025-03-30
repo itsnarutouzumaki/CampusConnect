@@ -23,7 +23,7 @@ const courseSchema = new mongoose.Schema({
         required: true
     },
     coordinator: {
-       type: String
+       type: String,
     },
     startDate: {
         type: Date

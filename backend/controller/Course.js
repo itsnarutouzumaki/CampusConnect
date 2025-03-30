@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Course = require('../models/courseschema.js');
 const ApiResponse=require('../utils/apiresponse.js');
 const studentenrolled=require('../models/studentenrolled.js'); 
+const { findById } = require('../models/teacherschema.js');
 let uploadedFile=null;
 // add a course
 const addCourse = async (req, res) => {
@@ -113,6 +114,18 @@ const enrollStudent=async (req, res) => {
   }
 }
 
+// isEnrolled
+const isEnrolled= async(req,res)=>{
+  const courseId=new mongoose.Types.ObjectId(req.params.courseId); 
+  const course=await Course.findById(courseId); 
+  const studentId=req.params.studentId;
+  const studentEnrolled= await studentenrolled.findOne({course_id:courseId,student_id:studentId});
+  if(!studentEnrolled){
+      return res.json(new ApiResponse(400,{isEnrolled:'false',course},'student'));
+  }else{
+      return res.json(new ApiResponse(200,{isEnrolled:'true',course},'student'));
+  }
+}
 module.exports = { addCourse ,uploadImg, 
-  getAllCoursesData,enrollStudent
+  getAllCoursesData,enrollStudent,isEnrolled
 };  
