@@ -16,11 +16,11 @@ const addAssignment = async (req, res) => {
 
 // get all assignments
 const getAllAssignments = async (req, res) => {
+    const courseId=new mongoose.Types.ObjectId(req.body.courseId);
     try {
-        const assignments = await Assignment.find();
+        const assignments = await Assignment.findOne({course:courseId});
         return res.json(new response(200,assignments,'all assignments fetched successfully'));
     } catch (err) {
-        // console.error(err);
         return res.json({ status: 'failure', message: err.message });
     }
 }
