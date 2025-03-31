@@ -17,6 +17,7 @@ const addCourse = async (req, res) => {
     description,
     pdfLink,
     price,
+    coordinator_name,
   } = req.body;
   console.log({
     title,
