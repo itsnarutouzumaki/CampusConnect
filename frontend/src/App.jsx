@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import Quiz from "./components/Quiz.jsx";
-import AddQuiz from "./components/AddQuiz.jsx";
+import AddQuiz from "./components/Teacher/AddQuiz.jsx";
 import LandingPage from "./components/LandingPage/LandingPage";
 import LoginSignupForm from "./components/Students/LoginSignup";
 import Course from "./components/Students/Course";
