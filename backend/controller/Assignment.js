@@ -104,6 +104,7 @@ const deleteAssignment = async (req, res) => {
     const assignmentId = new mongoose.Types.ObjectId(req.body.id);
     try {
         const assignment = await Assignment.findByIdAndDelete({_id:assignmentId});
+        console.log(assignment);
         if (!assignment) {
             return res.json(new response(400,{},'Assignment not found'));
         }

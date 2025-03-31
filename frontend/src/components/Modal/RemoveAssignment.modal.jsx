@@ -1,14 +1,31 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-
+import axios from "axios";
 const RemoveAssignment = ({ closeModal }) => {
   useEffect(() => {
     document.body.style.overflowY = "hidden";
+
     return () => {
       document.body.style.overflowY = "scroll";
     };
   }, []);
 
+  const handleRemoveAssignment = async () => {
+  const id="67eaa2b186a568b53909b7ff";
+    const api = await axios.delete(
+      `/api/assignment/deleteAssignment`,
+      {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        id: id,
+      },
+      }
+    );
+    console.log(api);
+    closeModal();
+  }
   return ReactDOM.createPortal(
     <div
       className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50"
@@ -28,7 +45,7 @@ const RemoveAssignment = ({ closeModal }) => {
         <div className="flex justify-center space-x-4 mt-4">
           <button
             className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
-            onClick={closeModal}
+            onClick={handleRemoveAssignment}
           >
             Remove
           </button>
