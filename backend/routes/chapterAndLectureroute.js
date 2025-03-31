@@ -4,7 +4,7 @@ const router=express.Router();
 
 router.post('/addChapter',addChapter);
 router.get('/getAllChapters',getAllChapters);
-router.put('/editChapter/:id',editChapter);
+router.put('/editChapter',editChapter);
 router.delete('/deleteChapter',deleteChapter);
 router.post('/addLecture',addLecture);
 router.get('/getAllLectures',getAllLectures);

@@ -1,10 +1,11 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 const EditAssignment = ({ closeModal, assignmentData }) => {
   const [formData, setFormData] = useState({
     title: assignmentData?.title || "",
-    date: assignmentData?.date || "",
+    dueDate: assignmentData?.date || "",
     time: assignmentData?.time || "",
     url: assignmentData?.url || ""
   });
@@ -33,9 +34,19 @@ const EditAssignment = ({ closeModal, assignmentData }) => {
     }
 
     try {
+      const updateassignment=await axios.put("/api/assignment/editAssignment",
+        {title:formData.title,
+        url:formData.url,
+        dueDate:formData.date,
+        time:formData.time,
+        assignment_id:"67e6f640d30cbb7633efe4d8"
+        },
+     );
       // Here you would typically make an API call to update the assignment
       // Example:
+    
       // const response = await axios.put(`/assignments/${assignmentData.id}`, formData);
+      console.log(updateassignment);  
       console.log("Updating assignment:", formData);
       
       // On success:

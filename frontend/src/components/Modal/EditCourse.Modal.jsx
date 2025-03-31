@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import axios from 'axios';
 
 const EditCourse = ({ closeModal, courseData }) => {
   const [formData, setFormData] = useState({
@@ -32,8 +33,7 @@ const EditCourse = ({ closeModal, courseData }) => {
       setError("Please fill all required fields");
       return;
     }
-
-    // Validate URL format
+ // Validate URL format
     try {
       new URL(formData.driveLink);
     } catch (e) {
@@ -45,8 +45,17 @@ const EditCourse = ({ closeModal, courseData }) => {
       // Here you would typically make an API call to update the course
       // Example:
       // const response = await axios.put(`/courses/${courseData.id}`, formData);
-      console.log("Updating course:", formData);
-      
+     // console.log("Updating course:", formData);
+      const response=axios.put("/api/course/updatecourse",
+        {
+          course_id:'67e91feea1165b29f8080a9f',
+          title:formData.name,
+          expiryDate:formData.expiryDate,
+          description:formData.description,
+          pdfLink:formData.driveLink
+        }
+      );
+     
       // On success:
       setError("");
       closeModal();

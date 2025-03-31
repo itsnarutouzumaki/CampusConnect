@@ -31,14 +31,22 @@ const getAllChapters = async (req, res) => {
 
 //edit chapter
 const editChapter = async (req, res) => {
-    const {title,url,course} = req.body;
-    const isPresent= await Courses.findById(course);
-    if(!isPresent){
-        return res.json({status:'failure',message:'course not found'});
+    const name=req.body.name;
+    const url=req.body.url;
+    const actualdata={
+        'title':name,
+        'url':url
     }
-    try{
-        const chapter = await Chapter.findByIdAndUpdate(req.params.id,{title,url,course});
-        return res.json(new response(200,chapter,'chapter updated successfully'));
+    try
+    {
+    const chapterid=new mongoose.Types.ObjectId(req.body.chapter_id);
+    
+    const chapter=await Chapter.findOneAndUpdate({_id:chapterid},{$set:actualdata},
+        
+    {new:true}
+    );
+    
+    return res.json(new response(200,chapter,'chapter updated successfully'));
     }
     catch(err){
         return res.json({status:'failure',message:err.message});

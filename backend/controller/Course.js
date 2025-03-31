@@ -202,6 +202,19 @@ const isEnrolled = async (req, res) => {
     );
   }
 };
+const updatecourse=async(req,res)=>{
+  const courseid=new mongoose.Types.ObjectId(req.body.course_id);
+  const actualdate=new Date(req.body.expiryDate);
+ req.body.expiryDate=actualdate;
+ console.log(req.body.expiryDate);
+  const data=await Course.findOneAndUpdate({_id:courseid},
+    {$set:req.body},
+    {new:true}
+  )
+  res.json(
+    new ApiResponse(200, data, "course updated successfully")
+);
+}
 const updatedetails = async (req, res) => {
   const data = await teacher.findOne({ email: req.body.coordinator });
   const courseId = new mongoose.Types.ObjectId(req.body.courseId);
@@ -230,4 +243,5 @@ module.exports = {
   enrollStudent,
   isEnrolled,
   updatedetails,
+  updatecourse
 };

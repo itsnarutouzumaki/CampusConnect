@@ -29,18 +29,17 @@ const lectureSchema = new mongoose.Schema({
 const chapterSchema = new mongoose.Schema({
     title: {
          type: String, 
-         required: true 
         },
     url:{
         type:String,
-        required:true
-    },
+        },
     course: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Course', 
-        required: true 
-    }
-});
+           }
+},
+{collection:'chapters'}
+);
 
 
 const Lecture = mongoose.model('Lecture', lectureSchema);

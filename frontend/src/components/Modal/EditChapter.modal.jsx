@@ -5,7 +5,8 @@ import axios from "axios";
 const EditChapter = ({ closeModal, chapterData, onChapterUpdated }) => {
   const [formData, setFormData] = useState({
     name: chapterData?.name || "",
-    driveLink: chapterData?.driveLink || ""
+    url: chapterData?.driveLink || "",
+    chapter_id: chapterData?.chapter_id || ""
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,6 +24,12 @@ const EditChapter = ({ closeModal, chapterData, onChapterUpdated }) => {
       ...prev,
       [name]: value
     }));
+    if (name === "driveLink") {
+      setFormData(prev => ({
+      ...prev,
+      url: value
+      }));
+    }
   };
 
   const validateForm = () => {
@@ -30,12 +37,12 @@ const EditChapter = ({ closeModal, chapterData, onChapterUpdated }) => {
       setError("Chapter name is required");
       return false;
     }
-    if (!formData.driveLink.trim()) {
+    if (!formData.url.trim()) {
       setError("Google Drive link is required");
       return false;
     }
     try {
-      new URL(formData.driveLink);
+      new URL(formData.url);
     } catch (e) {
       setError("Please enter a valid URL");
       return false;
@@ -51,16 +58,17 @@ const EditChapter = ({ closeModal, chapterData, onChapterUpdated }) => {
 
     setIsSubmitting(true);
     try {
+      const actualData={...formData,chapter_id:'67e6f816d30cbb7633efe4dd'};
+      console.log(actualData);
       // Replace with your actual API endpoint
       const response = await axios.put(
-        `/api/chapters/${chapterData.id}`,
-        formData
+        '/api/chapterLecture/editChapter',
+        actualData
       );
-      onChapterUpdated(response.data); // Callback to parent component
+      console.log(response);
+      
       closeModal();
     } catch (error) {
-      console.error("Error updating chapter:", error);
-      setError(error.response?.data?.message || "Failed to update chapter");
     } finally {
       setIsSubmitting(false);
     }
@@ -101,7 +109,7 @@ const EditChapter = ({ closeModal, chapterData, onChapterUpdated }) => {
             placeholder="Google Drive Link"
             className="m-2 rounded-lg p-2 w-[80%] text-black"
             onChange={handleInputChange}
-            value={formData.driveLink}
+            value={formData.url}
             required
           />
           <button
