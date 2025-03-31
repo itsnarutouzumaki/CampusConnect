@@ -97,11 +97,26 @@ const viewAssignment = async (req, res) => {
     }
 };
 
+// delete Assignment
+const deleteAssignment = async (req, res) => {
+    const {assignmentId} = new mongoose.Types.ObjectId(req.body.id);
+    try {
+        const assignment = await Assignment.findByIdAndDelete({_id:assignmentId});
+        if (!assignment) {
+            return res.json(new response(400,{},'Assignment not found'));
+        }
+        return res.json(new response(200,assignment,'Assignment deleted successfully'));
+    } catch (err) {
+        res.json(new response(500,err,'Server error'));
+    }
+}
+
 module.exports = {
     addAssignment,
     getAllAssignments,
     editAssignment,
     uploadFile,
     submitAssignment,
-    viewAssignment
+    viewAssignment,
+    deleteAssignment
 }

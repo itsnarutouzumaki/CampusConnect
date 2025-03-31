@@ -45,6 +45,21 @@ const editChapter = async (req, res) => {
     }
 }
 
+// delete chapter
+const deleteChapter = async (req, res) => {
+    const chapterId=new mongoose.Types.ObjectId(req.body.id);
+    try{
+        const chapter = await Chapter.findByIdAndDelete({_id:chapterId});
+        if(!chapter){
+            return res.json(new response(400,{},'chapter not found'));
+        }
+        return res.json(new response(200,chapter,'chapter deleted successfully'));
+    }
+    catch(err){
+        return res.json(new response(400,err.message,'chapter deletion failed'));
+    }
+}
+
 // add a lecture
 const addLecture = async (req, res) => {
     const {title,videoUrl,duration,startDate,course} = req.body;
@@ -63,6 +78,7 @@ const addLecture = async (req, res) => {
     }
 }
 
+// get all lectures
 const getAllLectures = async (req, res) => {
     try{
         const lectures = await Lecture.find();
@@ -89,11 +105,28 @@ const editLecture = async (req, res) => {
     }
 }
 
+// delete lecture
+const deleteLecture = async (req, res) => {
+    const lectureId=new mongoose.Types.ObjectId(req.body.id); 
+    try{
+        const lecture = await Lecture.findByIdAndDelete({_id:lectureId});
+        if(!lecture){
+            return res.json(new response(400,{},'lecture not found'));
+        }
+        return res.json(new response(200,lecture,'lecture deleted successfully'));
+    }
+    catch(err){
+        return res.json(new response(400,err.message,'lecture deletion failed'));
+    }
+}
+
 module.exports = {
     addChapter,
     getAllChapters,
     editChapter,
+    deleteChapter,
     addLecture,
     getAllLectures,
-    editLecture
+    editLecture,
+    deleteLecture
 }
