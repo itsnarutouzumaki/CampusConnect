@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 // Single Chapter Item
 const ChapterBar = ({ chapter }) => {
@@ -24,7 +25,10 @@ const Chapter = () => {
     { chapterName: "Newton's Laws of Motion" },
     { chapterName: "Art and Expressionism" },
   ];
-
+  const {courseId} = useParams(); 
+  useEffect(() => {
+    console.log("Chapter component mounted",courseId);
+  },[]);
   return (
     <div className="w-full mx-auto flex flex-col p-4">
       {chapters.map((chapter, index) => (

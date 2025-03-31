@@ -1,4 +1,4 @@
-const {signup,login,checkUserExists}= require('../controller/teachercontroller/teacherloginandsignup');
+const {signup,login,checkUserExists,updatedetails}= require('../controller/teachercontroller/teacherloginandsignup');
 const express = require('express');
 const router=express.Router();
 
@@ -6,5 +6,6 @@ const router=express.Router();
 router.post('/signup',signup);
 //login 
 router.post('/login',login);
-
+//update details
+router.put('/updateDetails',updatedetails);
 module.exports=router;

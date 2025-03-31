@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const ApiResponse = require("../../utils/apiresponse.js");
 const dotenv = require("dotenv");
+const { default: mongoose } = require("mongoose");
 dotenv.config();
 
 const checkUserExists = async (req, res, next) => {
@@ -69,4 +70,14 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { signup, login, checkUserExists };
+// update teacher details
+const updatedetails = async (req, res) => {
+  const teacherId =new mongoose.Types.ObjectId(req.body.teacher_id); 
+  const teacher=await Teacher.findOneAndUpdate({_id:teacherId},
+   { $set:req.body}, {new:true});
+
+   return res.json(
+    new ApiResponse(200, { teacher }, "teacher details updated successfully"));
+}
+
+module.exports = { signup, login, checkUserExists,updatedetails };
