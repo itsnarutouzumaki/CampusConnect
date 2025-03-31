@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
+import { Link } from "react-router-dom";
 
-const AddQuizModal = ({ closeModal }) => {
+const AddQuizModal = ({courseID, closeModal }) => {
   useEffect(() => {
     document.body.style.overflowY = "hidden";
     return () => {
@@ -25,12 +26,14 @@ const AddQuizModal = ({ closeModal }) => {
           Are you sure about creating this quiz?
         </p>
         <div className="flex justify-center space-x-4 mt-4">
-          <button
+          <Link
             className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
+            to={`/teacher/addquiz/${courseID}`}
+            target="_blank" rel="noopener noreferrer"
             onClick={closeModal}
           >
             Create Quiz
-          </button>
+          </Link>
           <button
             className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
             onClick={closeModal}

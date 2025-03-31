@@ -86,7 +86,7 @@ const MainContent = () => {
           />
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
           <Route path="/teacher/profile" element={<TeacherProfile />} />
-          <Route path="/teacher/addquiz" element={<AddQuiz />} />
+          <Route path="/teacher/addquiz/:courseId" element={<AddQuiz />} />
 
           {/* Admin Section */}
           <Route path="/admin" element={<AdminProfile />} />

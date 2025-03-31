@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import RotatingC from "../Loading";
 
 const CourseCard = ({ id, image, name, description }) => {
   const truncate = (text, wordLimit) => {
@@ -29,9 +32,19 @@ const Course = () => {
     live: [],
     upcoming: [],
   });
+  const [loading, setLoading] = useState(true);
+  const Navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourses = async () => {
+      if (!localStorage.getItem("userName")) {
+        toast.error("You are not logged in", {
+          position: "top-center",
+          duration: 2000,
+        });
+        Navigate("/loginsignup");
+        return;
+      }
       try {
         const response = await axios.post("/api/course/getallcourses", {
           _id: "67a3658e6306a7200c8c0745",
@@ -39,11 +52,19 @@ const Course = () => {
         setCourses(response.data.data);
       } catch (error) {
         console.error("Error fetching courses:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCourses();
   }, []);
+
+  if (loading) {
+    return (
+      <RotatingC/>
+    );
+  }
 
   return (
     <div className="h-screen w-full p-6 mx-auto">
@@ -51,9 +72,9 @@ const Course = () => {
         <>
           <h1 className="text-white font-bold text-2xl my-4">Your Enrolled</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {courses.enrolled.map((course) => (
+            {courses.enrolled.map((course, index) => (
               <CourseCard
-                key={course._id}
+                key={`${course._id}-${index}`}
                 id={course._id}
                 image={course.image}
                 name={course.title}
@@ -68,9 +89,9 @@ const Course = () => {
         <>
           <h1 className="text-white font-bold text-2xl my-4">Live Courses</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {courses.live.map((course) => (
+            {courses.live.map((course, index) => (
               <CourseCard
-                key={course._id}
+                key={`${course._id}-${index}`}
                 id={course._id}
                 image={course.image}
                 name={course.title}
@@ -87,9 +108,9 @@ const Course = () => {
             Upcoming Courses
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {courses.upcoming.map((course) => (
+            {courses.upcoming.map((course, index) => (
               <CourseCard
-                key={course._id}
+                key={`${course._id}-${index}`}
                 id={course._id}
                 image={course.image}
                 name={course.title}

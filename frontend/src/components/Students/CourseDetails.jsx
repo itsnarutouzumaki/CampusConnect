@@ -4,7 +4,9 @@ import Chapter from "./Chapter";
 import Lecture from "./Lecture";
 import Quiz from "./Quiz";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import RotatingC from "../Loading";
+import toast from "react-hot-toast";
 
 const StudentCourseDetails = () => {
   const [selectedOption, setSelectedOption] = useState("Chapter");
@@ -16,12 +18,23 @@ const StudentCourseDetails = () => {
   };
 
   const { courseId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("userName")) {
+      toast.error("You are not logged in", {
+        position: "top-center",
+        duration: 2000,
+      });
+      navigate("/loginsignup");
+    }
     const fetchCourseDetails = async () => {
       try {
-        console.log("Fetching course details...");
-        const response = await axios.post(`/api/course/isEnrolled/${courseId}/67a3658e6306a7200c8c0745`);
+        const response = await axios.post(
+          `/api/course/isEnrolled/${courseId}/${localStorage.getItem(
+            "studentId"
+          )}`
+        );
         const { isEnrolled, course } = response.data.data;
 
         setIsEnrolled(isEnrolled === "true");
@@ -36,20 +49,20 @@ const StudentCourseDetails = () => {
   const renderContent = () => {
     switch (selectedOption) {
       case "Assignment":
-        return <Assignment />;
+        return <Assignment courseID={courseId} />;
       case "Chapter":
-        return <Chapter />;
+        return <Chapter courseID={courseId} />;
       case "Lecture":
-        return <Lecture />;
+        return <Lecture courseID={courseId} />;
       case "Quiz":
-        return <Quiz />;
+        return <Quiz courseID={courseId} />;
       default:
-        return <Chapter />;
+        return <Chapter courseID={courseId} />;
     }
   };
 
   if (!courseData) {
-    return <div>Loading...</div>;
+    return <RotatingC />;
   }
 
   return (
@@ -66,11 +79,15 @@ const StudentCourseDetails = () => {
           </p>
           <p>
             <span className="font-semibold">Start Date:</span>{" "}
-            <span className="italic">{new Date(courseData.startDate).toLocaleDateString()}</span>
+            <span className="italic">
+              {new Date(courseData.startDate).toLocaleDateString()}
+            </span>
           </p>
           <p>
             <span className="font-semibold">Expiry Date:</span>{" "}
-            <span className="italic">{new Date(courseData.expiryDate).toLocaleDateString()}</span>
+            <span className="italic">
+              {new Date(courseData.expiryDate).toLocaleDateString()}
+            </span>
           </p>
           <p>
             <span className="font-semibold">Coordinator:</span>{" "}
@@ -84,7 +101,10 @@ const StudentCourseDetails = () => {
           </p>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg leading-6">
             <span className="font-semibold">Course Details:</span>{" "}
-            <a href={courseData.pdfLink} className="text-blue-500 italic underline">
+            <a
+              href={courseData.pdfLink}
+              className="text-blue-500 italic underline"
+            >
               View Pdf 📑
             </a>
           </p>
