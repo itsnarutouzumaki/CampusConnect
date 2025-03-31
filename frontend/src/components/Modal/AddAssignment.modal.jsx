@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-
+import axios from "axios";
 const AddAssignment = ({ courseID,closeModal }) => {
   useEffect(() => {
     document.body.style.overflowY = "hidden";
@@ -10,10 +10,24 @@ const AddAssignment = ({ courseID,closeModal }) => {
   }, []);
 
   const [data, setdata] = useState({});
+
   const HandleAddAssignment=async()=>{
-    setdata({...data,course: courseID});
+    const courseId="67e91feea1165b29f8080a9f";
+    const apidata=await axios.post("http://localhost:8000/api/assignment/addAssignment",
+      {
+        title:data.title,
+        url:data.fileUrl,
+        dueDate:data.date,
+        course:courseId
+      }
+    ,
+    "content-type:application/json"
+    );
+    console.log(apidata);
+    closeModal();
   }
 
+  
   return ReactDOM.createPortal(
     <div
       className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50"
@@ -28,30 +42,27 @@ const AddAssignment = ({ courseID,closeModal }) => {
         </h3>
         <input
           type="text"
-          placeholder="Assignment Name"
+          placeholder="Assignment title"
+          value={data.title}
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           onChange={(e) => setdata({ ...data, title: e.target.value })}
           required
         />
         <input
           type="date"
-          placeholder="Expiry Date"
+          placeholder="Due Date"
+          value={data.dueDate}
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           onChange={(e) => setdata({ ...data, date: e.target.value })}
           required
         />
         <input
-          type="time"
-          placeholder="Expiry Time"
-          className="m-2 rounded-lg p-2 w-[80%] text-black"
-          onChange={(e) => setdata({ ...data, time: e.target.value })}
-          required
-        />
-        <input
           type="url"
-          placeholder="Google Drive Link"
+          placeholder="file Url"
+          value={data.fileUrl}
+
           className="m-2 rounded-lg p-2 w-[80%] text-black"
-          onChange={(e) => setdata({ ...data, url: e.target.value })}
+          onChange={(e) => setdata({ ...data, fileUrl: e.target.value })}
           required
         />
         <button

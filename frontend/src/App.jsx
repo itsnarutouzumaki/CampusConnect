@@ -6,8 +6,9 @@ import {
   useLocation,
 } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
-import Quiz from "./components/Quiz.jsx";
-import AddQuiz from "./components/AddQuiz.jsx";
+import Quiz from "./components/Students/Quiz_Window.jsx";
+import QuizWindow from "./components/Students/Quiz_Window.jsx";
+import AddQuiz from "./components/Teacher/AddQuiz.jsx";
 import LandingPage from "./components/LandingPage/LandingPage";
 import LoginSignupForm from "./components/Students/LoginSignup";
 import Course from "./components/Students/Course";
@@ -26,7 +27,7 @@ import ParticlesComponent from "./styles/Particlebackground.jsx";
 import About from "./components/About.jsx";
 import { Toaster } from "react-hot-toast";
 import AdminLogin from "./components/Admin/Login.jsx";
-import QuizWindow from "./components/Students/Quiz_Window";
+// import QuizWindow from "./components/Students/Quiz_Window";
 import Error from "./components/Error.jsx";
 import ViewResult from "./components/Students/ViewResult.jsx";
 import Loading from "./components/Loading.jsx";
@@ -85,7 +86,7 @@ const MainContent = () => {
           />
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
           <Route path="/teacher/profile" element={<TeacherProfile />} />
-          <Route path="/teacher/addquiz" element={<AddQuiz />} />
+          <Route path="/teacher/addquiz/:courseId" element={<AddQuiz />} />
 
           {/* Admin Section */}
           <Route path="/admin" element={<AdminProfile />} />

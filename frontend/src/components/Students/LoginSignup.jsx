@@ -37,6 +37,7 @@ const LoginSignupForm = () => {
 
       if (isLogin && status === 200) {
         localStorage.setItem("userName", data.data.student.fullname);
+        localStorage.setItem("studentId", data.data.student._id);
       }
 
       toast.success(isLogin ? "You loggedin successfully!" : "Student signedup successfully!", {

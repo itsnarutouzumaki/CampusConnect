@@ -14,20 +14,24 @@ const AddChapter = ({ courseID, closeModal }) => {
   }, []);
 
   const handleAddChapter = async () => {
-    const chapterData = { ...data, course: courseID };
+    console.log(data.title);
+    const chapterData = { title: data.title, url: data.url, course: "67e92734457583dc21caee8f" };
     console.log(chapterData);
 
     try {
-      const response = await axios.post("/api/chapterLecture/addChapter", chapterData, {
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await axios.post(
+        "/api/chapterLecture/addChapter",
+        chapterData,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       console.log("Chapter added successfully:", response.data);
 
       toast.success("Chapter added successfully!", {
         position: "top-center",
         duration: 2000,
       });
-
     } catch (error) {
       console.error("Error adding chapter:", error);
     }
@@ -50,12 +54,14 @@ const AddChapter = ({ courseID, closeModal }) => {
           type="text"
           placeholder="Chapter Name"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          value={data.title}
           onChange={(e) => setData({ ...data, title: e.target.value })}
           required
         />
         <input
           type="url"
           placeholder="Google Drive Link"
+          value={data.url}
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           onChange={(e) => setData({ ...data, url: e.target.value })}
           required

@@ -8,7 +8,7 @@ import AddLecture from "../Modal/AddLecture.modal";
 import EditCourse from "../Modal/EditCourse.Modal";
 import Lecture from "./Lecture";
 import Quiz from "./Quiz";
-import AddQuiz from "../AddQuiz";
+import AddQuiz from "../Modal/AddQuiz.modal";
 import { useParams } from "react-router-dom";
 
 const courseData = {

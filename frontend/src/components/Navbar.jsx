@@ -81,7 +81,7 @@ const Navbar = () => {
         isDropdownOpen ? "block" : "hidden"
       }`}
     >
-      <li key="profile" className="py-0.5 px-1">
+      <li className="py-0.5 px-1">
         <Link
           to="/dashboard"
           className="text-black no-underline hover:bg-white/30 hover:rounded-md px-1 py-0.5"
@@ -89,7 +89,7 @@ const Navbar = () => {
           Profile
         </Link>
       </li>
-      <li key="profile" className="py-0.5 px-1">
+      <li className="py-0.5 px-1">
         <Link
           to="/dashboard"
           className="text-black no-underline hover:bg-white/30 hover:rounded-md px-1 py-0.5"
@@ -153,7 +153,7 @@ const Navbar = () => {
               className="relative py-0.5 px-1 md:px-2 group"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              <div className="text-white flex items-center hover:bg-white/30 hover:rounded-md px-1 py-0.5 md:hover:bg-transparent">
+              <div className="text-white bg-green-400/30 rounded-md flex items-center hover:bg-white/30 hover:rounded-md px-1 py-0.5 md:hover:bg-transparent">
                 {userName == null ? "Login/SignUp" : userName} <BiChevronDown />
               </div>
 
