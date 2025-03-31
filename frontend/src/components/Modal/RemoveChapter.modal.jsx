@@ -1,7 +1,24 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-
+import axios from "axios";
 const RemoveChapter = ({ closeModal }) => {
+  const handleRemoveChapter = async () => {
+      const id="67eaa843124eb85a51318454";
+        const api = await axios.delete(
+          `/api/chapterLecture/deleteChapter`,
+          {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: {
+            id: id,
+          },
+          }
+        );
+        console.log(api);
+        closeModal();
+      }
+
   useEffect(() => {
     document.body.style.overflowY = "hidden";
     return () => {
@@ -28,7 +45,7 @@ const RemoveChapter = ({ closeModal }) => {
         <div className="flex justify-center space-x-4 mt-4">
         <button
             className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
-            onClick={closeModal}
+            onClick={handleRemoveChapter}
           >
             Remove
           </button>

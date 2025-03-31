@@ -4,7 +4,7 @@ const router=express.Router();
 const upload=require('../middleware/uploadMiddleware');
 
 router.post('/addAssignment',addAssignment);
-router.get('/getAllAssignment',getAllAssignments);
+router.post('/getAllAssignment',getAllAssignments);
 router.put('/editAssignment',editAssignment);
 router.post('/uploadFile',upload.single('file'),uploadFile);
 router.post('/submitAssignment/:assignmentId',submitAssignment);

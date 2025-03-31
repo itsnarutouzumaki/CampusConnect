@@ -56,6 +56,8 @@ const AssignmentBar = ({ assignment }) => {
 
 // Main Assignment Component
 const Assignment = () => {
+  
+
   const assignments = [
     { AssignmentName: "Math Homework", marks: 80, totalmarks: 100, assignmentDueDate: "2023-12-01", assignmentDueTime: "5:00 PM", completed: false },
     { AssignmentName: "Science Project", marks: 70, totalmarks: 100, assignmentDueDate: "2023-12-03", assignmentDueTime: "11:59 PM", completed: true },
