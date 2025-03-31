@@ -85,8 +85,7 @@ const submitAssignment = async (req, res) => {
 
 //  View Assignment
 const viewAssignment = async (req, res) => {
-    const { assignmentId } = req.params;
-
+    const assignmentId=new mongoose.Types.ObjectId(req.body.assignment_id);
     try {
         const assignment = await Assignment.findById(assignmentId);
         if (!assignment || !assignment.fileUrl) {
@@ -102,7 +101,7 @@ const viewAssignment = async (req, res) => {
 
 // delete Assignment
 const deleteAssignment = async (req, res) => {
-    const {assignmentId} = new mongoose.Types.ObjectId(req.body.id);
+    const assignmentId = new mongoose.Types.ObjectId(req.body.id);
     try {
         const assignment = await Assignment.findByIdAndDelete({_id:assignmentId});
         if (!assignment) {
