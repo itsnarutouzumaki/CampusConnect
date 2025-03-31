@@ -13,14 +13,15 @@ const ViewResult = () => {
         const fetchResult = async () => {
             try {
               
-                const token = document.cookie
-                    .split('; ')
-                    .find(row => row.startsWith('token='))
-                    ?.split('=')[1]; // Extract token from cookies
+                // const token = document.cookie
+                //     .split('; ')
+                //     .find(row => row.startsWith('token='))
+                //     ?.split('=')[1]; // Extract token from cookies
 
-                if (!token) {
-                    throw new Error("User is not authenticated. Please log in.");
-                }
+
+                // if (!token) {
+                //     throw new Error("User is not authenticated. Please log in.");
+                // }
                 if (!quizId) {
                     throw new Error("Quiz ID is required.");
                 }
@@ -28,7 +29,9 @@ const ViewResult = () => {
                 const response = await axios.get(`https://campusconnect-qm43.onrender.com/quiz/submitquiz`, {
                    
                     body:{
-                        quizid:quizid
+                        quiz_id:quiz_id,
+                        student_id:"67a3658e6306a7200c8c0745"
+
                     }, // Pass quizId as query parameter
                 });
 
@@ -55,13 +58,14 @@ const ViewResult = () => {
                     throw new Error("Quiz ID is required.");
                 }
 
-                const response = await fetch(`http://localhost:8000/quiz/submitquiz?quizId=${quizId}`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${token}`, // Send token in headers
-                        "Content-Type": "application/json",
-                    },
-                });
+                const response = await axios.post(`http://localhost:8000/api/quiz/submitquiz`, 
+                {
+                    quiz_id: quizId,
+                    student_id: "67a3658e6306a7200c8c0745"
+                } 
+                );
+
+                setResult(response.data);
 
                 if (!response.ok) {
                     throw new Error("Failed to fetch result");

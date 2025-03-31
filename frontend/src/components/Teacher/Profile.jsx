@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import EditTeacher from "../Modal/EditTeacher.Modal";
 import AddCourse from "../Modal/AddCourse.modal";
 
-const CourseCard = ({ image, name, description }) => {
+const CourseCard = ({id, image, name, description }) => {
   const truncateDescription = (text, wordLimit) => {
     const words = text.split(" ");
     return words.length > wordLimit
@@ -14,7 +14,7 @@ const CourseCard = ({ image, name, description }) => {
 
   return (
     <Link
-      to="/TeacherCourseDetails"
+      to={`/teacher/coursedetails/${id}`}
       className="bg-white/20 backdrop-blur-[10%] rounded-lg shadow-lg shadow-black/50 p-4 hover:shadow-2xl hover:shadow-black/80 cursor-pointer transition-shadow duration-300"
     >
       <img
@@ -49,6 +49,7 @@ const TeacherProfile = () => {
   };
 
   const courseData = Array.from({ length: 8 }, (_, i) => ({
+    id: i + 1 ,
     image:
       "https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg",
     name: `Course ${i + 1}`,
@@ -132,6 +133,7 @@ const TeacherProfile = () => {
             {courseData.map((course, index) => (
               <CourseCard
                 key={index}
+                id={course.id}
                 image={course.image}
                 name={course.name}
                 description={course.description}

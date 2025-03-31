@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-const quizid = '67a741b20936cb668a827d69';
-export default function QuizWindow() {
+const quizid = "67a741b20936cb668a827d69";
+export default function Quiz() {
   const [questions, setQuestions] = useState([]);
   const [time, setTime] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -10,7 +10,10 @@ export default function QuizWindow() {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const api = await axios.post('/api/quiz/takequiz', { _id: quizid });
+        const api = await axios.post(
+          "http://localhost:8000/api/quiz/takequiz",
+          { _id: quizid }
+        );
         const ques = api.data.message.data.questions;
         const formattedQuestions = ques.map((q, index) => ({
           id: index + 1,
@@ -38,7 +41,9 @@ export default function QuizWindow() {
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    return `${minutes.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   const handleNext = () => {
@@ -60,21 +65,23 @@ export default function QuizWindow() {
   };
 
   const handleSubmit = async () => {
-    const quizData = {
+    const options = {
+      quizId: quizid,
+      studentId: "67a3658e6306a7200c8c0745",
       answers: selectedOptions,
       timeTaken: time,
     };
-
+    const quiz_id = quizid;
+    const student_id = "67a3658e6306a7200c8c0745";
     try {
-      const response = await fetch("/api/submit-quiz", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(quizData),
-      });
-
-      const result = await response.json();
+      // Extract token from cookie
+      const result = await axios.post(
+        "http://localhost:8000/api/quiz/submitquiz",
+        { options: selectedOptions, quiz_id: quiz_id, student_id: student_id },
+        { withCredentials: true } // Pass quizData in the body
+      );
       alert("Quiz Submitted Successfully!");
-      console.log(result);
+      console.log(result.timeTaken);
     } catch (error) {
       console.error("Error submitting quiz:", error);
       alert("Failed to submit quiz.");
@@ -100,7 +107,9 @@ export default function QuizWindow() {
       <div className="flex w-full">
         {/* Left Sidebar */}
         <div className="w-1/4 bg-teal-700 text-white rounded-lg flex flex-col items-center p-5">
-          <h2 className="text-2xl font-bold mb-6">Question {questions[currentQuestionIndex].id}</h2>
+          <h2 className="text-2xl font-bold mb-6">
+            Question {questions[currentQuestionIndex].id}
+          </h2>
 
           {/* Numbering Boxes */}
           <div className="grid grid-cols-3 gap-2 justify-items-center">
@@ -108,7 +117,9 @@ export default function QuizWindow() {
               <div
                 key={q.id}
                 className={`w-12 h-12 flex items-center rounded-lg justify-center border border-white text-lg font-semibold cursor-pointer ${
-                  index === currentQuestionIndex ? "bg-green-500" : "bg-teal-800 hover:bg-teal-600"
+                  index === currentQuestionIndex
+                    ? "bg-green-500"
+                    : "bg-teal-800 hover:bg-teal-600"
                 }`}
                 onClick={() => setCurrentQuestionIndex(index)}
               >
@@ -118,7 +129,10 @@ export default function QuizWindow() {
           </div>
 
           {/* Submit Button */}
-          <button className="bg-gray-700 rounded-lg px-6 py-4 mt-20 hover:bg-gray-900" onClick={handleSubmit}>
+          <button
+            className="bg-gray-700 rounded-lg px-6 py-4 mt-20 hover:bg-gray-900"
+            onClick={handleSubmit}
+          >
             Submit
           </button>
         </div>
@@ -136,7 +150,9 @@ export default function QuizWindow() {
               <button
                 key={index}
                 className={`w-full text-black text-lg py-4 mt-4 rounded-lg font-medium transition-colors ${
-                  selectedOptions[currentQuestionIndex] === option ? "bg-green-500" : "bg-slate-400 hover:bg-stone-500"
+                  selectedOptions[currentQuestionIndex] === option
+                    ? "bg-green-500"
+                    : "bg-slate-400 hover:bg-stone-500"
                 }`}
                 onClick={() => handleOptionSelect(option)}
               >
