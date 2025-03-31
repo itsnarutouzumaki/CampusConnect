@@ -8,16 +8,38 @@ import { useNavigate, useParams } from "react-router-dom";
 import RotatingC from "../Loading";
 import toast from "react-hot-toast";
 
+
 const StudentCourseDetails = () => {
   const [selectedOption, setSelectedOption] = useState("Chapter");
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [courseData, setCourseData] = useState(null);
 
-  const enrollMe = () => {
-    setIsEnrolled(true);
-  };
-
   const { courseId } = useParams();
+
+  const enrollMe = async() => {
+    const studentId = localStorage.getItem("studentId");
+    console.log(courseId, studentId);
+    try {
+      const response = await axios.post("/api/course/enrollstudent", {
+        course_id:courseId,
+        student_id:studentId,
+      });
+      setIsEnrolled(true);
+      console.log(response.data);
+      toast.success("Enrolled Successfully", {
+        position: "top-center",
+        duration: 2000,
+      });
+    } catch (error) {
+      console.error("Error enrolling in course:", error);
+      toast.error("Enrollment Failed", {
+        position: "top-center",
+        duration: 2000,
+      });
+    }
+    
+    
+  };
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -104,6 +126,7 @@ const StudentCourseDetails = () => {
             <a
               href={courseData.pdfLink}
               className="text-blue-500 italic underline"
+              target="_blank" rel="noopener noreferrer"
             >
               View Pdf 📑
             </a>
