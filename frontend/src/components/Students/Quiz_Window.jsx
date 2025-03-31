@@ -76,7 +76,7 @@ export default function Quiz() {
     try {
       // Extract token from cookie
       const result = await axios.post(
-        "http://localhost:8000/api/quiz/submitquiz",
+        "/api/quiz/submitquiz",
         { options: selectedOptions, quiz_id: quiz_id, student_id: student_id },
         { withCredentials: true } // Pass quizData in the body
       );

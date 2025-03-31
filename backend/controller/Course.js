@@ -5,6 +5,11 @@ const studentenrolled = require("../models/studentenrolled.js");
 const { findById } = require("../models/teacherschema.js");
 const teacher = require("../models/teacherschema.js");
 const { response } = require("express");
+const Assignment=require("../models/assignmentSchema.js");
+const {Chapter,Lecture}=require("../models/chapterLectureSchema.js");
+const StudentQuiz=require("../models/studentquizschema.js");
+const StudentEnrolled=require("../models/studentenrolled.js");
+
 let uploadedFile = null;
 // add a course
 const addCourse = async (req, res) => {
@@ -237,6 +242,28 @@ const updatedetails = async (req, res) => {
     new ApiResponse(200, coursedetails, "course updated successfully")
   );
 };
+const removecourse=async(req,res)=>
+{try{
+  const id=new mongoose.Types.ObjectId(req.body.course_id);
+  const removeAssignment=await Assignment.deleteMany({course:id});
+  const findstudentwithquiz=await Quiz.find({courseid:id});
+  for(let i=0;i<findstudentwithquiz.length;i++)
+  {const quizid=new mongoose.Types.ObjectId(findstudentwithquiz[i]._id);
+    await StudentQuiz.deleteMany({quizid:quizid});
+  }
+  const remmovequiz=await Quiz.deletMany({courseid:id});
+const removeenrolledstudent=await StudentEnrolled.deleteMany({courseid:id});
+const removelecture=await Lecture.deleteMany({course:id});
+const removechapter=await Chapter.deleteMany({course:id});
+  const removecourses=await Course.deleteMany({_id:id});
+  return res.json(   new ApiResponse(200, removecourses, "course deleted successfully")
+);
+}
+catch(e)
+{
+  console.log(e);
+}
+}
 module.exports = {
   addCourse,
   uploadImg,
@@ -244,5 +271,6 @@ module.exports = {
   enrollStudent,
   isEnrolled,
   updatedetails,
-  updatecourse
+  updatecourse,
+  removecourse
 };

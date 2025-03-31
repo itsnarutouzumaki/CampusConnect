@@ -1,7 +1,8 @@
-const {addCourse,uploadImg,getAllCoursesData,enrollStudent,isEnrolled,updatecourse
+const {addCourse,uploadImg,getAllCoursesData,enrollStudent,isEnrolled,updatecourse,removecourse
 }=require('../controller/Course.js');
 const jwttoken=require('../middleware/jwttoken.js');
 const express = require('express');
+
 const router=express.Router();
 const upload=require('../middleware/uploadMiddleware.js');
 const { editChapter } = require('../controller/ChapterAndLecture.js');
@@ -11,4 +12,6 @@ router.put('/updatecourse',updatecourse);
 router.post('/uploadImg',upload.single('file'),uploadImg);
 router.post('/enrollstudent',enrollStudent);
 router.post('/isEnrolled/:courseId/:studentId',isEnrolled);
+router.delete('/removecourse',removecourse);
+
 module.exports=router;

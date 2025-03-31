@@ -1,4 +1,4 @@
-const {signup,login,checkUserExists,updatedetails}= require('../controller/teachercontroller/teacherloginandsignup');
+const {signup,login,checkUserExists,updatedetails,removeteacher}= require('../controller/teachercontroller/teacherloginandsignup');
 const express = require('express');
 const router=express.Router();
 const upload = require('../middleware/uploadMiddleware.js');
@@ -8,4 +8,6 @@ router.post('/signup',signup);
 router.post('/login',login);
 //update details
 router.put('/updateDetails',upload.single('file'),updatedetails);
+router.delete('/removeteacher',removeteacher);
+
 module.exports=router;

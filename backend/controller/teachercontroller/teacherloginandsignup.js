@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const ApiResponse = require("../../utils/apiresponse.js");
 const dotenv = require("dotenv");
 const { default: mongoose } = require("mongoose");
+const Admin=require("../../models/admin.js");
+const Course=require("../../models/courseschema.js");
 dotenv.config();
 
 const checkUserExists = async (req, res, next) => {
@@ -82,5 +84,23 @@ const updatedetails = async (req, res) => {
    return res.json(
     new ApiResponse(200, { teacher }, "teacher details updated successfully"));
 }
+const removeteacher=async(req,res)=>
+{
+ console.log(req.body);
 
-module.exports = { signup, login, checkUserExists,updatedetails };
+  const data=await Admin.findOne({password:req.body.password});
+  if(!data)
+  {
+    return res.json(new ApiResponse(200, { data:"you are not authorized to delete the message"}, "deletion failed"));
+  }
+  const updatecourse=await Course.updateMany({coordinator:req.body.email},
+    {$set:{
+      coordinator:data.email,
+      coordinator_name:data.name
+    }}
+  );
+  const removecourse=await Teacher.deleteOne({email:req.body.email});
+  return res.json(new ApiResponse(200, { removecourse }, "teacher removed successfully")
+);
+}
+module.exports = { signup, login, checkUserExists,updatedetails,removeteacher};
