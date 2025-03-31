@@ -6,7 +6,6 @@ const assignmentSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    fileUrl:{
     url:{
         type:String,
         required: true
