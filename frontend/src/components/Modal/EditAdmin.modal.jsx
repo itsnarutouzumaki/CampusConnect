@@ -5,7 +5,6 @@ import axios from "axios";
 const EditAdmin = ({ closeModal }) => {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState("");
@@ -30,35 +29,31 @@ const EditAdmin = ({ closeModal }) => {
   };
 
   const handleSubmit = async () => {
-    // Basic validation
-    if (!formData.name || !formData.email) {
-      setError("Name and email are required!");
+    if (!formData.name) {
+      setError("Name is required!");
       return;
     }
-
-    try {
+try {
       // Handle file upload if file is selected
       let fileUrl = "";
+      const formData1 = new FormData();
       if (selectedFile) {
-        const formData = new FormData();
-        formData.append("file", selectedFile);
-        
-        const uploadResponse = await axios.post("/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        fileUrl = uploadResponse.data.url; // Assuming the response contains the file URL
+       
+        formData1.append("file", selectedFile);
       }
-
+      formData1.append("name", formData.name);  
+      formData1.append("student_id", "67e8efa08688856c3a719c76"); // Replace with actual student ID
       // Prepare data to submit
-      const adminData = {
-        ...formData,
-        ...(fileUrl && { profileImage: fileUrl }) // Only include if file was uploaded
-      };
-
+      
       // Submit admin data
       // const response = await axios.put("/api/admins", adminData);
-      console.log("Submitting:", adminData);
       
+      const uploadresponse=await axios.post('/api/admin/updatedetails',
+        formData1,
+{headers: { "Content-Type": "multipart/form-data" },}
+      );
+      console.log(uploadresponse);
+    
       // On success:
       setError("");
       closeModal();
@@ -90,15 +85,7 @@ const EditAdmin = ({ closeModal }) => {
           value={formData.name}
           required
         />
-        <input
-          type="email"
-          name="email"
-          placeholder="Admin Email"
-          className="m-2 rounded-lg p-2 w-[80%] text-black"
-          onChange={handleInputChange}
-          value={formData.email}
-          required
-        />
+        
         <div className="w-[80%] flex flex-col items-center">
           <input 
             type="file" 
