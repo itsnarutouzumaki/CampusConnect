@@ -48,7 +48,7 @@ try {
       // Submit admin data
       // const response = await axios.put("/api/admins", adminData);
       
-      const uploadresponse=await axios.post('http://localhost:8000/api/admin/updatedetails',
+      const uploadresponse=await axios.post('/api/admin/updatedetails',
         formData1,
 {headers: { "Content-Type": "multipart/form-data" },}
       );
