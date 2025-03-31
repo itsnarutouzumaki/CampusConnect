@@ -64,12 +64,16 @@ const userdetails = async (req, res) => {
 };
 const updatedetails = async (req, res) => {
   const id=new mongoose.Types.ObjectId(req.body.student_id);  
+  if(req.file && req.file.path)
+  {
+    req.body.profileimage=req.file.path;
+  }
   const details = await item2.findOneAndUpdate(
     { _id:id},
     { $set: req.body },
     { new: true }
   );
-  res.json(new apiresponse(200, "User details updated", { details }));
+  res.json(new apiresponse(200,details ,"User details updated"));
 };
 module.exports = {
   signup,

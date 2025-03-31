@@ -6,8 +6,8 @@ const EditTeacher = ({ closeModal, teacherData, onTeacherUpdated }) => {
   const [formData, setFormData] = useState({
     name: teacherData?.name || "",
     bio: teacherData?.bio || "",
-    subject: teacherData?.subject || "",
-    institute: teacherData?.institute || "",
+    qualifications: teacherData?.qualifications || "",
+    areaOfInterest: teacherData?.areaOfInterest || "",
     profileImage: teacherData?.profileImage || ""
   });
   const [selectedFile, setSelectedFile] = useState(null);
@@ -56,14 +56,16 @@ const EditTeacher = ({ closeModal, teacherData, onTeacherUpdated }) => {
     try {
       // Handle file upload if new file is selected
       let imageUrl = formData.profileImage;
+      const uploadFormData = new FormData();
+        
       if (selectedFile) {
-        const uploadFormData = new FormData();
+        
         uploadFormData.append("file", selectedFile);
 
-        const uploadResponse = await axios.post("/upload", uploadFormData, {
-          headers: { "Content-Type": "multipart/form-data" }
-        });
-        imageUrl = uploadResponse.data.url; // Assuming the response contains the file URL
+        // const uploadResponse = await axios.post("/upload", uploadFormData, {
+        //   headers: { "Content-Type": "multipart/form-data" }
+        // });
+        // imageUrl = uploadResponse.data.url; // Assuming the response contains the file URL
       }
 
       // Prepare teacher data with updated image URL
@@ -71,9 +73,20 @@ const EditTeacher = ({ closeModal, teacherData, onTeacherUpdated }) => {
         ...formData,
         profileImage: imageUrl
       };
-
-      // Update teacher data
-      const response = await axios.put(`/teachers/${teacherData.id}`, updatedTeacher);
+      uploadFormData.append("name",formData.name);
+      uploadFormData.append("bio",formData.bio);
+      uploadFormData.append("areaOfInterst",formData.areaOfInterest);
+      uploadFormData.append("qualification",formData.qualifications);
+      uploadFormData.append("teacher_id",'67e988c2d8e4aa5b64e02957');
+         
+   // Update teacher data
+      const response = await axios.put("http://localhost:8000/api/teachers/updatedetails",
+        uploadFormData,
+        {
+        headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      console.log(response);
       onTeacherUpdated(response.data);
       closeModal();
     } catch (error) {
@@ -124,19 +137,20 @@ const EditTeacher = ({ closeModal, teacherData, onTeacherUpdated }) => {
           />
           <input
             type="text"
-            name="subject"
-            placeholder="Subject"
+            name="qualifications"
+            placeholder="Qualifications"
             className="m-2 rounded-lg p-2 w-[80%] text-black"
             onChange={handleInputChange}
-            value={formData.subject}
+            value={formData.qualifications}
+            required
           />
           <input
             type="text"
-            name="institute"
-            placeholder="Institute Detail"
+            name="areaOfInterest"
+            placeholder="areaOfInterest"
             className="m-2 rounded-lg p-2 w-[80%] text-black"
             onChange={handleInputChange}
-            value={formData.institute}
+            value={formData.areaOfInterest}
           />
 
           <div className="w-[80%] flex flex-col items-start my-2">

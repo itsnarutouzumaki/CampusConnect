@@ -73,9 +73,12 @@ const login = async (req, res) => {
 // update teacher details
 const updatedetails = async (req, res) => {
   const teacherId =new mongoose.Types.ObjectId(req.body.teacher_id); 
+  if(req.file && req.file.path)
+  {
+    req.body.profileImage=req.file.path;
+  }
   const teacher=await Teacher.findOneAndUpdate({_id:teacherId},
    { $set:req.body}, {new:true});
-
    return res.json(
     new ApiResponse(200, { teacher }, "teacher details updated successfully"));
 }

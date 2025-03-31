@@ -56,24 +56,32 @@ const EditStudent = ({ closeModal, studentData, onStudentUpdated }) => {
     try {
       // Handle file upload if new file is selected
       let imageUrl = formData.profileImage;
+      const uploadFormData = new FormData();
       if (selectedFile) {
-        const uploadFormData = new FormData();
+        
         uploadFormData.append("file", selectedFile);
         
-        const uploadResponse = await axios.post("/upload", uploadFormData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        imageUrl = uploadResponse.data.url; // Assuming the response contains the file URL
+        // const uploadResponse = await axios.post("/upload", uploadFormData, {
+        //   headers: { "Content-Type": "multipart/form-data" },
+        // });
+      //  imageUrl = uploadResponse.data.url; // Assuming the response contains the file URL
       }
-
+      uploadFormData.append("bio",formData.bio);
+      uploadFormData.append("education",formData.education);
+      uploadFormData.append("fullname",formData.name);
+      uploadFormData.append("student_id",'67e6a12cf047c77f80a0dea9');
       // Prepare student data with updated image URL
       const updatedStudent = {
         ...formData,
         profileImage: imageUrl
       };
-
-      // Update student data
-      const response = await axios.put(`/students/${studentData.id}`, updatedStudent);
+     const response=await axios.post("http://localhost:8000/api/students/updatedetails",
+      uploadFormData,
+      {
+      headers: { "Content-Type": "multipart/form-data" },
+      }
+     );
+     console.log(response);
       onStudentUpdated(response.data);
       closeModal();
     } catch (error) {
