@@ -1,6 +1,7 @@
 const Assignment=require('../models/assignmentSchema');
 const response= require('../utils/apiresponse');
 const uploadedFile=null;
+const mongoose = require('mongoose');
 
 // add an assignment
 const addAssignment = async (req, res) => {
@@ -26,10 +27,12 @@ const getAllAssignments = async (req, res) => {
 
 // edit an assignment
 const editAssignment = async (req, res) => {
-    const { id } = req.params;
-    const { title, url, dueDate, course } = req.body;
+    const id=new mongoose.Types.ObjectId(req.body.assignment_id);
     try {
-        const assignment = await Assignment.findByIdAndUpdate(id, { title, url, dueDate, course }, { new: true });
+       const assignment=await Assignment.findOneAndUpdate({_id:id},
+        {$set:req.body},
+        {new:true}
+       );
         return res.json(new response(200,assignment,'assignment updated successfully'));
     } catch (err) {
         return res.json({ status: 'failure', message: err.message });
