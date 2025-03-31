@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const Admins=require('../models/admin.js');
 const response=require('../utils/apiresponse.js');
 
@@ -46,5 +47,24 @@ const login= async(req,res) =>{
     return res.json({success:'false',message:err.messaage})
    }
 };
-
-module.exports={login};
+const updatedetails=async (req,res)=>{
+  const id=new mongoose.Types.ObjectId(req.body.student_id);
+  
+ const duplicatedata=
+{
+  'name':req.body.name,
+}
+ 
+if(req.file && req.file.path)
+{
+duplicatedata['image']=req.file.path;
+}
+console.log(duplicatedata);
+const updatedata=await Admins.findOneAndUpdate({_id:id},{
+  $set:duplicatedata
+},
+{new:true}  
+);
+return res.json(new response(200,updatedata,'details updated successfully'));
+}
+module.exports={login,updatedetails};

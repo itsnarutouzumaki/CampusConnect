@@ -8,7 +8,6 @@ const ChangeCourseCoordinator = ({ closeModal }) => {
     password: ""
   });
   const [error, setError] = useState("");
-
   useEffect(() => {
     document.body.style.overflowY = "hidden";
     return () => {
