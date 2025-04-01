@@ -4,11 +4,85 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
 const AssignmentBar = ({ assignment }) => {
-  const { title, dueDate, completed, url } = assignment;
-  const [isCompleted, setIsCompleted] = useState(completed);
+  const {
+    AssignmentName,
+    marks,
+    totalmarks,
+    assignmentDueDate,
+    assignmentDueTime,
+    completed: initialCompleted,
+  } = assignment;
 
-  const handleToggleCompletion = () => {
-    setIsCompleted((prevState) => !prevState);
+  const [isCompleted, setIsCompleted] = useState(initialCompleted);
+  const [url, setUrl] = useState("");
+
+  const handleToggleCompletion = async () => {
+    if (!url) {
+      alert("Please upload a file first!");
+      return;
+    }
+
+    const data = {
+      assignmentId: "67eaa06a86a568b53909b7f9",
+      studentId: "67a36a59e0224d1df4237c04",
+      fileUrl: url,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/assignment/submitAssignment",
+        data,
+        {
+          headers: {
+        "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Submission Response:", response.data);
+
+      // if (response.status === 200) {
+      //   setIsCompleted(true);
+      //   setUrl(""); // Clear the file path after submission
+      // }
+    } catch (error) {
+      console.error("Error submitting assignment:", error);
+    }
+  };
+
+  const handleUpload = async () => {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = ".pdf,.doc,.docx,.txt,.jpg,.png"; // Allowed file types
+
+    fileInput.onchange = async (event) => {
+      const file = event.target.files[0];
+
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+          const response = await axios.post(
+            "http://localhost:8000/api/assignment/uploadFile",
+            formData,
+            {
+              headers: { "Content-Type": "multipart/form-data" },
+            }
+          );
+
+          const uploadedUrl = response.data.data.url;
+          console.log("Uploaded File URL:", uploadedUrl);
+          setUrl(uploadedUrl);
+        } catch (error) {
+          console.error("Error uploading file:", error);
+        }
+      } else {
+        console.log("No file selected.");
+      }
+    };
+
+    fileInput.click();
   };
 
   return (
@@ -22,7 +96,7 @@ const AssignmentBar = ({ assignment }) => {
     >
       <div className="flex justify-between w-full">
         <Link
-          to={url}
+          to={xyz}
           target="_blank"
           rel="noopener noreferrer"
           className="text-2xl text-white font-bold"
@@ -51,6 +125,7 @@ const AssignmentBar = ({ assignment }) => {
         </div>
         <div className="flex items-center">
           <div
+            onClick={handleUpload}
             className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-white hover:font-bold 
             hover:shadow-[0px_0px_15px_#00ff00] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30"
           >

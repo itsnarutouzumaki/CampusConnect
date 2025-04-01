@@ -87,17 +87,25 @@ function extractPublicId(url) {
 
 //  Submit Assignment
 const submitAssignment = async (req, res) => {
-    const { assignmentId,studentId,fileUrl } = req.body; 
-    
-    if (!assignmentId || !fileUrl || !studentId) {
-        return res.json({ message: 'Assignment ID , student ID and file URL are required' });
+    const { assignmentId1,studentId1,fileUrl } = req.body; 
+   const studentId=new mongoose.Types.ObjectId(studentId1);
+    const assignmentId=new mongoose.Types.ObjectId(assignmentId1);
+    if (!assignmentId ) {
+        return res.json({ message: 'Assignment ID required' });
     }
-const isPresent= await studentAssignment.findOne({assignment:assignmentId,student:studentId});
+
+    if (!studentId ) {
+        return res.json({ message: 'student ID required' });
+    }
+    if (!fileUrl ) {
+        return res.json({ message: 'file url required' });
+    }
+    const isPresent= await studentAssignment.findOne({assignment:assignmentId,student:studentId});
     if(isPresent?.fileUrl){
         const publicId=extractPublicId(isPresent.fileUrl);
   //      console.log(publicId);
         const deletefile=await cloudinary.uploader.destroy(publicId);
-        if (deletefile.result !== 'ok') {
+        if (deletefile.result != 'ok') {
             return res.status(400).json({ message: 'Failed to delete the old file from Cloudinary.' });
         }
     }

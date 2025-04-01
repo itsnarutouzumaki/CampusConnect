@@ -44,6 +44,7 @@ const AddCourse = ({ closeModal }) => {
     formData.append("description",data.description);
     formData.append("pdfLink", data.pdfLink);
     formData.append("price", data.Price);
+    
     formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
   });
@@ -61,8 +62,6 @@ const AddCourse = ({ closeModal }) => {
       //   return;
       // }
     }
-
-    
     try {
 
       const response=await axios.post("/api/course/addcourse", formData);
