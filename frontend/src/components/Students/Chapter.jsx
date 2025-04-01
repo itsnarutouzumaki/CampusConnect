@@ -1,46 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
-// Single Chapter Item
 const ChapterBar = ({ chapter }) => {
-  const { title } = chapter;
+  const { title,url } = chapter;
 
   return (
     <div
       className="w-11/12 p-3 flex transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
       border-gray-800 hover:shadow-blue-400 shadow-lg"
     >
-      <p className="text-xl italic text-white font-sans">{title}</p>
+      <Link to={url} target="_black" className="text-xl italic text-white font-sans">{title}</Link>
     </div>
   );
 };
 
-// Main Chapter Component
 const Chapter = () => {
-  const [chapters, setChapters] = useState([
-    { title: "Introduction to Algebra" },
-    { title: "Chemical Reactions" },
-    { title: "World War II" },
-    { title: "Shakespearean Literature" },
-    { title: "Newton's Laws of Motion" },
-    { title: "Art and Expressionism" },
-  ]);
+  const [chapters, setChapters] = useState([]);
   const { courseId } = useParams();
 
   useEffect(() => {
     const fetchChapters = async () => {
       try {
         const response = await axios.post(
-          "/api/chapterLecture/getAllChapters",
+          "http://localhost:8000/api/chapterLecture/getAllChapters",
           {
-            course_id:  "67eaa21786a568b53909b7fd", // Use courseId from params or fallback
+            course_id:  "67eaa21786a568b53909b7fd",
           }
         );
-        const fetchedChapters = response.data.data.map((item) => ({
-          title: item.title,
-        }));
-        setChapters((prev) => [...prev, ...fetchedChapters]);
+        
+        setChapters(response.data.data);
       } catch (error) {
         console.error("Error fetching chapters:", error);
       }
