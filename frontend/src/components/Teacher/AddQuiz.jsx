@@ -32,11 +32,12 @@ function AddQuiz() {
 
   const handleSubmit =async () => {
     console.log({ quizName, quizDate, quizTime, questions });
+     
     const finaldata=[];
     for(let i=0;i<questions.length;i++)
     {
       finaldata.push(
-        {
+        {"dateTime":quizDate,
           "name":questions[i].question,
           "option":questions[i].answers,
           "correctoption":questions[i].correctAnswer
@@ -44,13 +45,13 @@ function AddQuiz() {
       );
     }
     console.log(finaldata);
-    const response=await axios.post("/api/quiz/addquiz",
-      {
-        name:quizName,
-        courseid:"67eaa21786a568b53909b7fd",
-        questions:finaldata
-      }
-    );
+    // const response=await axios.post("/api/quiz/addquiz",
+    //   {
+    //     name:quizName,
+    //     courseid:"67eaa21786a568b53909b7fd",
+    //     questions:finaldata
+    //   }
+    // );
     console.log(response);
     alert("Quiz submitted! Check the console for details.");
   };

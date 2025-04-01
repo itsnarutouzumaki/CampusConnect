@@ -28,8 +28,13 @@ const quizSchema=new Schema({
     courseid:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'courses'
+    },
+    quizDate:
+    {
+        type:Date
     }
 },
+
 {
     collection:'quiz',
     timestamps:true 

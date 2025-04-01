@@ -21,7 +21,6 @@ const AssignmentBar = ({ assignment }) => {
 
   const [showEditAssignmentModal, setShowEditAssignmentModal] = useState(false);
   const closeModalEditAssignment = () => setShowEditAssignmentModal(false);
-
   return (
     <div 
       className={`w-11/12 p-3 flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 border-white shadow-[0_0_15px_#00ff00]`}
@@ -56,7 +55,7 @@ const AssignmentBar = ({ assignment }) => {
 
 // Main Assignment Component
 const Assignment = () => {
-  
+   
 
   const assignments = [
     { AssignmentName: "Math Homework", marks: 80, totalmarks: 100, assignmentDueDate: "2023-12-01", assignmentDueTime: "5:00 PM", completed: false },
@@ -75,5 +74,4 @@ const Assignment = () => {
     </div>
   );
 };
-
 export default Assignment;

@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const studentenrolled = require("../../models/studentenrolled.js");
 const addquiz = async (req, res) => {
   req.body.courseid=new mongoose.Types.ObjectId(req.body.courseid);
+  req.body.quizDate=new Date( req.body.quizDate);
   const data = new quiz(req.body);
   const saveddata = await data.save();
   res.json(new apiresponse(200, "quiz added", { saveddata }));
