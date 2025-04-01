@@ -3,7 +3,7 @@ const express = require('express');
 const router=express.Router();
 
 router.post('/addChapter',addChapter);
-router.get('/getAllChapters',getAllChapters);
+router.post('/getAllChapters',getAllChapters);
 router.put('/editChapter',editChapter);
 router.delete('/deleteChapter',deleteChapter);
 router.post('/addLecture',addLecture);

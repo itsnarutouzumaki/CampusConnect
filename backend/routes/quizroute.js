@@ -7,5 +7,6 @@ router.post("/takequiz", quizController.takequiz);
 router.post("/addquiz", quizController.addquiz);
 router.post("/submitquiz", quizController.submitquiz);
 router.post('/viewresult',quizController.viewresult);
+router.post('/viewAllQuiz',quizController.viewAllQuiz);
 
 module.exports = router;

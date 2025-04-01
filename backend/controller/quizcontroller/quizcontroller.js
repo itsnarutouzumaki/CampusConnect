@@ -4,6 +4,7 @@ const quiz = require("../../models/quizschema.js");
 const studentquiz = require("../../models/studentquizschema.js");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const studentenrolled = require("../../models/studentenrolled.js");
 const addquiz = async (req, res) => {
   const data = new quiz(req.body);
   const saveddata = await data.save();
@@ -69,8 +70,23 @@ const viewresult=async (req, res) => {
 const data=await studentquiz.findOne({studentid:studentid,quizid:quizid});
 return res.json(new apiresponse(200,'quiz result fetched',data));
 }
-
+const viewAllQuiz = async (req, res) => {
+  const id = new mongoose.Types.ObjectId(req.body.courseId);
+  const data = await quiz.find({ courseid: id });
+  const student_id = new mongoose.Types.ObjectId(req.body.studentId);
+  const finaldata = [];
+  for (let i = 0; i < data.length; i++) {
+    const quizid = new mongoose.Types.ObjectId(data[i]._id);
+    const findstudent = await studentenrolled.findOne({ quizid: quizid, studentid: student_id });
+    finaldata.push({
+      ...data[i]._doc, // Spread the quiz object
+      isAttempted: !!findstudent // Add isAttempted based on whether the student is enrolled
+    });
+  }
+  return res.json(new apiresponse(200, "all quizzes fetched", finaldata));
+};
 module.exports = {
+  viewAllQuiz,
   addquiz,
   viewquizes,
   takequiz,

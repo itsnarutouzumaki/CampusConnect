@@ -21,8 +21,8 @@ const addChapter = async (req, res) => {
 // get all chapters
 const getAllChapters = async (req, res) => {
     try{
-    
-        const chapters = await Chapter.findOne();
+    const id=new mongoose.Types.ObjectId(req.body.course_id);
+        const chapters = await Chapter.find({course:id});
         return res.json(new response(200,chapters,'All chapters fetched successfully'));
     }
     catch(err){
@@ -41,12 +41,9 @@ const editChapter = async (req, res) => {
     try
     {
     const chapterid=new mongoose.Types.ObjectId(req.body.chapter_id);
-    
     const chapter=await Chapter.findOneAndUpdate({_id:chapterid},{$set:actualdata},
-        
     {new:true}
     );
-    
     return res.json(new response(200,chapter,'chapter updated successfully'));
     }
     catch(err){
@@ -90,7 +87,8 @@ const addLecture = async (req, res) => {
 // get all lectures
 const getAllLectures = async (req, res) => {
     try{
-        const lectures = await Lecture.find();
+        const courseId=new mongoose.Types.ObjectId(req.body.courseId);
+        const lectures = await Lecture.find({course:courseId});
         return res.json(new response(200,lectures,'all lectures fetched successfully'));
     }
     catch(err){
