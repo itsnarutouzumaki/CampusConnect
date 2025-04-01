@@ -7,7 +7,7 @@ router.post('/addAssignment',addAssignment);
 router.post('/getAllAssignment',getAllAssignments);
 router.put('/editAssignment',editAssignment);
 router.post('/uploadFile',upload.single('file'),uploadFile);
-router.post('/submitAssignment/:assignmentId',submitAssignment);
+router.post('/submitAssignment',submitAssignment);
 router.get('/viewAssignment',viewAssignment);
 router.delete('/deleteAssignment',deleteAssignment);
 module.exports=router;
