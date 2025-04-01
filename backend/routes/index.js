@@ -5,6 +5,7 @@ const teacher = require('./teacherroute.js');
 const course = require('./courseroute.js');
 const assignment = require('./assignmentroute.js');
 const chapterLecture = require('./chapterAndLectureroute.js');
+const payment = require('./paymentroute.js');
 
 const router = express.Router();
 const quiz = require('./quizroute.js');
@@ -15,4 +16,5 @@ router.use('/course', course);
 router.use('/assignment', assignment);
 router.use('/chapterLecture', chapterLecture);
 router.use('/admin',admin);
+router.use('/payment', payment);
 module.exports = router;
