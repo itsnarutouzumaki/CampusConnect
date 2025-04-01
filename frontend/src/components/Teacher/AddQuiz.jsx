@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 function AddQuiz() {
   const [quizName, setQuizName] = useState("");
   const [quizDate, setQuizDate] = useState("");
