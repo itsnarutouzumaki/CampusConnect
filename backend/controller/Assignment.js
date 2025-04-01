@@ -1,8 +1,9 @@
 const Assignment=require('../models/assignmentSchema');
 const response= require('../utils/apiresponse');
-const uploadedFile=null;
+let uploadedFile = null;
 const mongoose = require('mongoose');
-
+const studentAssignment=require('../models/studentAssignemnt');
+const cloudinary = require('../config/cloudinary');
 // add an assignment
 const addAssignment = async (req, res) => {
     const { title, url, dueDate, course } = req.body;
@@ -42,7 +43,7 @@ const editAssignment = async (req, res) => {
 
 // Upload File
 const uploadFile = (req, res) => {
-    // console.log('File received:', req.file); // Debugging
+    console.log('File received:', req.file); // Debugging
 
     if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
@@ -54,32 +55,43 @@ const uploadFile = (req, res) => {
     return res.json(new response(200,{url: uploadedFile},'image uploaded successfully'));
 };
 
+// Extract Public ID from URL
+function extractPublicId(url) {
+    const regex = /\/v\d+\/(.+?)\.\w+$/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+}
 
 //  Submit Assignment
 const submitAssignment = async (req, res) => {
-    const { assignmentId } = req.params;
-    const { fileUrl } = req.body; 
-    // console.log(assignmentId, url); 
-    if (!assignmentId || !fileUrl) {
-        return res.json({ message: 'Assignment ID and file URL are required' });
+    const { assignmentId,studentId,fileUrl } = req.body; 
+    
+    if (!assignmentId || !fileUrl || !studentId) {
+        return res.json({ message: 'Assignment ID , student ID and file URL are required' });
+    }
+
+    const isPresent= await studentAssignment.findOne({assignment:assignmentId,student:studentId});
+    if(isPresent?.fileUrl){
+        const publicId=extractPublicId(isPresent.fileUrl);
+        console.log(publicId);
+        const deletefile=await cloudinary.uploader.destroy(publicId);
+        if (deletefile.result !== 'ok') {
+            return res.status(400).json({ message: 'Failed to delete the old file from Cloudinary.' });
+        }
     }
 
     try {
-        const updatedAssignment = await Assignment.findByIdAndUpdate(
-            assignmentId,
-            { fileUrl, isSubmitted: true, submittedAt: new Date() },
-            { new: true }
-        );
+        const assignment=await studentAssignment.create({assignment:assignmentId,student:studentId,fileUrl:fileUrl});
 
-        if (!updatedAssignment) {
+        if (!assignment) {
             return res.json({ message: 'Assignment not found' });
         }
 
-        return res.json(new response(200,{assignment: updatedAssignment},'Assignment submitted successfully!'));
+        return res.json(new response(200,assignment,'Assignment submitted successfully!'));
 
     } catch (error) {
         // console.log('Error submitting assignment:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.json({ message: 'Server error', error: error.message });
     }
 };
 
@@ -95,7 +107,7 @@ const viewAssignment = async (req, res) => {
         res.json(new response(200,{fileUrl: assignment.fileUrl},'Assignment found'));
     } catch (error) {
         // console.error('Error fetching assignment:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.json({ message: 'Server error', error: error.message });
     }
 };
 

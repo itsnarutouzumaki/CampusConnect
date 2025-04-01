@@ -6,7 +6,8 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'assignments',
-        resource_type: 'auto'
+        resource_type: 'auto',
+        overwrite: true
     }
 });
 
