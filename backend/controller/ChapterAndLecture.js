@@ -21,7 +21,8 @@ const addChapter = async (req, res) => {
 // get all chapters
 const getAllChapters = async (req, res) => {
     try{
-        const chapters = await Chapter.find();
+    
+        const chapters = await Chapter.findOne();
         return res.json(new response(200,chapters,'All chapters fetched successfully'));
     }
     catch(err){

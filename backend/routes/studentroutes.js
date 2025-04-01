@@ -9,5 +9,5 @@ router.post('/studentregister',studentController.checkUserExists,studentControll
 router.post('/updatedetails',studentController.updatedetails);
 router.post('/userdetails',studentController.userdetails);
 router.post('/changepassword',studentController.changePassword);
-
+router.post('/studentlogout',studentController.logout);
 module.exports=router;
