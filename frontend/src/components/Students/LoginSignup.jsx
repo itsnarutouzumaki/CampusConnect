@@ -20,7 +20,6 @@ const LoginSignupForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
     const url = isLogin
       ? "/api/students/studentlogin"
       : "/api/students/studentregister";
@@ -31,15 +30,12 @@ const LoginSignupForm = () => {
           email: formData.email,
           password: formData.password,
         };
-
     try {
       const { data, status } = await axios.post(url, payload);
-
       if (isLogin && status === 200) {
         localStorage.setItem("userName", data.data.student.fullname);
         localStorage.setItem("studentId", data.data.student._id);
       }
-
       toast.success(isLogin ? "You loggedin successfully!" : "Student signedup successfully!", {
         position: "top-center",
         duration: 2000,

@@ -60,21 +60,34 @@ const login = async (req, res) => {
   res.json(new apiresponse(200, { student }, "User logged in successfully"));
 };
 
+const logout = (req, res) => {
+  try {
+    res.clearCookie("auth_token", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "Strict",
+      domain: "localhost",
+    });
+    res.json(new apiresponse(200, null, "User logged out successfully"));
+  } catch (error) {
+    res
+      .status(500)
+      .json(new apiresponse(500, null, "Server error during logout"));
+  }
+};
+
 const userdetails = async (req, res) => {
   const details = await item2.findOne({ email: req.body.email });
 };
+
 const updatedetails = async (req, res) => {
-  const id=new mongoose.Types.ObjectId(req.body.student_id);  
-  if(req.file && req.file.path)
-  {
-    req.body.profileimage=req.file.path;
-  }
+  const id = new mongoose.Types.ObjectId(req.body.student_id);
   const details = await item2.findOneAndUpdate(
-    { _id:id},
+    { _id: id },
     { $set: req.body },
     { new: true }
   );
-  res.json(new apiresponse(200,details ,"User details updated"));
+  res.json(new apiresponse(200, "User details updated", { details }));
 };
 const changePassword = async (req, res) => {
   try {
@@ -105,7 +118,9 @@ const changePassword = async (req, res) => {
   }
 };
 
+
 module.exports = {
+  logout,
   signup,
   checkUserExists,
   login,

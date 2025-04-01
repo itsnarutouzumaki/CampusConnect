@@ -25,22 +25,18 @@ const Navbar = () => {
   };
 
   const handleLogoutRequest = async (e) => {
-    e.preventDefault(); // Prevent default link behavior
-    localStorage.removeItem("userName");
-    setUserName(null);
+    e.preventDefault();
     try {
-      const response = await axios.get("/api/students/studentlogout");
-      if (response.status === 200) {
+      const response = await axios.post("/api/students/studentlogout");
+      if (response.data.success) {
         toast.success("Logout successful", {
           position: "top-center",
           duration: 2000,
         });
         navigate("/loginsignup");
-      } else {
-        toast.error(response.data.message, {
-          position: "top-center",
-          duration: 2000,
-        });
+        localStorage.removeItem("userName");
+        localStorage.removeItem("studentId");
+        setUserName(null);
       }
     } catch (error) {
       console.error("Logout error:", error);
