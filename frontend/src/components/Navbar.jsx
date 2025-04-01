@@ -5,6 +5,8 @@ import Logo from "./Logo";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import ChangePassoword from "./Modal/StudentChangePassword.modal";
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,6 +76,9 @@ const Navbar = () => {
       </li>
     </ul>
   );
+  
+  const [showChangePassword,setShowChangePassword]=useState(false);
+  const closeShowPasswordModal= () =>{setShowChangePassword(false)};
 
   const loggedInComponent = (
     <ul
@@ -90,12 +95,12 @@ const Navbar = () => {
         </Link>
       </li>
       <li className="py-0.5 px-1">
-        <Link
-          to="/dashboard"
-          className="text-black no-underline hover:bg-white/30 hover:rounded-md px-1 py-0.5"
+        <div
+          onClick={()=>setShowChangePassword(true)}
+          className="text-black no-underline cursor-pointer hover:bg-white/30 hover:rounded-md px-1 py-0.5"
         >
           Change Password
-        </Link>
+        </div>
       </li>
       <li key="logout" className="py-0.5 px-1">
         <Link
@@ -171,6 +176,7 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
+      {showChangePassword  && <ChangePassoword closeModal={closeShowPasswordModal}/>}
     </nav>
   );
 };

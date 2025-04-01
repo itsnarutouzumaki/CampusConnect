@@ -103,4 +103,18 @@ const removeteacher=async(req,res)=>
   return res.json(new ApiResponse(200, { removecourse }, "teacher removed successfully")
 );
 }
-module.exports = { signup, login, checkUserExists,updatedetails,removeteacher};
+const changePassword=async (req,res)=>{
+  const id=new mongoose.Types.ObjectId(req.body.teacher_id);
+  const details=await Teacher.findOne({_id:id});
+  const isMatch = await bcrypt.compare(req.body.password,details.password);
+  if(!isMatch)
+  {
+    return res.json(new apiresponse(200,details ,"password change failed due to incorrect password entered"));
+  }
+  const newpassword=await bcrypt.hash(req.body.newpassword, 10);
+  const data=Teacher.findOneAndUpdate({_id:id},{$set:{
+    password:newpassword
+  }});
+  return res.json(new apiresponse(200,data ,"Teacher details updated"));
+}
+module.exports = { signup, login, checkUserExists,updatedetails,removeteacher,changePassword};

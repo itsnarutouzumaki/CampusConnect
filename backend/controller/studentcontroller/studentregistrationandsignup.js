@@ -39,6 +39,7 @@ const login = async (req, res) => {
     return res.status(400).send("Invalid email or password");
   }
   const isMatch = await bcrypt.compare(password, student.password);
+
   if (!isMatch) {
     return res.status(400).send("Invalid email or password");
   }
@@ -75,10 +76,40 @@ const updatedetails = async (req, res) => {
   );
   res.json(new apiresponse(200,details ,"User details updated"));
 };
+const changePassword = async (req, res) => {
+  try {
+    const id = new mongoose.Types.ObjectId(req.body.student_id);
+    const details = await item2.findOne({ _id: id });
+
+    if (!details) {
+      return res.json(new apiresponse(404, null, "User not found"));
+    }
+
+    const isMatch = await bcrypt.compare(req.body.password, details.password);
+    if (!isMatch) {
+      return res.json(new apiresponse(400, null, "Incorrect password"));
+    }
+
+    const newPassword = await bcrypt.hash(req.body.newpassword, 10);
+
+    const updatedUser = await item2.findOneAndUpdate(
+      { _id: id },
+      { $set: { password: newPassword } },
+      { new: true } // Ensures the updated document is returned
+    );
+
+    return res.json(new apiresponse(200, updatedUser, "Password updated successfully"));
+  } catch (error) {
+    console.error("Error updating password:", error);
+    return res.status(500).json(new apiresponse(500, null, "Internal server error"));
+  }
+};
+
 module.exports = {
   signup,
   checkUserExists,
   login,
   userdetails,
   updatedetails,
+  changePassword,
 };

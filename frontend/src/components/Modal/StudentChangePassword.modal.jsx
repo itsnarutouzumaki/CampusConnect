@@ -1,14 +1,72 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import ReactDOM from "react-dom";
-
+import axios from "axios";
 const ChangePassoword = ({ closeModal }) => {
+  const [formData, setFormData] = useState({
+    password:"",
+    newPassword:"",
+    reTypeNewPassword:""
+  });
+  const handleInputChange=(e)=>
+  {
+    const { name, value } = e.target;
+   
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+  const validateForm = () => {
+    if (!formData.reTypeNewPassword.trim()) {
+      setError("retypenewpassword is required");
+      return false;
+    }
+    if(!formData.newPassword.trim())
+    {
+      setError("new password is required");
+      return false;
+    }
+    if (!formData.password.trim()) {
+      setError("Password is required");
+      return false;
+    }
+    if(!(formData.newPassword.trim()===formData.reTypeNewPassword.trim()))
+    {
+      setError("the retyped password and the new password do not match");
+      return false;
+    }
+    return true;
+  };
+  const handleSubmit=async (e)=>{
+    e.preventDefault();
+    if (!validateForm()) return;
+    try
+    {
+    const response=await axios.post("http://localhost:8000/api/students/changepassword",
+        {
+          student_id:"67e6a12cf047c77f80a0dea9",
+          password:formData.password,
+          newpassword:formData.newPassword
+        }
+      );
+      console.log(response);
+      onTeacherUpdated(response.data);
+      closeModal();
+    }
+    catch(error)
+    {
+      console.log("an error occured",error);
+      setError("something went wrong");
+      return false;
+    }
+  }
   useEffect(() => {
     document.body.style.overflowY = "hidden";
     return () => {
       document.body.style.overflowY = "scroll";
     };
   }, []);
-
+   
   return ReactDOM.createPortal(
     <div
       className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50"
@@ -23,27 +81,36 @@ const ChangePassoword = ({ closeModal }) => {
         </h3>
         <input
           type="text"
+          name="password"
           placeholder="Password"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={formData.password}
           required
         />
         <input
           type="text"
+          name="newPassword"
           placeholder="New Password"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={formData.newPassword}
           required
         />
         <input
           type="text"
           placeholder="Repeat New Password"
+          name="reTypeNewPassword"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={formData.reTypeNewPassword}
           required
         />
         <button
           className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
-          onClick={closeModal}
+          onClick={handleSubmit}
         >
-          Save Changes
+        Save Changes
         </button>
       </div>
     </div>,
