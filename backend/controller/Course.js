@@ -191,6 +191,8 @@ const enrollStudent = async (req, res) => {
 
 // isEnrolled
 const isEnrolled = async (req, res) => {
+  console.log(req.params.courseId);
+ 
   const courseId = new mongoose.Types.ObjectId(req.params.courseId);
   const course = await Course.findById(courseId);
   const studentId = req.params.studentId;

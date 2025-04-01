@@ -4,7 +4,7 @@ let uploadedFile = null;
 const mongoose = require('mongoose');
 const studentAssignment=require('../models/studentAssignemnt');
 const cloudinary = require('../config/cloudinary');
-
+const teacherschema = require('../models/teacherschema');
 // add an assignment
 const addAssignment = async (req, res) => {
     const { title, url, dueDate, course } = req.body;
@@ -15,7 +15,6 @@ const addAssignment = async (req, res) => {
         return res.json({ status: 'failure', message:err.message });
     }
 }
-
 // get all assignments
 const getAllAssignments = async (req, res) => {
     const courseId=new mongoose.Types.ObjectId(req.body.courseId);
@@ -48,7 +47,6 @@ const getAllAssignments = async (req, res) => {
         return res.json({ status: 'failure', message: err.message });
     }
 }
-
 // edit an assignment
 const editAssignment = async (req, res) => {
     const id=new mongoose.Types.ObjectId(req.body.assignment_id);
@@ -62,8 +60,6 @@ const editAssignment = async (req, res) => {
         return res.json({ status: 'failure', message: err.message });
     }
 }
-
-
 // Upload File
 const uploadFile = (req, res) => {
     console.log('File received:', req.file); // Debugging
@@ -71,10 +67,7 @@ const uploadFile = (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
     }
-
-    
     uploadedFile = req.file.path;  
-
     return res.json(new response(200,{url: uploadedFile},'image uploaded successfully'));
 };
 
@@ -122,7 +115,12 @@ const submitAssignment = async (req, res) => {
         res.json({ message: 'Server error', error: error.message });
     }
 };
-
+const viewAssignmentByTeacher=async(req,res)=>
+{
+    const courseId=new mongoose.Types.ObjectId(req.body.courseId);
+    const data=await Assignment.find({course:courseId});
+    return res.json(new response(200,{data},'Assignment found'));
+}
 //  View Assignment
 const viewAssignment = async (req, res) => {
     const assignmentId=new mongoose.Types.ObjectId(req.body.assignment_id);
@@ -161,5 +159,6 @@ module.exports = {
     uploadFile,
     submitAssignment,
     viewAssignment,
-    deleteAssignment
+    deleteAssignment,
+    viewAssignmentByTeacher
 }

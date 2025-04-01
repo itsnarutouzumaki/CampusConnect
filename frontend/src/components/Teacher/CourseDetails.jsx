@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { MdEdit } from "react-icons/md";
 import Assignment from "./Assignment";
 import Chapter from "./Chapter";
@@ -10,17 +10,16 @@ import Lecture from "./Lecture";
 import Quiz from "./Quiz";
 import AddQuiz from "../Modal/AddQuiz.modal";
 import { useParams } from "react-router-dom";
-
-const courseData = {
-  name: "Name Of Course",
-  code: "CS3102",
-  createdDate: "January 1, 2024",
-  expiryDate: "December 31, 2024",
-  instructor: "John Doe, M.Sc. Computer Science",
-  over:
-    "Dive deep into modern web technologies, mastering frontend frameworks, backend APIs, and database management. This course provides comprehensive learning materials and assignments to prepare you for real-world development.",
-};
-
+import axios from 'axios';
+// const courseData = {
+//   name: "Name Of Course",
+//   code: "CS3102",
+//   createdDate: "January 1, 2024",
+//   expiryDate: "December 31, 2024",
+//   instructor: "John Doe, M.Sc. Computer Science",
+//   over:
+//     "Dive deep into modern web technologies, mastering frontend frameworks, backend APIs, and database management. This course provides comprehensive learning materials and assignments to prepare you for real-world development.",
+// };
 const AddButton = ({ selectedOption, courseId }) => {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
@@ -48,6 +47,7 @@ const AddButton = ({ selectedOption, courseId }) => {
 
   // Determine the modal to render
   const getModalComponent = () => {
+ 
     switch (selectedOption) {
       case "Chapter":
         return <AddChapter closeModal={closeModal} courseID={courseId} />;
@@ -60,8 +60,7 @@ const AddButton = ({ selectedOption, courseId }) => {
       default:
         return null;
     }
-  };
-
+  }; // Added dependency array to prevent continuous calls
   return (
     <div>
       <div
@@ -76,6 +75,25 @@ const AddButton = ({ selectedOption, courseId }) => {
 };
 
 const TeacherCourseDetails = () => {
+  
+const[fetched,isFetched]=useState(false);
+const[courseData,fetchCourseData]=useState([]);
+  useEffect(() => { 
+    const fetchCourse = async () => {
+      try {
+        const response = await axios.post(
+          `/api/course/isEnrolled/67eaa21786a568b53909b7fd/67e9187394d5f3c13aa3f9c0`
+        );
+        console.log(response);
+      fetchCourseData(response.data.data.course);
+      isFetched(true);
+      } catch (error) {
+        console.error("Error fetching course data:", error);
+      }
+    };
+   
+    fetchCourse();
+  }, [fetched]);
   const [selectedOption, setSelectedOption] = useState("Chapter");
   const [showEditCourseModal, setShowEditCourseModal] = useState(false);
 
@@ -100,7 +118,7 @@ const TeacherCourseDetails = () => {
     <div className="min-h-screen flex flex-col items-center py-8 sm:py-10">
       <div className="bg-white/20 backdrop-blur-[10%] w-full p-6 sm:p-8 md:p-10 rounded-lg shadow-lg text-white flex flex-col relative">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 sm:mb-6 italic text-center">
-          {courseData.name}
+          {courseData.title}
         </h1>
 
         <div
@@ -111,12 +129,12 @@ const TeacherCourseDetails = () => {
         </div>
 
         <div className="flex flex-col items-start space-y-2 sm:space-y-3 text-sm sm:text-base md:text-lg">
-          <p><span className="font-semibold">Course Code:</span> <span className="italic">{courseData.code}</span></p>
-          <p><span className="font-semibold">Created Date:</span> <span className="italic">{courseData.createdDate}</span></p>
+          <p><span className="font-semibold">Course Name:</span> <span className="italic">{courseData.title}</span></p>
+          <p><span className="font-semibold">Created Date:</span> <span className="italic">{courseData.startDate}</span></p>
           <p><span className="font-semibold">Expiry Date:</span> <span className="italic">{courseData.expiryDate}</span></p>
-          <p><span className="font-semibold">Instructor:</span> <a href="#" className="italic text-green-600">{courseData.instructor}</a></p>
+          <p><span className="font-semibold">Instructor:</span> <a href="#" className="italic text-green-600">{courseData.coordinator_name}</a></p>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg leading-6">
-            <span className="font-semibold">Course Over:</span> <span className="italic">{courseData.over}</span>
+            <span className="font-semibold">Course Price:</span> <span className="italic">{courseData.price}</span>
           </p>
         </div>
 
