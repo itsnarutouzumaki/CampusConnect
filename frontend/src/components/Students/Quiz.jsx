@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const QuizBar = ({ quiz }) => {
-  const { quizId,quizName, hours, minutes, time, date } = quiz;
+  const { quizId, quizName, hours, minutes, time, date } = quiz;
   return (
     <div
       className="w-11/12 p-3 flex transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
@@ -22,28 +24,29 @@ const QuizBar = ({ quiz }) => {
 };
 
 const Quiz = () => {
-  const quizs = [
-    {
-      quizId: 1,
-      quizName: "Introduction to Algebra",
-      hours:2,
-      minutes: 30,
-      time: "10:30 AM",
-      date: "2023-12-01",
-    },
-    {
-      quizId: 2,
-      quizName: "Advanced Geometry",
-      hours: 2,
-      minutes: 15,
-      time: "02:00 PM",
-      date: "2023-12-02",
-    },
-  ];
+  const [Quizes, setQuizes] = useState([]);
+  const studentId = localStorage.getItem("studentId");
+  const { courseId } = useParams();
+
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        const response = await axios.post("/api/quiz/viewAllQuiz", {
+          studentId: studentId,
+          courseId: "67eaa21786a568b53909b7fd",
+        });
+        console.log(response);
+        setQuizes(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchQuiz();
+  }, [studentId, courseId]);
 
   return (
     <div className="w-full mx-auto flex flex-col p-4">
-      {quizs.map((quiz) => (
+      {Quizes.map((quiz) => (
         <QuizBar key={quiz.quizId} quiz={quiz} />
       ))}
     </div>

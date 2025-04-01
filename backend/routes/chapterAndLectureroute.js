@@ -7,7 +7,7 @@ router.post('/getAllChapters',getAllChapters);
 router.put('/editChapter',editChapter);
 router.delete('/deleteChapter',deleteChapter);
 router.post('/addLecture',addLecture);
-router.get('/getAllLectures',getAllLectures);
+router.post('/getAllLectures',getAllLectures);
 router.put('/editLecture/:id',editLecture);
 router.delete('/deleteLecture',deleteLecture);
 module.exports=router;

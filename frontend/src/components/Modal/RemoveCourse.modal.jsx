@@ -1,13 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import axios from "axios";
 
 const RemoveCourse = ({ closeModal }) => {
+  const [courseId, setCourseId] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     document.body.style.overflowY = "hidden";
     return () => {
       document.body.style.overflowY = "scroll";
     };
   }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.delete(`/api/courses/${courseId}`);
+      console.log("Course removed successfully:", response.data);
+      closeModal(); 
+    } catch (error) {
+      console.error("Error removing course:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return ReactDOM.createPortal(
     <div
@@ -25,20 +44,27 @@ const RemoveCourse = ({ closeModal }) => {
           Are you sure you want to remove this course? This action cannot be
           undone.
         </p>
-        <div className="flex justify-center space-x-4 mt-4">
-        <button
-            className="m-2 rounded-lg p-2 bg-red-700 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
-            onClick={closeModal}
-          >
-            Remove Course
-          </button>
+        <form onSubmit={handleSubmit} className="w-full">
+          <input
+            type="text"
+            name="courseId"
+            placeholder="Course ID"
+            className="m-2 rounded-lg p-2 w-[80%] text-black"
+            onChange={(e) => setCourseId(e.target.value)}
+            value={courseId}
+            required
+          />
+
           <button
-            className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
-            onClick={closeModal}
+            type="submit"
+            disabled={isSubmitting}
+            className={`m-2 rounded-lg p-2 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer ${
+              isSubmitting ? "bg-gray-400" : "bg-blue-400"
+            }`}
           >
-            Cancel
+            {isSubmitting ? "Saving..." : "Save Changes"}
           </button>
-        </div>
+        </form>
       </div>
     </div>,
     document.querySelector(".myPortalModalDiv")
