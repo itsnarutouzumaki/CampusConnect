@@ -16,9 +16,7 @@ const questionschema=new Schema({
 
 );
 const quizSchema=new Schema({
-    _id:{
-        type:mongoose.Schema.Types.ObjectId,
-    },
+    
     name:{
         type:String,
         required:true

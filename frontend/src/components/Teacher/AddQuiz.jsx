@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 function AddQuiz() {
   const [quizName, setQuizName] = useState("");
   const [quizDate, setQuizDate] = useState("");
@@ -29,8 +30,28 @@ function AddQuiz() {
     setQuestions([...questions, { question: "", answers: ["", "", "", ""], correctAnswer: "" }]);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit =async () => {
     console.log({ quizName, quizDate, quizTime, questions });
+    const finaldata=[];
+    for(let i=0;i<questions.length;i++)
+    {
+      finaldata.push(
+        {
+          "name":questions[i].question,
+          "option":questions[i].answers,
+          "correctoption":questions[i].correctAnswer
+        }
+      );
+    }
+    console.log(finaldata);
+    const response=await axios.post("/api/quiz/addquiz",
+      {
+        name:quizName,
+        courseid:"67eaa21786a568b53909b7fd",
+        questions:finaldata
+      }
+    );
+    console.log(response);
     alert("Quiz submitted! Check the console for details.");
   };
 

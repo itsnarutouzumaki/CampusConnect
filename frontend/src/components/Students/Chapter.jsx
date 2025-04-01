@@ -32,7 +32,7 @@ const Chapter = () => {
     const fetchChapters = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/chapterLecture/getAllChapters",
+          "/api/chapterLecture/getAllChapters",
           {
             course_id:  "67eaa21786a568b53909b7fd", // Use courseId from params or fallback
           }
