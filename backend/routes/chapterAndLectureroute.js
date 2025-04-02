@@ -1,4 +1,4 @@
-const  {addChapter,getAllChapters,editChapter,deleteChapter,addLecture,getAllLectures,editLecture,deleteLecture}=require('../controller/ChapterAndLecture');
+const  {addChapter,getAllChapters,editChapter,deleteChapter,addLecture,getAllLectures,editLecture,deleteLecture,startMeet}=require('../controller/ChapterAndLecture');
 const express = require('express');
 const router=express.Router();
 
@@ -10,4 +10,5 @@ router.post('/addLecture',addLecture);
 router.post('/getAllLectures',getAllLectures);
 router.put('/editLecture/:id',editLecture);
 router.delete('/deleteLecture',deleteLecture);
+router.post('/startMeet',startMeet);
 module.exports=router;
