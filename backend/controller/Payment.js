@@ -41,7 +41,7 @@ const verifyPayment=async(req,res)=>{
     return res.json(new response(200,payment,'payment done successfully'));
 }
 
-//student cousre purschase history
+//student course purchase history
 const studentPurchase=async(req,res)=>{
     const studentId=new mongoose.Types.objectId(req.params.studentId);
     const payment=await Payment.find({studentId:studentId});

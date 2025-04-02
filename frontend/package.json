@@ -12,6 +12,7 @@
   "dependencies": {
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.5.0",
+    "@zegocloud/zego-uikit-prebuilt": "^2.14.3-beta",
     "axios": "^1.7.9",
     "chart.js": "^4.4.6",
     "cors": "^2.8.5",

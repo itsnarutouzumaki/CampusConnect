@@ -127,6 +127,26 @@ const deleteLecture = async (req, res) => {
     }
 }
 
+//start meet or lecture
+const startMeet = async(req,res) =>{
+    const lectureId=new mongoose.Types.ObjectId(req.body.lectureId);
+    const videoUrl=req.body.videoUrl;
+
+    try{
+        const lecture = await Lecture.findByIdAndUpdate(lectureId,{
+            videoUrl:videoUrl
+        },{new:true});
+    
+        if(!lecture){
+            return res.json(new response(400,{},'lecture is not present'));
+        }
+    
+        return res.json(new response(200,lecture,'lecture has been started'));
+    }catch(err){
+        return res.json(new response(400,err,err.message));
+    }
+}
+
 module.exports = {
     addChapter,
     getAllChapters,
@@ -135,5 +155,6 @@ module.exports = {
     addLecture,
     getAllLectures,
     editLecture,
-    deleteLecture
+    deleteLecture,
+    startMeet
 }
