@@ -1,6 +1,5 @@
 import React from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
-
 const QuizBar = ({ quiz }) => {
   const { quizId,quizName, hours, minutes, time, date } = quiz;
   return (

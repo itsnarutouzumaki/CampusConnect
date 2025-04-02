@@ -31,14 +31,14 @@ const getAllAssignments = async (req, res) => {
         });
         if(findstudent)
         {
-            finaldata.push({...assignments._doc,
+            finaldata.push({...assignments[i]._doc,
                 iscompleted:true
             });
         }
         else
         {
             
-            finaldata.push({...assignments._doc,
+            finaldata.push({...assignments[i]._doc,
                 iscompleted:false
             });
         }

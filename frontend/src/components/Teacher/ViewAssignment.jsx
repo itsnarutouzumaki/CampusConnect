@@ -7,7 +7,7 @@ function ViewAssignment({ assignment_id }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post("http://localhost:8080/api/assignment/viewAssignment", {
+                const response = await axios.post("/api/assignment/viewAssignment", {
                     assignment_id  // Sending data in the request body
                 });
                 setStudentData(response.data);
