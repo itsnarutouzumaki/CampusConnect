@@ -115,6 +115,13 @@ const changePassword=async (req,res)=>{
   const data=Teacher.findOneAndUpdate({_id:id},{$set:{
     password:newpassword
   }});
-  return res.json(new apiresponse(200,data ,"Teacher details updated"));
+  return res.json(new ApiResponse(200,data ,"Teacher details updated"));
 }
-module.exports = { signup, login, checkUserExists,updatedetails,removeteacher,changePassword};
+const getTeacher=async(req,res)=>
+{
+  const id=new mongoose.Types.ObjectId(req.body.teacherId);
+  const data=await Teacher.findOne({_id:id});
+  console.log(data);
+  return res.json(new ApiResponse(200,data ,"Teacher details fetched"));
+}
+module.exports = { signup, login, checkUserExists,updatedetails,removeteacher,changePassword,getTeacher};

@@ -9,7 +9,7 @@ const Assignment=require("../models/assignmentSchema.js");
 const {Chapter,Lecture}=require("../models/chapterLectureSchema.js");
 const StudentQuiz=require("../models/studentquizschema.js");
 const StudentEnrolled=require("../models/studentenrolled.js");
-
+const Teacher=require("../models/teacherschema.js");
 let uploadedFile = null;
 // add a course
 const addCourse = async (req, res) => {
@@ -266,7 +266,15 @@ catch(e)
   console.log(e);
 }
 }
+const courseByTeacher=async(req,res)=>
+{
+  const teacherId=new mongoose.Types.ObjectId(req.body.teacherId);
+  const data=await Teacher.findOne({_id:teacherId});
+  const course=await Course.find({coordinator:data.email});
+  return res.json(new ApiResponse(200,course,"courses fetched successfully"));
+}
 module.exports = {
+  courseByTeacher,
   addCourse,
   uploadImg,
   getAllCoursesData,

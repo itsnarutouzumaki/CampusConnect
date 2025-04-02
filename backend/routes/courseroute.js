@@ -1,4 +1,4 @@
-const {addCourse,uploadImg,getAllCoursesData,enrollStudent,isEnrolled,updatecourse,removecourse
+const {addCourse,uploadImg,getAllCoursesData,enrollStudent,isEnrolled,updatecourse,removecourse,courseByTeacher
 }=require('../controller/Course.js');
 const jwttoken=require('../middleware/jwttoken.js');
 const express = require('express');
@@ -12,6 +12,7 @@ router.put('/updatecourse',updatecourse);
 router.post('/uploadImg',upload.single('file'),uploadImg);
 router.post('/enrollstudent',enrollStudent);
 router.post('/isEnrolled/:courseId/:studentId',isEnrolled);
+router.post('/courseByTeacher',courseByTeacher);
 router.delete('/removecourse',removecourse);
 
 module.exports=router;
