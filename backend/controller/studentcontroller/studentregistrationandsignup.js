@@ -4,6 +4,10 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const apiresponse = require("../../utils/apiresponse.js");
 const { default: mongoose } = require("mongoose");
+const studentquiz = require("../../models/studentquizschema.js");
+const Assignment=require("../../models/assignmentSchema.js");
+const Quiz=require("../../models/quizschema.js");
+const studentenrolled = require("../../models/studentenrolled.js");
 
 const checkUserExists = async (req, res, next) => {
   const email = req.body.email;
@@ -118,8 +122,82 @@ const changePassword = async (req, res) => {
   }
 };
 
-
+const studentProgress=async(req,res)=>
+{
+  const id=new mongoose.Types.ObjectId(req.body.studentId);
+ const pipeline= [
+  {
+    "$match":
+    {
+      "studentid":id
+    }
+  },
+    {
+      "$sort": { "createdAt": -1 }  // Sort in descending order (latest first)
+    }
+  ];
+  const data=await studentquiz.aggregate(pipeline);
+  const finaldata=[];
+  let count=0,sum=0;
+  
+  for(let i=0;i<data.length;i++)
+  {
+    const num1 = parseInt(data[i].total_marks, 10),num2 = parseInt(data[i].marks, 10);
+    count=count+num1;
+    sum=sum+num1*num2;
+    finaldata.push(sum/count);
+  }
+  return res.json(new apiresponse(200, finaldata, "user progress fetched successfully"));
+}
+const upcomingTask=async(req,res)=>
+{
+  const id=new mongoose.Types.ObjectId(req.body.studentId);
+  const findCourse=await studentenrolled.find({studentid:id});
+  const finaldata=[];
+  for(let j=0;j<findCourse.length;j++)
+  {
+    const courseId=new mongoose.Types.ObjectId(findCourse[j].course_id);
+  const assignment=await Assignment.find({course:courseId});
+  const Quiz=await Quiz.find({courseid:courseId});
+  
+  for(let i=0;i<assignment.length;i++)
+  {
+    const date=new Date();
+    if(date<assignment[i].dueDate)
+    {
+      const {date,time}=assignment[i].dueDate.split("T");
+    finaldata.push(
+      {
+       "name":assignment[i].title+" "+"Assignment",
+       "id":assignment[i]._id,
+       "dueDate":date,
+       "dueTime": time
+      }
+    );
+  }
+  
+}
+for(let i=0;i<Quiz.length;i++)
+  {
+    const date=new Date();
+    if(Quiz[i].length>date)
+    {
+      const {date1,time}=Quiz[i].quizDate.split("T");
+      finaldata.push({
+        "name":Quiz[i].title,
+        "id":QUiz[i]._id,
+        "date":date1,
+        time:time
+      });
+    }
+  }
+    
+  }
+return res.json(new apiresponse(200, finaldata, "upcoming schedule fetched successfully"));
+}
 module.exports = {
+  upcomingTask,
+  studentProgress,
   logout,
   signup,
   checkUserExists,

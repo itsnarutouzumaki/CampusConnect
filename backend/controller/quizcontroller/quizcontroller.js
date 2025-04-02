@@ -48,7 +48,7 @@ const submitquiz = async (req, res) => {
 
   var count = 0;
   for (let index = 0; index < resultArray.length; index++) {
-   
+   console.log(gienarray[index].toString());
     if (resultArray[index].toString() === gienarray[index].toString()) {
       count++;
     }

@@ -10,4 +10,6 @@ router.post('/updatedetails',studentController.updatedetails);
 router.post('/userdetails',studentController.userdetails);
 router.post('/changepassword',studentController.changePassword);
 router.post('/studentlogout',studentController.logout);
+router.post('/getProgress',studentController.studentProgress);
+router.post('/upcomingRoutes',studentController.upcomingTask);
 module.exports=router;

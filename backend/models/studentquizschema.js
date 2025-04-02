@@ -17,6 +17,8 @@ const studentquizschema=new Schema({
         default:0
     }
 },
-{collection:'studentquiz'}
+{collection:'studentquiz',
+    timestamps:true
+}
 );
 module.exports=mongoose.model("studentquiz",studentquizschema);
