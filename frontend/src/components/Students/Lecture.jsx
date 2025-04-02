@@ -36,7 +36,8 @@ const Lecture = () => {
 
   useEffect(() => {
     const fetchLecture = async () => {
-      try {
+      try
+       {
         const response = await axios.post(
           "/api/chapterLecture/getAllLectures",
           {

@@ -62,7 +62,7 @@ const Chapter = () => {
     };
 
     fetchChapters();
-  }, );
+  }, []);
 
   return (
     <div className="w-full mx-auto flex flex-col p-4">

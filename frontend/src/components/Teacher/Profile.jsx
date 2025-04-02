@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import EditTeacher from "../Modal/EditTeacher.Modal";
 import AddCourse from "../Modal/AddCourse.modal";
+import axios from "axios";
+
 
 const CourseCard = ({id, image, name, description }) => {
   const truncateDescription = (text, wordLimit) => {
@@ -35,19 +37,43 @@ const TeacherProfile = () => {
   const closeModalAddCourse = () => setShowAddCourseModal(false);
   const closeModalEditTeacher = () => setShowEditTeacherModal(false);
 
-  const Teacher = {
-    name: "Master Jiraiya",
-    username: "pervysage",
-    qualification: ["Ph.D. (IITK)", "M.Tech (MNNIT)"],
-    areaOfInterest: ["Membrane Separation", "Polymer Technology"],
-    joiningDate: "01/01/2021",
-    quote: "Jiraiya, the 'Pervy Sage'",
-    rating: 4.5,
-    profileImage:
-      "https://preview.redd.it/how-strong-is-jiraiya-v0-0hdtt6zrqycb1.jpg?width=450&format=pjpg&auto=webp&s=2a4969be966363c03b43dd59788f110d3929f6ca",
-    about:"Jiraiya is a fictional character in the Naruto manga and anime series created by Masashi Kishimoto. Introduced in the series' first part, he was a student of Third Hokage Hiruzen Sarutobi and one of the three"
-  };
-
+  // const Teacher = {
+  //   name: "Master Jiraiya",
+  //   username: "pervysage",
+  //   qualification: ["Ph.D. (IITK)", "M.Tech (MNNIT)"],
+  //   areaOfInterest: ["Membrane Separation", "Polymer Technology"],
+  //   joiningDate: "01/01/2021",
+  //   quote: "Jiraiya, the 'Pervy Sage'",
+  //   email: 4.5,
+  //   profileImage:
+  //     "https://preview.redd.it/how-strong-is-jiraiya-v0-0hdtt6zrqycb1.jpg?width=450&format=pjpg&auto=webp&s=2a4969be966363c03b43dd59788f110d3929f6ca",
+  //   bio:"Jiraiya is a fictional character in the Naruto manga and anime series created by Masashi Kishimoto. Introduced in the series' first part, he was a student of Third Hokage Hiruzen Sarutobi and one of the three"
+  // };
+   const [Teacher, setTeachers] = useState(
+    {
+      name:"",
+      profileImage:"",
+      qualification:"",
+      joiningDate:"",
+      username:"",
+      email:"",
+      profileImage:"",
+      bio:""
+    }
+   );
+    useEffect(() => {  
+      const fetchTeacher=async()=>
+        {
+          const response=await axios.post("/api/teachers/getTeacher",
+            {
+              teacherId:'67ed423196acdecc83fa97a3'
+            }
+          );
+          console.log(response);
+          setTeachers(response.data.data);
+        }
+        fetchTeacher(); 
+    }, []);
   const courseData = Array.from({ length: 8 }, (_, i) => ({
     id: i + 1 ,
     image:
@@ -55,6 +81,22 @@ const TeacherProfile = () => {
     name: `Course ${i + 1}`,
     description: `This is a short description of Course ${i + 1}.`,
   }));
+  const [Course, setCourse] = useState([
+    
+  ]);
+  useEffect(() => {
+    const fetchCourse=async()=>
+      {
+        const response=await axios.post("/api/course/courseByTeacher",
+          {
+            teacherId:"67e92f4982ebb08d0211c0e6"
+          }
+        );
+        console.log(response);
+        setCourse(response.data.data);
+      }
+      fetchCourse();  
+  },[]);
 
   return (
     <div className="w-full">
@@ -74,11 +116,11 @@ const TeacherProfile = () => {
             src={Teacher.profileImage}
             alt="Teacher Profile"
           />
-          <p className="w-full md:w-48 text-white italic mt-3 text-center md:text-left">
+          {/* <p className="w-full md:w-48 text-white italic mt-3 text-center md:text-left">
             <span className="text-3xl text-red-500">❝</span>
             {Teacher.quote}
             <span className="text-3xl text-red-500">❞</span>
-          </p>
+          </p> */}
         </div>
 
         <div className="flex flex-col items-center md:items-start mt-6 md:ml-6 text-center md:text-left">
@@ -95,22 +137,22 @@ const TeacherProfile = () => {
           </p>
 
           <p className="mb-1">
-            <span className="text-white font-bold text-lg">Rating: ⭐</span>
-            <span className="text-white italic">{Teacher.rating}/5</span>
+            <span className="text-white font-bold text-lg">email:</span>
+            <span className="text-white italic">{Teacher.email}</span>
           </p>
           <p className="mb-1">
             <span className="text-white font-bold text-lg">Qualification:</span>{" "}
-            <span className="text-white italic">{Teacher.qualification.join(", ")}</span>
+            <span className="text-white italic">{Teacher.qualification}</span>
           </p>
 
-          <p className="mb-1">
+          {/* <p className="mb-1">
             <span className="text-white font-bold text-lg">Interest:</span>{" "}
             <span className="text-white italic">{Teacher.areaOfInterest.join(", ")}</span>
-          </p>
+          </p> */}
 
           <p className="mb-1">
-            <span className="text-white font-bold text-lg">About:</span>{" "}
-            <span className="text-white italic">{Teacher.about}</span>
+            <span className="text-white font-bold text-lg">bio:</span>{" "}
+            <span className="text-white italic">{Teacher.bio}</span>
           </p>
         </div>
       </div>
@@ -130,12 +172,12 @@ const TeacherProfile = () => {
 
         <div className="w-full p-6 mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
-            {courseData.map((course, index) => (
+            {Course.map((course, index) => (
               <CourseCard
                 key={index}
-                id={course.id}
+                id={course._id}
                 image={course.image}
-                name={course.name}
+                name={course.title}
                 description={course.description}
               />
             ))}
