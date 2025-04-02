@@ -19,7 +19,6 @@ function ViewAssignment({ assignment_id }) {
         if (assignment_id) fetchData();
     }, [assignment_id]);
 
-    // Function to fetch student name by studentId
     const fetchStudentName = async (studentId) => {
         try {
             const response = await axios.post(`http://localhost:8080/api/student/getStudentInfo`, {

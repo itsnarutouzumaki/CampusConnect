@@ -1,28 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
 import axios from "axios";
+import toast from "react-hot-toast";
+
 // Single Assignment Item
-const AssignmentBar = ({ assignment }) => {
-  const { AssignmentName, marks, totalmarks, assignmentDueDate, assignmentDueTime, completed: initialCompleted } = assignment;
+const AssignmentBar = ({ assignment, studentId }) => {
+  const { dueDate, iscompleted, title, _id } = assignment;
 
-  // State to track completion status
-  const [isCompleted, setIsCompleted] = useState(initialCompleted);
-const[url,setUrl]=useState(null);
-  // Toggle the completion status
-  const handleToggleCompletion =async  () => {
-    if (!url) {
-      alert("Please upload a file first!");
-      return;
-    }
+  const [isCompleted, setIsCompleted] = useState(iscompleted);
 
+  const handleToggleCompletion = async (url) => {
     const data = {
-      assignmentId: "67eaa06a86a568b53909b7f9",
-      studentId: "67a36a59e0224d1df4237c04",
+      assignmentId: _id,
+      studentId,
       fileUrl: url,
     };
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:8000/api/assignment/submitAssignment",
         data,
         {
@@ -31,16 +26,24 @@ const[url,setUrl]=useState(null);
           },
         }
       );
-
-      console.log("Submission Response:", response.data);
+      toast.success("Your assignment has been submitted successfully", {
+        position: "top-center",
+        duration: 2000,
+      });
+      setIsCompleted(true);
     } catch (error) {
-      console.error("Error submitting assignment:", error);
+      toast.error("Error occurred while submitting assignment", {
+        position: "top-center",
+        duration: 2000,
+      });
+      console.error(error);
     }
   };
+
   const handleUpload = async () => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
-    fileInput.accept = ".pdf,.doc,.docx,.txt,.jpg,.png"; // Allowed file types
+    fileInput.accept = ".pdf,.doc,.docx,.txt,.jpg,.png";
 
     fileInput.onchange = async (event) => {
       const file = event.target.files[0];
@@ -59,13 +62,18 @@ const[url,setUrl]=useState(null);
           );
 
           const uploadedUrl = response.data.data.url;
-          console.log("Uploaded File URL:", uploadedUrl);
-          setUrl(uploadedUrl);
+          handleToggleCompletion(uploadedUrl);
+          toast.success("Your file has been uploaded successfully", {
+            position: "top-center",
+            duration: 2000,
+          });
         } catch (error) {
-          console.error("Error uploading file:", error);
+          toast.error("Error occurred while uploading file", {
+            position: "top-center",
+            duration: 2000,
+          });
+          console.error(error);
         }
-      } else {
-        console.log("No file selected.");
       }
     };
 
@@ -74,91 +82,74 @@ const[url,setUrl]=useState(null);
 
   return (
     <div
-      className={`w-11/12 p-3 flex flex-col transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4
-      ${isCompleted ? 'border-green-500/50' : 'border-red-500/50 '}
-      hover:shadow-2xl hover:shadow-black/80`}
+      className={`w-11/12 p-3 flex justify-between transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4
+      ${isCompleted ? "border-green-500/50" : "border-red-500/50 "}
+      hover:shadow-xl hover:shadow-blue-400/80`}
     >
-      <div className="flex justify-between w-full">
-        <p className="text-2xl text-white font-bold">{AssignmentName}</p>
-        <p className="text-base text-white font-medium">{marks}/{totalmarks}</p>
-      </div>
-      <div className="flex justify-between w-full mt-2">
-        <div>
-          <p className="text-base text-white font-medium">{assignmentDueDate}</p>
-          <p className="text-base text-white font-medium">{assignmentDueTime}</p>
+      <div>
+        <div className="flex justify-between w-full">
+          <p className="text-xl text-white italic font-bold">{title}</p>
         </div>
-        <div className="flex items-center">
-          <div className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-white hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
+        <div>
+          <p className="text-base text-white/40 italic font-medium">
+            {`at ${
+              dueDate
+                ? new Date(dueDate)
+                    .toISOString()
+                    .split("T")[1]
+                    .split(":")
+                    .slice(0, 2)
+                    .join(":")
+                : "N/A"
+            } on ${
+              dueDate ? new Date(dueDate).toISOString().split("T")[0] : "N/A"
+            }`}
+          </p>
+        </div>
+      </div>
+      {/* Only show upload button if the due date has not expired */}
+      {new Date(dueDate) > new Date() && !isCompleted && (
+        <div className="flex items-center ">
+          <div
+            className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-white hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-white text-white bg-opacity-30"
+            title="Upload File"
+          >
             <MdOutlineFileUpload onClick={handleUpload} />
           </div>
-          <div
-            onClick={handleToggleCompletion}
-            className="m-2 p-2 cursor-pointer hover:bg-green-500 hover:text-white hover:font-bold hover:shadow-[0px_4px_15px_rgba(0,0,0,0.9)] transition-all duration-200 rounded-md border-2 border-black bg-black text-white bg-opacity-30">
-            {isCompleted ? "Unsubmit" : "Submit"}
-          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
 
 // Main Assignment Component
 const Assignment = () => {
-  const assignments = [
-    {
-      AssignmentName: "Math Homework",
-      marks: 80,
-      totalmarks: 100,
-      assignmentDueDate: "2023-12-01",
-      assignmentDueTime: "5:00 PM",
-      completed: false,
-    },
-    {
-      AssignmentName: "Science Project",
-      marks: 70,
-      totalmarks: 100,
-      assignmentDueDate: "2023-12-03",
-      assignmentDueTime: "11:59 PM",
-      completed: true,
-    },
-    {
-      AssignmentName: "History Essay",
-      marks: 90,
-      totalmarks: 100,
-      assignmentDueDate: "2023-12-04",
-      assignmentDueTime: "10:00 AM",
-      completed: false,
-    },
-    {
-      AssignmentName: "English Literature",
-      marks: 85,
-      totalmarks: 100,
-      assignmentDueDate: "2023-12-05",
-      assignmentDueTime: "2:00 PM",
-      completed: true,
-    },
-    {
-      AssignmentName: "Physics Lab Report",
-      marks: 88,
-      totalmarks: 100,
-      assignmentDueDate: "2023-12-06",
-      assignmentDueTime: "4:00 PM",
-      completed: false,
-    },
-    {
-      AssignmentName: "Art Assignment",
-      marks: 95,
-      totalmarks: 100,
-      assignmentDueDate: "2023-12-07",
-      assignmentDueTime: "9:00 AM",
-      completed: true,
-    },
-  ];
+  const [assignments, setAssignments] = useState([]);
+  const studentId = localStorage.getItem("studentId");
+
+  useEffect(() => {
+    const fetchAssignment = async () => {
+      try {
+        const response = await axios.post("/api/assignment/getAllAssignment", {
+          courseId: "67e91cb17c73fb58fb81e84d",
+          studentId: studentId,
+        });
+        setAssignments(response.data.data);
+      } catch (error) {
+        console.error("Error fetching assignments:", error);
+      }
+    };
+    fetchAssignment();
+  }, [studentId]);
 
   return (
     <div className="w-full mx-auto flex flex-col p-4">
-      {assignments.map((assignment, index) => (
-        <AssignmentBar key={index} assignment={assignment} />
+      {assignments.map((assignment) => (
+        <AssignmentBar
+          key={assignment._id}
+          assignment={assignment}
+          studentId={studentId}
+        />
       ))}
     </div>
   );
