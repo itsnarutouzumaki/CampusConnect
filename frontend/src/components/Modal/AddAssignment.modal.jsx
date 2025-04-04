@@ -13,7 +13,7 @@ const AddAssignment = ({ courseID,closeModal }) => {
 
   const HandleAddAssignment=async()=>{
     const courseId=courseID;
-    const apidata=await axios.post("http://localhost:8000/api/assignment/addAssignment",
+    const apidata=await axios.post("/api/assignment/addAssignment",
       {
         title:data.title,
         url:data.fileUrl,
@@ -23,7 +23,7 @@ const AddAssignment = ({ courseID,closeModal }) => {
     ,
     "content-type:application/json"
     );
-    console.log(apidata);
+    
     closeModal();
   }
 

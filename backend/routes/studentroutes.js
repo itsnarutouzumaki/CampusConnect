@@ -14,5 +14,6 @@ router.post('/getProgress',jwt.authenticateJWT,studentController.studentProgress
 router.post('/upcomingRoutes',jwt.authenticateJWT,studentController.upcomingTask);
 router.post('/combinedStudentData',jwt.authenticateJWT,studentController.combinedStudentData); 
 router.post('/addgoals',jwt.authenticateJWT,studentController.addgoals);
-router.post('/removegoals',jwt.authenticateJWT,studentController.removegoals);       
+router.post('/removegoals',jwt.authenticateJWT,studentController.removegoals);
+router.delete('/removeStudent',studentController.removeStudent);       
 module.exports=router;

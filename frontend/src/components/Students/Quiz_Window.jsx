@@ -14,7 +14,7 @@ export default function Quiz() {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        console.log(quiz_id);
+        
         const api = await axios.post(
           "/api/quiz/takequiz",
           { _id: quiz_id}
@@ -73,17 +73,15 @@ export default function Quiz() {
   const handleSubmit = async () => {
     const options = {
       quizId: quizid,
-      studentId: "67a3658e6306a7200c8c0745",
       answers: selectedOptions,
       timeTaken: time,
     };
     const quiz_id = quizid;
-    const student_id = "67a3658e6306a7200c8c0745";
     try {
       // Extract token from cookie
       const result = await axios.post(
         "/api/quiz/submitquiz",
-        { options: selectedOptions, quiz_id: quiz_id, student_id: student_id },
+        { options: selectedOptions, quiz_id: quiz_id },
         { withCredentials: true } // Pass quizData in the body
       );
       alert("Quiz Submitted Successfully!");

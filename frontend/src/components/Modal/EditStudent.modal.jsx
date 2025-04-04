@@ -69,13 +69,13 @@ const EditStudent = ({ closeModal, studentData, onStudentUpdated }) => {
       uploadFormData.append("bio",formData.bio);
       uploadFormData.append("education",formData.education);
       uploadFormData.append("fullname",formData.name);
-      uploadFormData.append("student_id",'67e6a12cf047c77f80a0dea9');
+     // uploadFormData.append("student_id",'67e6a12cf047c77f80a0dea9');
       // Prepare student data with updated image URL
       const updatedStudent = {
         ...formData,
         profileImage: imageUrl
       };
-     const response=await axios.post("http://localhost:8000/api/students/updatedetails",
+     const response=await axios.post("/api/students/updatedetails",
       uploadFormData,
       {
       headers: { "Content-Type": "multipart/form-data" },

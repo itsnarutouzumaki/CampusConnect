@@ -42,9 +42,8 @@ const ChangePassoword = ({ closeModal }) => {
     if (!validateForm()) return;
     try
     {
-    const response=await axios.post("http://localhost:8000/api/students/changepassword",
+    const response=await axios.post("/api/students/changepassword",
         {
-          student_id:"67e6a12cf047c77f80a0dea9",
           password:formData.password,
           newpassword:formData.newPassword
         }

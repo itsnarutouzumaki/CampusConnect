@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-const RemoveChapter = ({ closeModal }) => {
+const RemoveChapter = ({ closeModal,chapterID }) => {
   const handleRemoveChapter = async () => {
       const id="67eaa843124eb85a51318454";
         const api = await axios.delete(
@@ -11,7 +11,7 @@ const RemoveChapter = ({ closeModal }) => {
             "Content-Type": "application/json",
           },
           data: {
-            id: id,
+            id: chapterID,
           },
           }
         );

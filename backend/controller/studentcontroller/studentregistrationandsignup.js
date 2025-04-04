@@ -306,8 +306,14 @@ const removegoals=async (req,res)=>
   );
   return res.json(new apiresponse(200,update,"goals updated successfully"));  
 }  
+const removeStudent=async(req,res)=>
+{
+const data=await item2.findOneAndDelete({email:req.body.email});
+return res.json(new apiresponse(200,data,"goals updated successfully"));
+}
 module.exports = {
-  addgoals,
+  removeStudent
+  ,addgoals,
   removegoals,
   upcomingTask,
   studentProgress,

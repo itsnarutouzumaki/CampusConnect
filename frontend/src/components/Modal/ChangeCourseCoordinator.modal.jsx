@@ -32,8 +32,8 @@ const ChangeCourseCoordinator = ({ closeModal }) => {
 
     try {
       // Here you would typically make an API call to change the coordinator
-      // Example:
-      // const response = await axios.post('/api/change-coordinator', formData);
+   //   Example:
+      const response = await axios.post('/api/change-coordinator', formData);
       console.log("Submitting:", formData);
       
       // On success:

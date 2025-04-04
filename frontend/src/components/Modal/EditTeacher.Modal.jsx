@@ -77,10 +77,9 @@ const EditTeacher = ({ closeModal, teacherData, onTeacherUpdated }) => {
       uploadFormData.append("bio",formData.bio);
       uploadFormData.append("areaOfInterst",formData.areaOfInterest);
       uploadFormData.append("qualification",formData.qualifications);
-      uploadFormData.append("teacher_id",'67ed423196acdecc83fa97a3');
-         
+     
    // Update teacher data
-      const response = await axios.put("http://localhost:8000/api/teachers/updatedetails",
+      const response = await axios.put("/api/teachers/updatedetails",
         uploadFormData,
         {
         headers: { "Content-Type": "multipart/form-data" },
