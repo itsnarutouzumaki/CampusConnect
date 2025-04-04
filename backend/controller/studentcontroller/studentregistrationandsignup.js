@@ -270,16 +270,47 @@ for(let i=0;i<Quiz.length;i++)
       });
     }
   }
-    
   }
 return res.json(new apiresponse(200, finaldata, "upcoming schedule fetched successfully"));
 }
-
 const userdetails = async (req, res) => {
   const details = await item2.findOne({ email: req.body.email });
 };
-
+const addgoals=async (req,res)=>
+{
+  const data=req.body.goal;
+  const id=new mongoose.Types.ObjectId(req.body.studentId);  
+  const data2=await item2.findOne({"_id":id});
+  const studyGoals=data2.studyGoals;
+  studyGoals.push(data);
+  const update=await item2.findOneAndUpdate({"_id":id},
+    {
+      $set:{
+        studyGoals:studyGoals
+      }
+    }
+  );
+return res.json(new apiresponse(200,update,"goals updated successfully"));  
+}
+const removegoals=async (req,res)=>
+{
+  const id=new mongoose.Types.ObjectId(req.body.studentId);  
+  const data2=await item2.findOne({"_id":id});
+  const studyGoals=data2.studyGoals;
+  studyGoals.splice(req.body.index,1);
+  const update=await item2.findOneAndUpdate({"_id":id},
+    {
+      $set:{
+        studyGoals:studyGoals
+      },
+      new:true 
+    }
+  );
+  return res.json(new apiresponse(200,update,"goals updated successfully"));  
+}  
 module.exports = {
+  addgoals,
+  removegoals,
   upcomingTask,
   studentProgress,
   logout,
