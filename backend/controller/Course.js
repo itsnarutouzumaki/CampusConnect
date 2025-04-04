@@ -124,6 +124,7 @@ const getAllCoursesData = async (req, res) => {
   try {
     const currentDate = new Date(); // Get the current date
     // Fetch enrolled courses
+    
     const enrolledPipeline = [
       { $match: { student_id: req.body._id } },
       {
@@ -139,6 +140,7 @@ const getAllCoursesData = async (req, res) => {
     ];
     const enrolledCourses = await studentenrolled.aggregate(enrolledPipeline);
     // Fetch live courses
+    console.log(enrolledCourses.length);
     const livePipeline = [
       {
         $match: {
@@ -191,11 +193,11 @@ const enrollStudent = async (req, res) => {
 
 // isEnrolled
 const isEnrolled = async (req, res) => {
-  console.log(req.params.courseId);
- 
+
   const courseId = new mongoose.Types.ObjectId(req.params.courseId);
   const course = await Course.findById(courseId);
   const studentId = req.params.studentId;
+  console.log(studentId);
   const studentEnrolled = await studentenrolled.findOne({
     course_id: courseId,
     student_id: studentId,

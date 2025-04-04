@@ -47,7 +47,6 @@ const Course = () => {
       }
       try {
         const response = await axios.post("/api/course/getallcourses", {
-          _id: "67a3658e6306a7200c8c0745",
         });
         setCourses(response.data.data);
       } catch (error) {

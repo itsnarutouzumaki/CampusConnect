@@ -15,7 +15,7 @@ const AddGoal = ({ closeModal }) => {
     
     const vardata=[data.goal];
     console.log(vardata);
-    const response=await axios.post("/api/students/addgoals",{studentId:"67e6a12cf047c77f80a0dea9",goal:data.goal});
+    const response=await axios.post("/api/students/addgoals",{goal:data.goal});
     if(response.data.status===200){
       alert("Goal Added Successfully");
       closeModal();

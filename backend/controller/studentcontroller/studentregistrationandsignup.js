@@ -29,7 +29,7 @@ const signup = async (req, res) => {
   const data = new item2(req.body);
   const saveddata = await data.save();
   const token = jwt.sign({ _id: saveddata._id }, "aa12aa3aa4", {
-    expiresIn: "1h",
+   
   });
   res.json(
     new apiresponse(200, { saveddata, token }, "User registered successfully")
@@ -50,7 +50,6 @@ const login = async (req, res) => {
 
   // Generate JWT token
   const token = jwt.sign({ _id: student._id }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
   });
 
   // Store token in HTTP-only cookie
@@ -58,7 +57,6 @@ const login = async (req, res) => {
     httpOnly: true,
     secure: false,
     sameSite: "Strict",
-    domain: "localhost",
   });
 
   res.json(new apiresponse(200, { student }, "User logged in successfully"));

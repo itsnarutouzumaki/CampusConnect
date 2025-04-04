@@ -5,8 +5,8 @@ const studentmw = require("../middleware/jwttoken.js");
 
 router.post("/takequiz", quizController.takequiz);
 router.post("/addquiz", quizController.addquiz);
-router.post("/submitquiz", quizController.submitquiz);
+router.post("/submitquiz",studentmw.authenticateJWT, quizController.submitquiz);
 router.post('/viewresult',quizController.viewresult);
-router.post('/viewAllQuiz',quizController.viewAllQuiz);
+router.post('/viewAllQuiz',studentmw.authenticateJWT,quizController.viewAllQuiz);
 
 module.exports = router;

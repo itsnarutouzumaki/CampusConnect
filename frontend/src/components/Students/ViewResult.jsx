@@ -26,11 +26,10 @@ const ViewResult = () => {
                     throw new Error("Quiz ID is required.");
                 }
 
-                const response = await axios.get(`https://campusconnect-qm43.onrender.com/quiz/submitquiz`, {
+                const response = await axios.get(`/api/quiz/submitquiz`, {
                    
                     body:{
                         quiz_id:quiz_id,
-                        student_id:"67a3658e6306a7200c8c0745"
 
                     }, // Pass quizId as query parameter
                 });

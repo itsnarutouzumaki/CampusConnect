@@ -30,7 +30,7 @@ const LectureBar = ({ lecture }) => {
   );
 };
 
-const Lecture = () => {
+const Lecture = ({courseID}) => {
   
   const [Lectures, setLectures] = useState([]);
 
@@ -41,7 +41,7 @@ const Lecture = () => {
         const response = await axios.post(
           "/api/chapterLecture/getAllLectures",
           {
-            courseId: "60d5ec49f00e5c1234567890",
+            courseId: courseID,
           }
         );
         setLectures(response.data.data);
@@ -52,7 +52,7 @@ const Lecture = () => {
     };
 
     fetchLecture();
-  }, []);
+  }, [courseID]);
 
   return (
     <div className="w-full mx-auto flex flex-col p-4">

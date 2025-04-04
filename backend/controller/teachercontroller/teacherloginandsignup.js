@@ -37,7 +37,7 @@ const signup = async (req, res) => {
       password: hashedPassword,
     });
     const token = jwt.sign({ _id: teacher._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+    
     });
     return res.json(
       new ApiResponse(201, { teacher, token }, "teacher created successfully")
@@ -50,18 +50,25 @@ const signup = async (req, res) => {
 
 //login
 const login = async (req, res) => {
-  let { email, username, password } = req.body;
+  let { email, password } = req.body;
+  console.log(email,password);
   try {
-    let teacher = await Teacher.findOne({ $or: [{ email }, { username }] });
+    let teacher = await Teacher.findOne({ email:email});
     if (!teacher) {
       return res.json({ message: "teacher not found" });
     }
-    const isMatch = await bcrypt.compare(password, teacher.password);
+    const isMatch = await bcrypt.compare(password,teacher.password);
+    
     if (!isMatch) {
       return res.json({ message: "password is incorrect" });
     }
-    const token = jwt.sign({ _id: teacher._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+    const token = await jwt.sign({ _id: teacher._id }, process.env.JWT_SECRET, {
+    });
+    console.log(token);
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "Strict",
     });
     return res.json(
       new ApiResponse(200, { teacher, token }, "teacher logged in successfully")
@@ -121,7 +128,6 @@ const getTeacher=async(req,res)=>
 {
   const id=new mongoose.Types.ObjectId(req.body.teacherId);
   const data=await Teacher.findOne({_id:id});
-  console.log(data);
   return res.json(new ApiResponse(200,data ,"Teacher details fetched"));
 }
 module.exports = { signup, login, checkUserExists,updatedetails,removeteacher,changePassword,getTeacher};

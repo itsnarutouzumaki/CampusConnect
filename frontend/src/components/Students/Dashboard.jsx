@@ -50,10 +50,8 @@ const HomeScreen =  ({
   const [activeGoals, setActiveGoals] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-    const response=await axios.post('http://localhost:8000/api/students/combinedStudentData',
-    { studentId: localStorage.getItem('studentId') }, 
+    const response=await axios.post('/api/students/combinedStudentData', 
   );
-  console.log(response);
   setProfile(response.data.data.userDetails);
   setActiveDeadlines(response.data.data.upcomingTasks);  
   setActiveGoals(response.data.data.studyGoals);
@@ -64,7 +62,6 @@ const HomeScreen =  ({
     setActiveGoals((prevGoals) => prevGoals.filter((goal) => goal.id !== id));
     const response=axios.post("/api/students/removegoals",
       {
-        studentId: localStorage.getItem('studentId'),
         index: id,
       }
     );

@@ -26,7 +26,7 @@ const [hours, minutes] = time?.split(":") || [];
   );
 };
 
-const Quiz = () => {
+const Quiz = ({courseID}) => {
   const [Quizes, setQuizes] = useState([]);
   const studentId = localStorage.getItem("studentId");
   const { courseId } = useParams();
@@ -35,8 +35,8 @@ const Quiz = () => {
     const fetchQuiz = async () => {
       try {
         const response = await axios.post("/api/quiz/viewAllQuiz", {
-          studentId: studentId,
-          courseId: "67eaa21786a568b53909b7fd",
+        
+          courseId:courseID,
         });
         console.log(response);
         console.log(response.data.data);
@@ -47,7 +47,7 @@ const Quiz = () => {
       }
     };
     fetchQuiz();
-  }, [studentId, courseId]);
+  }, [studentId, courseID]);
 
   return (
     <div className="w-full mx-auto flex flex-col p-4">
