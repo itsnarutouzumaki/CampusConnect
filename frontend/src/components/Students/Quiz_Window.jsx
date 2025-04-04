@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+
 const quizid = "67a741b20936cb668a827d69";
 export default function Quiz() {
+  
   const [questions, setQuestions] = useState([]);
   const [time, setTime] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);

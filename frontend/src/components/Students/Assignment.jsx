@@ -123,24 +123,23 @@ const AssignmentBar = ({ assignment, studentId }) => {
 };
 
 // Main Assignment Component
-const Assignment = () => {
+const Assignment = ({courseID}) => {
   const [assignments, setAssignments] = useState([]);
   const studentId = localStorage.getItem("studentId");
-
   useEffect(() => {
     const fetchAssignment = async () => {
       try {
         const response = await axios.post("/api/assignment/getAllAssignment", {
-          courseId: "67e91cb17c73fb58fb81e84d",
-          studentId: studentId,
+          courseId: courseID,
         });
+        
         setAssignments(response.data.data);
       } catch (error) {
         console.error("Error fetching assignments:", error);
       }
     };
     fetchAssignment();
-  }, [studentId]);
+  }, [studentId,courseID]);
 
   return (
     <div className="w-full mx-auto flex flex-col p-4">

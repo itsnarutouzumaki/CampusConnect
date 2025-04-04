@@ -29,7 +29,7 @@ const signup = async (req, res) => {
   const data = new item2(req.body);
   const saveddata = await data.save();
   const token = jwt.sign({ _id: saveddata._id }, "aa12aa3aa4", {
-    expiresIn: "1h",
+   
   });
   res.json(
     new apiresponse(200, { saveddata, token }, "User registered successfully")
@@ -50,7 +50,6 @@ const login = async (req, res) => {
 
   // Generate JWT token
   const token = jwt.sign({ _id: student._id }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
   });
 
   // Store token in HTTP-only cookie
@@ -58,7 +57,6 @@ const login = async (req, res) => {
     httpOnly: true,
     secure: false,
     sameSite: "Strict",
-    domain: "localhost",
   });
 
   res.json(new apiresponse(200, { student }, "User logged in successfully"));
@@ -78,10 +76,6 @@ const logout = (req, res) => {
       .status(500)
       .json(new apiresponse(500, null, "Server error during logout"));
   }
-};
-
-const userdetails = async (req, res) => {
-  const details = await item2.findOne({ email: req.body.email });
 };
 
 const updatedetails = async (req, res) => {
@@ -119,6 +113,89 @@ const changePassword = async (req, res) => {
   } catch (error) {
     console.error("Error updating password:", error);
     return res.status(500).json(new apiresponse(500, null, "Internal server error"));
+  }
+};
+
+const combinedStudentData = async (req, res) => {
+  try {
+    const studentId = new mongoose.Types.ObjectId(req.body.studentId);
+
+    const result = {
+      progress: [],
+      upcomingTasks: [],
+      userDetails: null,
+      studyGoals:[]
+    };
+
+    // 1. Student Progress
+    const progressPipeline = [
+      { $match: { studentid: studentId } },
+      { $sort: { createdAt: -1 } }
+    ];
+
+    const quizData = await studentquiz.aggregate(progressPipeline);
+    let count = 0, sum = 0;
+    for (let i = 0; i < quizData.length; i++) {
+      const total = parseInt(quizData[i].total_marks, 10);
+      const obtained = parseInt(quizData[i].marks, 10);
+      count += total;
+      sum += total * obtained;
+      result.progress.push(sum / count);
+    }
+
+    // 2. Upcoming Tasks (Assignments and Quizzes)
+    const enrolledCourses = await studentenrolled.find({ student_id: studentId });
+
+    for (let course of enrolledCourses) {
+      const courseId = new mongoose.Types.ObjectId(course.course_id);
+
+      // Assignments
+      const assignments = await Assignment.find({ course: courseId });
+      for (let assignment of assignments) {
+        const currentDate = new Date();
+        if (currentDate < assignment.dueDate) {
+          const [date, time] = assignment.dueDate.toISOString().split("T");
+          result.upcomingTasks.push({
+            name: assignment.title + " Assignment",
+            id: assignment._id,
+            dueDate: date,
+            dueTime: time
+          });
+        }
+      }
+
+      // Quizzes
+      const quizzes = await Quiz.find({ courseid: courseId });
+      console.log(quizzes.length);
+      for (let quiz of quizzes) {
+        const currentDate = new Date();
+        if (new Date(quiz.quizDate) > currentDate) {
+          const [date, time] = quiz.quizDate.toISOString().split("T");
+          result.upcomingTasks.push({
+            name: quiz.title + " Quiz",
+            id: quiz._id,
+            dueDate: date,
+            dueTime: time
+          });
+        }
+      }
+    }
+
+    // 3. User Details
+    const userDetails = await item2.findOne({_id:studentId});
+result.userDetails=userDetails;
+ for(let i=0;i<userDetails.studyGoals.length;i++)
+ {
+  result.studyGoals.push({
+    "goal":userDetails.studyGoals[i],
+    "id":i,
+    "progress":"2/5"
+  });
+ }
+    return res.json(new apiresponse(200, result, "Combined student data fetched successfully"));
+  } catch (error) {
+    console.error("Error in combinedStudentData:", error);
+    return res.status(500).json(new apiresponse(500, null, "Internal Server Error"));
   }
 };
 
@@ -191,11 +268,47 @@ for(let i=0;i<Quiz.length;i++)
       });
     }
   }
-    
   }
 return res.json(new apiresponse(200, finaldata, "upcoming schedule fetched successfully"));
 }
+const userdetails = async (req, res) => {
+  const details = await item2.findOne({ email: req.body.email });
+};
+const addgoals=async (req,res)=>
+{
+  const data=req.body.goal;
+  const id=new mongoose.Types.ObjectId(req.body.studentId);  
+  const data2=await item2.findOne({"_id":id});
+  const studyGoals=data2.studyGoals;
+  studyGoals.push(data);
+  const update=await item2.findOneAndUpdate({"_id":id},
+    {
+      $set:{
+        studyGoals:studyGoals
+      }
+    }
+  );
+return res.json(new apiresponse(200,update,"goals updated successfully"));  
+}
+const removegoals=async (req,res)=>
+{
+  const id=new mongoose.Types.ObjectId(req.body.studentId);  
+  const data2=await item2.findOne({"_id":id});
+  const studyGoals=data2.studyGoals;
+  studyGoals.splice(req.body.index,1);
+  const update=await item2.findOneAndUpdate({"_id":id},
+    {
+      $set:{
+        studyGoals:studyGoals
+      },
+      new:true 
+    }
+  );
+  return res.json(new apiresponse(200,update,"goals updated successfully"));  
+}  
 module.exports = {
+  addgoals,
+  removegoals,
   upcomingTask,
   studentProgress,
   logout,
@@ -205,4 +318,5 @@ module.exports = {
   userdetails,
   updatedetails,
   changePassword,
+  combinedStudentData
 };

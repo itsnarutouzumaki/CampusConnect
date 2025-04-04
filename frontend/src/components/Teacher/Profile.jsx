@@ -57,18 +57,14 @@ const TeacherProfile = () => {
       joiningDate:"",
       username:"",
       email:"",
-      profileImage:"",
+      profileImage:"https://res.cloudinary.com/da0akdnf7/image/upload/v1743602584/assignments/v7mkobcqleuentg9g6ar.png",
       bio:""
     }
    );
     useEffect(() => {  
       const fetchTeacher=async()=>
         {
-          const response=await axios.post("/api/teachers/getTeacher",
-            {
-              teacherId:'67ed423196acdecc83fa97a3'
-            }
-          );
+          const response=await axios.post("/api/teachers/getTeacher");
           console.log(response);
           setTeachers(response.data.data);
         }
@@ -88,9 +84,7 @@ const TeacherProfile = () => {
     const fetchCourse=async()=>
       {
         const response=await axios.post("/api/course/courseByTeacher",
-          {
-            teacherId:"67e92f4982ebb08d0211c0e6"
-          }
+          
         );
         console.log(response);
         setCourse(response.data.data);

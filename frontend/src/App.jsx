@@ -6,7 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
-import Quiz from "./components/Students/Quiz_Window.jsx";
+import Quiz from "./components/Students/Quiz.jsx";
 import QuizWindow from "./components/Students/Quiz_Window.jsx";
 import AddQuiz from "./components/Teacher/AddQuiz.jsx";
 import LandingPage from "./components/LandingPage/LandingPage";
@@ -80,6 +80,7 @@ const MainContent = () => {
           <Route path="/error" element={<Error />} />
           <Route path="/viewresult" element={<ViewResult />} />
           <Route path="/loading" element={<Loading />} />
+          <Route path="/quiz_window/:quizId" element={<QuizWindow />} />
           {/* teacher section */}
           <Route
             path="/teacher/coursedetails/:courseId"

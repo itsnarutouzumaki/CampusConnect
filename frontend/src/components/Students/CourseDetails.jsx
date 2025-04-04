@@ -18,11 +18,10 @@ const StudentCourseDetails = () => {
 
   const enrollMe = async() => {
     const studentId = localStorage.getItem("studentId");
-    console.log(courseId, studentId);
+    
     try {
       const response = await axios.post("/api/course/enrollstudent", {
         course_id:courseId,
-        student_id:studentId,
       });
       setIsEnrolled(true);
       console.log(response.data);
@@ -51,12 +50,15 @@ const StudentCourseDetails = () => {
       navigate("/loginsignup");
     }
     const fetchCourseDetails = async () => {
-      try {
+      try {console.log(localStorage.getItem(
+        "studentId"
+      ));
         const response = await axios.post(
           `/api/course/isEnrolled/${courseId}/${localStorage.getItem(
             "studentId"
           )}`
         );
+        console.log(response);
         const { isEnrolled, course } = response.data.data;
 
         setIsEnrolled(isEnrolled === "true");

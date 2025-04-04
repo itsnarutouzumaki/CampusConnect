@@ -16,7 +16,7 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const url = "https://campusconnect-qm43.onrender.com/api/teachers/login";
+  const url = "/api/teachers/login";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

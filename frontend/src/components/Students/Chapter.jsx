@@ -15,17 +15,18 @@ const ChapterBar = ({ chapter }) => {
   );
 };
 
-const Chapter = () => {
+const Chapter = ({courseID}) => {
   const [chapters, setChapters] = useState([]);
   const { courseId } = useParams();
 
   useEffect(() => {
     const fetchChapters = async () => {
       try {
+        
         const response = await axios.post(
           "http://localhost:8000/api/chapterLecture/getAllChapters",
           {
-            course_id:  "67eaa21786a568b53909b7fd",
+            course_id:courseID ,
           }
         );
         
@@ -36,7 +37,7 @@ const Chapter = () => {
     };
 
     fetchChapters();
-  }, [courseId]);
+  }, [courseID]);
 
   return (
     <div className="w-full mx-auto flex flex-col p-4">

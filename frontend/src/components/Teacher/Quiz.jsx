@@ -22,7 +22,7 @@ return (
   );
 };
 
-const Quiz = () => {
+const Quiz = ({courseID}) => {
   
   
   // const quizs = [
@@ -48,17 +48,16 @@ useEffect(() => {
     const fetchQuiz = async () => {
       try {
         const response = await axios.post("/api/quiz/viewAllQuiz", {
-          studentId: "67eaa21786a568b53909b7fd",
-          courseId: "67eaa21786a568b53909b7fd",
+          courseId: courseID,
         });
         
-        setquizes(response.data.message);
+        setquizes(response.data.data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchQuiz();
-  }, []);
+  }, [courseID]);
 
   return (
     <div className="w-full mx-auto flex flex-col p-4">

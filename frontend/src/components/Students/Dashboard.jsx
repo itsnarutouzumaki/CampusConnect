@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, {useEffect,useState } from "react";
 import ChartComponent from "./Chart";
 import EditStudent from "../Modal/EditStudent.modal";
 import { FiEdit2 } from "react-icons/fi";
 import AddGoal from "../Modal/AddGoal.modal";
-
-const HomeScreen = ({
+import axios from "axios";
+const HomeScreen =  ({
   userData = {
     name: "John Doe",
-    profilePhoto:
+    profileimage:
       "https://i.pinimg.com/736x/80/04/d4/8004d4b5f2985ed905a021e9e2f1e79d.jpg",
     username: "johndoe",
     education: "B.Sc. Computer Science",
     Institute: "XYZ University",
-    Bio: "I am a student at XYZ University. I am passionate about learning new technologies and building cool projects.",
+    bio: "I am a student at XYZ University. I am passionate about learning new technologies and building cool projects.",
   },
   deadlines = [
     {
@@ -27,24 +27,49 @@ const HomeScreen = ({
       dueDate: "12-11-2024",
       dueTime: "14:00",
     },
-    { id: 3, title: "Biology Quiz", dueDate: "15-11-2024", dueTime: "09:00" },
+    { id: 3, title: "biology Quiz", dueDate: "15-11-2024", dueTime: "09:00" },
   ],
   studyGoals = [
     { id: 1, goal: "Read 3 chapters of Math", progress: "1/3" },
     { id: 2, goal: "Complete Physics Exercises", progress: "0/5" },
   ],
 }) => {
-  const [profile] = useState(userData);
-  const [activeDeadlines, setActiveDeadlines] = useState(deadlines);
-  const [activeGoals, setActiveGoals] = useState(studyGoals);
-
+  const [profile,setProfile] = useState(
+    {
+    fullname: "John Doe",
+    profileimage:
+      "https://i.pinimg.com/736x/80/04/d4/8004d4b5f2985ed905a021e9e2f1e79d.jpg",
+    username: "johndoe",
+    education: "B.Sc. Computer Science",
+    //Institute: "XYZ University",
+    bio: "I am a student at XYZ University. I am passionate about learning new technologies and building cool projects.",
+      
+    }
+  );
+  const [activeDeadlines, setActiveDeadlines] = useState([]);
+  const [activeGoals, setActiveGoals] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+    const response=await axios.post('/api/students/combinedStudentData', 
+  );
+  setProfile(response.data.data.userDetails);
+  setActiveDeadlines(response.data.data.upcomingTasks);  
+  setActiveGoals(response.data.data.studyGoals);
+ 
+    }
+  fetchData();} , []);
   const handleGoalAchieved = (id) => {
     setActiveGoals((prevGoals) => prevGoals.filter((goal) => goal.id !== id));
+    const response=axios.post("/api/students/removegoals",
+      {
+        index: id,
+      }
+    );
+    console.log(response);
   };
-
   const [AddGoalModal, setAddGoalModal] = useState(false)
   const closeModalAddGoal = () => setAddGoalModal(false);
-
+ 
   const [showEditStudentModal, setShowEditStudentModal] = useState(false);
   const closeModalEditStudent = () => setShowEditStudentModal(false);
 
@@ -62,25 +87,25 @@ const HomeScreen = ({
 
         <div className="relative">
           <img
-            src={profile.profilePhoto}
-            alt={`${profile.name}'s profile`}
+            src={profile.profileimage}
+            alt={`${profile.fullname}'s profile`}
             className="w-24 h-24 rounded-full"
           />
         </div>
 
         <div className="text-center mt-4">
           <h1 className="text-2xl text-white font-mono italic">
-            {profile.name}
+            {profile.fullname}
           </h1>
 
           <p className="text-gray-300 text-sm italic">{profile.education}</p>
 
-          <p className="text-gray-300 text-sm italic">{profile.Institute}</p>
+          { <p className="text-gray-300 text-sm italic">{profile.email}</p> }
 
-          {profile.Bio && (
+          {profile.bio && (
             <p className=" text-slate-300 italic mt-3 text-center">
               <span className="text-3xl text-red-500">❝</span>
-              {profile.Bio}
+              {profile.bio}
               <span className="text-3xl text-red-500">❞</span>
             </p>
           )}
@@ -145,7 +170,7 @@ const HomeScreen = ({
       border-gray-500 hover:shadow-blue-400 shadow-lg"
             >
               <div className="flex justify-between w-full">
-                <span className="text-white italic font-semibold">{deadline.title}</span>
+                <span className="text-white italic font-semibold">{deadline.name}</span>
                 <span className="text-gray-300">
                   {deadline.dueTime} {deadline.dueDate}
                 </span>
