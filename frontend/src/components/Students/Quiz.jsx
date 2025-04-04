@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate,Link } from "react-router-dom";
+import Quiz_Window from "../Students/Quiz_Window";
 import axios from "axios";
 
+
 const QuizBar = ({ quiz }) => {
+  const navigate = useNavigate();
+  const courseId= useParams().courseId;
   const quizName = quiz.name;
-  
+  const quizId = quiz._id;
 const [date, time] = quiz.quizDate?.split("T") || [];
 const [hours, minutes] = time?.split(":") || [];
   return (
@@ -18,9 +22,9 @@ const [hours, minutes] = time?.split(":") || [];
         <span className="text-gray-400 text-sm italic">{`Duration: ${hours}hrs ${minutes}min at ${time} ${date}`}</span>
       </p>
       <div className="flex p-1">
-        <div className="cursor-pointer w-fit h-fit text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300">
-          Take Quiz
-        </div>
+      <Link to={`/quiz_window/${quizId}`} className="cursor-pointer w-fit h-fit text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300">
+      take Quiz
+    </Link>
       </div>
     </div>
   );
