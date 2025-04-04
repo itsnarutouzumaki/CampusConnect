@@ -62,10 +62,17 @@ const HomeScreen =  ({
   fetchData();} , []);
   const handleGoalAchieved = (id) => {
     setActiveGoals((prevGoals) => prevGoals.filter((goal) => goal.id !== id));
+    const response=axios.post("/api/students/removegoals",
+      {
+        studentId: localStorage.getItem('studentId'),
+        index: id,
+      }
+    );
+    console.log(response);
   };
   const [AddGoalModal, setAddGoalModal] = useState(false)
   const closeModalAddGoal = () => setAddGoalModal(false);
-
+ 
   const [showEditStudentModal, setShowEditStudentModal] = useState(false);
   const closeModalEditStudent = () => setShowEditStudentModal(false);
 

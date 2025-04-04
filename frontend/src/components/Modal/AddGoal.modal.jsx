@@ -15,16 +15,12 @@ const AddGoal = ({ closeModal }) => {
     
     const vardata=[data.goal];
     console.log(vardata);
-    const response=await axios.post("/api/students/updatedetails",{student_id:"67e69e10f35015ee792daeec",studyGoals:vardata});
-    console.log(response);
+    const response=await axios.post("/api/students/addgoals",{studentId:"67e6a12cf047c77f80a0dea9",goal:data.goal});
     if(response.data.status===200){
       alert("Goal Added Successfully");
       closeModal();
   }}
-
-  const [data, setdata] = useState({});
-
-  
+const [data, setdata] = useState({});
   return ReactDOM.createPortal(
     <div
       className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50"

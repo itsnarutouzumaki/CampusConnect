@@ -52,7 +52,7 @@ useEffect(() => {
           courseId: "67eaa21786a568b53909b7fd",
         });
         
-        setquizes(response.data.message);
+        setquizes(response.data.data);
       } catch (error) {
         console.log(error);
       }

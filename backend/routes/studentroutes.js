@@ -12,5 +12,7 @@ router.post('/changepassword',studentController.changePassword);
 router.post('/studentlogout',studentController.logout);
 router.post('/getProgress',studentController.studentProgress);
 router.post('/upcomingRoutes',studentController.upcomingTask);
-router.post('/combinedStudentData',studentController.combinedStudentData);  
+router.post('/combinedStudentData',studentController.combinedStudentData); 
+router.post('/addgoals',studentController.addgoals);
+router.post('/removegoals',studentController.removegoals);       
 module.exports=router;
