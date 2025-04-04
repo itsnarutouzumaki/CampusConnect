@@ -18,7 +18,7 @@ const AssignmentBar = ({ assignment, studentId }) => {
 
     try {
       await axios.post(
-        "http://localhost:8000/api/assignment/submitAssignment",
+        "/api/assignment/submitAssignment",
         data,
         {
           headers: {

@@ -82,6 +82,7 @@ function extractPublicId(url) {
 
 //  Submit Assignment
 const submitAssignment = async (req, res) => {
+<<<<<<< Updated upstream
   const { assignmentId1, studentId1, fileUrl } = req.body;
   const studentId = new mongoose.Types.ObjectId(studentId1);
   const assignmentId = new mongoose.Types.ObjectId(assignmentId1);
@@ -107,9 +108,17 @@ const submitAssignment = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Failed to delete the old file from Cloudinary." });
+=======
+    const { assignmentId1,studentId1,fileUrl } = req.body; 
+   const studentId=new mongoose.Types.ObjectId(studentId1);
+    const assignmentId=new mongoose.Types.ObjectId(assignmentId1);
+    if (!assignmentId ) {
+        return res.json({ message: 'Assignment ID required' });
+>>>>>>> Stashed changes
     }
   }
 
+<<<<<<< Updated upstream
   try {
     const assignment = await studentAssignment.create({
       assignment: assignmentId,
@@ -118,6 +127,36 @@ const submitAssignment = async (req, res) => {
     });
     if (!assignment) {
       return res.json({ message: "Assignment not found" });
+=======
+    if (!studentId ) {
+        return res.json({ message: 'student ID required' });
+    }
+    if (!fileUrl ) {
+        return res.json({ message: 'file url required' });
+    }
+    const isPresent= await studentAssignment.findOne({assignment:assignmentId,student:studentId});
+    if(isPresent?.fileUrl){
+        const publicId=extractPublicId(isPresent.fileUrl);
+        console.log(publicId);
+        const deletefile=await cloudinary.uploader.destroy(publicId);
+        if (deletefile.result != 'ok') {
+            return res.status(400).json({ message: 'Failed to delete the old file from Cloudinary.' });
+        }
+    }
+
+    try {
+        const assignment=await studentAssignment.create({assignment:assignmentId,student:studentId,fileUrl:fileUrl});
+
+        if (!assignment) {
+            return res.json({ message: 'Assignment not found' });
+        }
+
+        return res.json(new response(200,assignment,'Assignment submitted successfully!'));
+
+    } catch (error) {
+        // console.log('Error submitting assignment:', error);
+        res.json({ message: 'Server error', error: error.message });
+>>>>>>> Stashed changes
     }
     return res.json(
       new response(200, assignment, "Assignment submitted successfully!")

@@ -31,6 +31,7 @@ import AdminLogin from "./components/Admin/Login.jsx";
 import Error from "./components/Error.jsx";
 import ViewResult from "./components/Students/ViewResult.jsx";
 import Loading from "./components/Loading.jsx";
+import LiveClass from "./components/Teacher/liveClass.jsx";
 const App = () => {
   return (
     <>
@@ -87,7 +88,7 @@ const MainContent = () => {
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
           <Route path="/teacher/profile" element={<TeacherProfile />} />
           <Route path="/teacher/addquiz/:courseId" element={<AddQuiz />} />
-
+          <Route path="/teacher/liveclass" element={<LiveClass />} />
           {/* Admin Section */}
           <Route path="/admin" element={<AdminProfile />} />
           <Route path="/admin/login" element={<AdminLogin />} />

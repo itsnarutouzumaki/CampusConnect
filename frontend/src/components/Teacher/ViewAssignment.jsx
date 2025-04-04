@@ -7,7 +7,7 @@ function ViewAssignment({ assignment_id }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post("/api/assignment/viewAssignment", {
+                const response = await axios.post("http://localhost:8080/api/assignment/viewAssignment", {
                     assignment_id  // Sending data in the request body
                 });
                 setStudentData(response.data);
@@ -19,6 +19,7 @@ function ViewAssignment({ assignment_id }) {
         if (assignment_id) fetchData();
     }, [assignment_id]);
 
+    // Function to fetch student name by studentId
     const fetchStudentName = async (studentId) => {
         try {
             const response = await axios.post(`http://localhost:8080/api/student/getStudentInfo`, {
