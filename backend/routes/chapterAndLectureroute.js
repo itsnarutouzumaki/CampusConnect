@@ -10,5 +10,5 @@ router.post('/addLecture',addLecture);
 router.post('/getAllLectures',getAllLectures);
 router.put('/editLecture/:id',editLecture);
 router.delete('/deleteLecture',deleteLecture);
-router.post('/startMeet',startMeet);
+router.put('/startMeet',startMeet);
 module.exports=router;

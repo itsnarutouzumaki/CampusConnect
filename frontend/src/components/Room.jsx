@@ -1,72 +1,86 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
-import dotenv from 'dotenv';
-dotenv.config();
+import { useParams, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
-const randomID = (len) =>{
-    let result = '';
-    if (result) return result;
-    var chars = '12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP',
-      maxPos = chars.length,
-      i;
-    len = len || 5;
-    for (i = 0; i < len; i++) {
-      result += chars.charAt(Math.floor(Math.random() * maxPos));
-    }
-    return result;
+const randomID = (len = 5) => {
+  const chars = '12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP';
+  let result = '';
+  for (let i = 0; i < len; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-const Room = () => {
-    const roomId=useParams();
-    const name="ssjj"
-    const lectureId=",,xkd";
-    const role="jjdj"//either host or audience
-    const title="lecture title";
-    const roleCondition =
-    role_str === 'Host'
-      ? ZegoUIKitPrebuilt.Host
-      : ZegoUIKitPrebuilt.Audience;
-
-      const sharedLinks = [
-        {
-            name:'Join as Audience',
-            url:`${window.location.origin}/room/${roomId}`
-        }
-      ];
-
-       // generate Kit Token
-  const appID = process.env.zegocloud_App_Id ;
-  const serverSecret = process.env.zegocloud_Server_Secret;
-  const kitToken =  ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomId, randomID(5), title);
-
-   // start the call
-   let myMeeting = async (element) => {
-    const zp = ZegoUIKitPrebuilt.create(kitToken);
-    
-    zp.joinRoom({
-      container: element,
-      scenario: {
-        mode: ZegoUIKitPrebuilt.LiveStreaming,
-        config: {
-          role:roleCondition,
-        },
-      },
-      sharedLinks,
-    });
-
-    const api=axios.put('http://localhost:8000/api/chapterLecture/startMeet',{
-        videoUrl:sharedLinks,
-        lectureId:lectureId
-    },{
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
+  return result;
 };
+
+function Room() {
+  const title = "Live Class";
+  const { roomId } = useParams();
+  const location = useLocation();
+  const containerRef = useRef(null);
+
+  const lectureId = "67e786a82c5de1d375bc1aa4";
+  const { name = 'Guest', role = 'Audience' } = location.state || {};
+  const roleCondition = role === 'host' ? ZegoUIKitPrebuilt.Host : ZegoUIKitPrebuilt.Audience;
+
+  const sharedLinks = [
+    {
+      name: 'Join as Audience',
+      url: `${window.location.origin}/room/${roomId}`
+    }
+  ];
+
+  const appID = 1942323787;
+  const serverSecret = "565082a3c300d0adfcee70731e1e8292";
+  const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
+    appID, serverSecret, roomId, randomID(5), name
+  );
+
+  useEffect(() => {
+    const myMeeting = async () => {
+      const zp = ZegoUIKitPrebuilt.create(kitToken);
+      zp.joinRoom({
+        container: containerRef.current,
+        sharedLinks,
+        scenario: {
+          mode: ZegoUIKitPrebuilt.LiveStreaming,
+          config: {
+            role: roleCondition,
+            showMyCameraToggleButton: true,
+            showMyMicrophoneToggleButton: true,
+            showAudioVideoSettingsButton: true,
+            showScreenSharingButton: true,
+            showTextChat: true,
+            showUserList: true
+          }
+        }
+      });
+
+      // ✅ Call API after joining room
+      try {
+        const response = await axios.put('/api/chapterLecture/startMeet', {
+          videoUrl: sharedLinks[0].url,
+          lectureId: lectureId
+        }, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        console.log("Lecture updated successfully", response.data);
+      } catch (error) {
+        console.error("Error calling startMeet API:", error.message);
+      }
+    };
+
+    myMeeting();
+  }, []);
+
   return (
-    <div>
-      
-    </div>
-  )
+    <div
+      className="myCallContainer"
+      ref={containerRef}
+      style={{ width: '100vw', height: '100vh' }}
+    ></div>
+  );
 }
 
-export default Room
+export default Room;

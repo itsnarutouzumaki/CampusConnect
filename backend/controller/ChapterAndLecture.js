@@ -138,11 +138,13 @@ const startMeet = async(req,res) =>{
         },{new:true});
     
         if(!lecture){
+            console.log('lecture not found');
             return res.json(new response(400,{},'lecture is not present'));
         }
-    
+        console.log('lecture has been updated');
         return res.json(new response(200,lecture,'lecture has been started'));
     }catch(err){
+        console.log(err.message);
         return res.json(new response(400,err,err.message));
     }
 }
