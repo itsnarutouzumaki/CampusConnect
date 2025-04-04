@@ -4,7 +4,10 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const QuizBar = ({ quiz }) => {
-  const { quizId, quizName, hours, minutes, time, date } = quiz;
+  const quizName = quiz.name;
+  
+const [date, time] = quiz.quizDate?.split("T") || [];
+const [hours, minutes] = time?.split(":") || [];
   return (
     <div
       className="w-11/12 p-3 flex transition-shadow duration-300 mx-auto m-3 rounded-2xl border-4 
@@ -36,7 +39,9 @@ const Quiz = () => {
           courseId: "67eaa21786a568b53909b7fd",
         });
         console.log(response);
+        console.log(response.data.data);
         setQuizes(response.data.data);
+       console.log(Quizes);
       } catch (error) {
         console.log(error);
       }
@@ -47,7 +52,7 @@ const Quiz = () => {
   return (
     <div className="w-full mx-auto flex flex-col p-4">
       {Quizes.map((quiz) => (
-        <QuizBar key={quiz.quizId} quiz={quiz} />
+        <QuizBar key={quiz._id} quiz={quiz} />
       ))}
     </div>
   );

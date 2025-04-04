@@ -86,7 +86,7 @@ const viewAllQuiz = async (req, res) => {
       isAttempted: !!findstudent // Add isAttempted based on whether the student is enrolled
     });
   }
-  return res.json(new apiresponse(200, "all quizzes fetched", finaldata));
+  return res.json(new apiresponse(200, finaldata,"all quizzes fetched"));
 };
 module.exports = {
   viewAllQuiz,
