@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
 import axios from 'axios';
-const QuizBar = ({ quiz }) => {
+const QuizBar = ({ quiz}) => {
 // const { quizId,quizName, hours, minutes, time, date } = quiz;
 const quizName = quiz.name;
 
@@ -62,7 +62,7 @@ useEffect(() => {
   return (
     <div className="w-full mx-auto flex flex-col p-4">
       {quizs.map((quiz) => (
-        <QuizBar key={quiz.id} quiz={quiz} />
+        <QuizBar key={quiz.id} quiz={quiz}/>
       ))}
     </div>
   );

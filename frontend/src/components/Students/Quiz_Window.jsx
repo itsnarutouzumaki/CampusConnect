@@ -4,19 +4,22 @@ import { useParams } from "react-router-dom";
 
 const quizid = "67a741b20936cb668a827d69";
 export default function Quiz() {
-  
   const [questions, setQuestions] = useState([]);
   const [time, setTime] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-
+  const quiz_id=useParams().quizId;
+  
+        
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
+        console.log(quiz_id);
         const api = await axios.post(
-          "http://localhost:8000/api/quiz/takequiz",
-          { _id: quizid }
+          "/api/quiz/takequiz",
+          { _id: quiz_id}
         );
+        console.log(api);
         const ques = api.data.message.data.questions;
         const formattedQuestions = ques.map((q, index) => ({
           id: index + 1,

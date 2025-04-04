@@ -42,26 +42,28 @@ const LectureBar = ({ lecture }) => {
 
 
 
-const Lecture = () => {
+const Lecture = ({courseID}) => {
   const [Lectures, setLectures] = useState([]);
   useEffect(() => {
+    console.log(courseID);
     const fetchLecture = async () => {
       try {
         const response = await axios.post(
           "/api/chapterLecture/getAllLectures",
           {
-            courseId: "60d5ec49f00e5c1234567890",
+            courseId: courseID,
           }
         );
+        console.log(response);
         setLectures(response.data.data);
-        console.log(response.data.data);
+        
       } catch (error) {
         console.error("Error fetching lectures:", error);
       }
     };
 
     fetchLecture();
-  }, []);
+  }, [courseID]);
 
   // const { courseId } = useParams();
 
@@ -70,7 +72,7 @@ const Lecture = () => {
   return (
     <div className="w-full mx-auto flex flex-col p-4">
       {Lectures.map((lecture) => (
-        <LectureBar key={lecture.lectureid} lecture={lecture} />
+        <LectureBar key={lecture.lectureid} lecture={lecture} id={lecture._id} />
       ))}
     </div>
   )

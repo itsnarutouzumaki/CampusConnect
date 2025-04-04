@@ -12,7 +12,7 @@ const AddAssignment = ({ courseID,closeModal }) => {
   const [data, setdata] = useState({});
 
   const HandleAddAssignment=async()=>{
-    const courseId="67e91feea1165b29f8080a9f";
+    const courseId=courseID;
     const apidata=await axios.post("http://localhost:8000/api/assignment/addAssignment",
       {
         title:data.title,

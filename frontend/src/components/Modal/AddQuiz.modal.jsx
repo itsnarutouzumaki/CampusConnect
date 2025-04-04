@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const AddQuizModal = ({courseID, closeModal }) => {
   useEffect(() => {
+    
     document.body.style.overflowY = "hidden";
     return () => {
       document.body.style.overflowY = "scroll";

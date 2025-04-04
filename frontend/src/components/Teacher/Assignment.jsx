@@ -5,9 +5,9 @@ import EditAssignment from "../Modal/EditAssignment.modal";
 import RemoveAssignment from "../Modal/RemoveAssignment.modal";
 import axios from 'axios';
 // Single Assignment Item
-const AssignmentBar = ({ assignment }) => {
+const AssignmentBar = ({ assignment,quizID }) => {
   const { title,course,dueDate,url } = assignment;
-  
+  console.log(quizID);
   // State to track completion status
  // const [isCompleted, setIsCompleted] = useState(initialCompleted);
 
@@ -47,14 +47,14 @@ const AssignmentBar = ({ assignment }) => {
           </div>
         </div>
       </div>
-      {showEditAssignmentModal && <EditAssignment closeModal={closeModalEditAssignment} />}
-      {showRemoveAssignmentModal && <RemoveAssignment closeModal={closeModalRemoveAssignment} />}
+      {showEditAssignmentModal && <EditAssignment closeModal={closeModalEditAssignment} quizID={quizID}/>}
+      {showRemoveAssignmentModal && <RemoveAssignment closeModal={closeModalRemoveAssignment} assignmentID={quizID} />}
     </div>
   );
 };
 
 // Main Assignment Component
-const Assignment = () => {
+const Assignment = ({courseID}) => {
   // const assignments = [
   //   { title: "Math Homework", marks: 80, totalmarks: 100, dueDate: "2023-12-01", assignmentDueTime: "5:00 PM", completed: false },
   //   { title: "Science Project", marks: 70, totalmarks: 100, dueDate: "2023-12-03", assignmentDueTime: "11:59 PM", completed: true },
@@ -64,25 +64,28 @@ const Assignment = () => {
   //   { title: "Art Assignment", marks: 95, totalmarks: 100, dueDate: "2023-12-07", assignmentDueTime: "9:00 AM", completed: true },
   // ];
   const [assignments,setAssginment]=useState([]);
+  let quizID;
 useEffect(() => { 
   const fetchAssignment=async()=>{
+    console.log(courseID);
   const response=await axios.post("http://localhost:8000/api/assignment/viewAssignmentByTeacher",
     {
-      courseId:"67e91feea1165b29f8080a9f"
+      courseId:courseID
     }
   );
   console.log(response);
   setAssginment(response.data.data.data);
-  }
+
+}
   fetchAssignment()
-}, );   
+}, [courseID] );   
 
   
 
   return (
     <div className="w-full mx-auto flex flex-col p-4">
       {assignments.map((assignment, index) => (
-        <AssignmentBar key={index} assignment={assignment} />
+        <AssignmentBar key={index} assignment={assignment} quizID={assignment._id} />
       ))}
     </div>
   );

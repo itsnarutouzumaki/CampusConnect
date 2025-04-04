@@ -5,6 +5,7 @@ import RemoveChapter from "../Modal/RemoveChapter.modal";
 import axios from 'axios';
 const ChapterBar = ({ chapter }) => {
   const { title } = chapter;
+  const id=chapter._id;
   const [showRemoveChapterModal, setShowRemoveChapterModal] = useState(false);
   const closeModalRemoveChapter = () => setShowRemoveChapterModal(false);
 
@@ -31,17 +32,17 @@ const ChapterBar = ({ chapter }) => {
         </div>
       </div>
       {showEditChapterModal && (
-        <EditChapter closeModal={closeModalEditChapter} />
+        <EditChapter closeModal={closeModalEditChapter} chapterID={id} />
       )}
       {showRemoveChapterModal && (
-        <RemoveChapter closeModal={closeModalRemoveChapter} />
+        <RemoveChapter closeModal={closeModalRemoveChapter} chapterID={id}/>
       )}
     </div>
   );
 };
 
 // Main Chapter Component
-const Chapter = () => {
+const Chapter = ({courseID}) => {
   const [chapters, setChapters] = useState([]);
  // const { courseId } = useParams();
 
@@ -51,7 +52,7 @@ const Chapter = () => {
         const response = await axios.post(
           "http://localhost:8000/api/chapterLecture/getAllChapters",
           {
-            course_id:  "67eaa21786a568b53909b7fd",
+            course_id:  courseID,
           }
         );
         
@@ -62,7 +63,7 @@ const Chapter = () => {
     };
 
     fetchChapters();
-  }, []);
+  }, [courseID]);
 
   return (
     <div className="w-full mx-auto flex flex-col p-4">

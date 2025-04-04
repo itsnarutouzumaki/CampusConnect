@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-const RemoveAssignment = ({ closeModal }) => {
+const RemoveAssignment = ({ closeModal,assignmentID }) => {
   useEffect(() => {
     document.body.style.overflowY = "hidden";
 
@@ -11,7 +11,7 @@ const RemoveAssignment = ({ closeModal }) => {
   }, []);
 
   const handleRemoveAssignment = async () => {
-  const id="67eaa2b186a568b53909b7ff";
+  
     const api = await axios.delete(
       `/api/assignment/deleteAssignment`,
       {
@@ -19,7 +19,7 @@ const RemoveAssignment = ({ closeModal }) => {
         "Content-Type": "application/json",
       },
       data: {
-        id: id,
+        id: assignmentID,
       },
       }
     );

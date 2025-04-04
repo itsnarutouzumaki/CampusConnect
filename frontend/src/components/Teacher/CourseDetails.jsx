@@ -23,7 +23,7 @@ import axios from 'axios';
 const AddButton = ({ selectedOption, courseId }) => {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
-
+ 
   // Function to handle modal opening based on selected option
   const handleAddClick = () => {
     setShowModal(true);
@@ -75,14 +75,14 @@ const AddButton = ({ selectedOption, courseId }) => {
 };
 
 const TeacherCourseDetails = () => {
-  
+  const course_id=useParams().courseId; 
 const[fetched,isFetched]=useState(false);
 const[courseData,fetchCourseData]=useState([]);
   useEffect(() => { 
     const fetchCourse = async () => {
       try {
         const response = await axios.post(
-          `/api/course/isEnrolled/67eaa21786a568b53909b7fd/67e9187394d5f3c13aa3f9c0`
+          `/api/course/isEnrolled/${course_id}/67e9187394d5f3c13aa3f9c0`
         );
         console.log(response);
       fetchCourseData(response.data.data.course);
@@ -93,7 +93,7 @@ const[courseData,fetchCourseData]=useState([]);
     };
    
     fetchCourse();
-  }, [fetched]);
+  }, [fetched,course_id]);
   const [selectedOption, setSelectedOption] = useState("Chapter");
   const [showEditCourseModal, setShowEditCourseModal] = useState(false);
 
@@ -102,13 +102,13 @@ const[courseData,fetchCourseData]=useState([]);
   const renderContent = () => {
     switch (selectedOption) {
       case "Assignment":
-        return <Assignment />;
+        return <Assignment courseID={course_id}/>;
       case "Chapter":
-        return <Chapter />;
+        return <Chapter courseID={course_id} />;
       case "Lecture":
-        return <Lecture />;
+        return <Lecture courseID={course_id} />;
       case "Quiz":
-        return <Quiz />;
+        return <Quiz courseID={course_id} />;
       default:
         return <Chapter />;
     }

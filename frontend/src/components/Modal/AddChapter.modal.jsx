@@ -15,7 +15,7 @@ const AddChapter = ({ courseID, closeModal }) => {
 
   const handleAddChapter = async () => {
     console.log(data.title);
-    const chapterData = { title: data.title, url: data.url, course: "67e92734457583dc21caee8f" };
+    const chapterData = { title: data.title, url: data.url, course:courseID };
     console.log(chapterData);
 
     try {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
-const EditChapter = ({ closeModal, chapterData, onChapterUpdated }) => {
+const EditChapter = ({ closeModal, chapterData, onChapterUpdated ,chapterID}) => {
   const [formData, setFormData] = useState({
     name: chapterData?.name || "",
     url: chapterData?.driveLink || "",
@@ -58,7 +58,8 @@ const EditChapter = ({ closeModal, chapterData, onChapterUpdated }) => {
 
     setIsSubmitting(true);
     try {
-      const actualData={...formData,chapter_id:'67e6f816d30cbb7633efe4dd'};
+      console.log(chapterID);
+      const actualData={...formData,chapter_id:chapterID};
       console.log(actualData);
       // Replace with your actual API endpoint
       const response = await axios.put(

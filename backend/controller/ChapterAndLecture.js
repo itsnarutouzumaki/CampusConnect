@@ -86,7 +86,7 @@ const addLecture = async (req, res) => {
 
 // get all lectures
 const getAllLectures = async (req, res) => {
-    try{
+    try{console.log(req.body.courseId);
         const courseId=new mongoose.Types.ObjectId(req.body.courseId);
         const lectures = await Lecture.find({course:courseId});
         return res.json(new response(200,lectures,'all lectures fetched successfully'));

@@ -62,7 +62,7 @@ const login = async (req, res) => {
     if (!isMatch) {
       return res.json({ message: "password is incorrect" });
     }
-    const token = await jwt.sign({ _id: teacher._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ _id: teacher._id }, process.env.JWT_SECRET, {
     });
     console.log(token);
     res.cookie("auth_token", token, {

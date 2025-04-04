@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import { useParams } from "react-router-dom"; 
 function AddQuiz() {
-  const [quizName, setQuizName] = useState("");
+  const courseID=useParams().courseId;
+  console.log(courseID);
+    const [quizName, setQuizName] = useState("");
   const [quizDate, setQuizDate] = useState("");
   const [quizTime, setQuizTime] = useState("");
   const [questions, setQuestions] = useState([
@@ -48,7 +51,7 @@ function AddQuiz() {
     const response=await axios.post("/api/quiz/addquiz",
       {quizDate:quizDate,
         name:quizName,
-        courseid:"67eaa21786a568b53909b7fd",
+        courseid:courseID,
         questions:finaldata
       }
     );
