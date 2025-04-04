@@ -32,6 +32,7 @@ import Error from "./components/Error.jsx";
 import ViewResult from "./components/Students/ViewResult.jsx";
 import Loading from "./components/Loading.jsx";
 import LiveClass from "./components/Teacher/liveClass.jsx";
+import Room from "./components/Room.jsx";
 const App = () => {
   return (
     <>
@@ -90,6 +91,7 @@ const MainContent = () => {
           <Route path="/teacher/profile" element={<TeacherProfile />} />
           <Route path="/teacher/addquiz/:courseId" element={<AddQuiz />} />
           <Route path="/teacher/liveclass" element={<LiveClass />} />
+          <Route path="/teacher/room/:roomId" element={<Room />} />
           {/* Admin Section */}
           <Route path="/admin" element={<AdminProfile />} />
           <Route path="/admin/login" element={<AdminLogin />} />

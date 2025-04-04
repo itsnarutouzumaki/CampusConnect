@@ -52,7 +52,6 @@ const TeacherProfile = () => {
    const [Teacher, setTeachers] = useState(
     {
       name:"",
-      profileImage:"",
       qualification:"",
       joiningDate:"",
       username:"",
