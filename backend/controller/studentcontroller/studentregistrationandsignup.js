@@ -55,9 +55,10 @@ const login = async (req, res) => {
   // Store token in HTTP-only cookie
   res.cookie("auth_token", token, {
     httpOnly: true,
-    secure: false,
-    sameSite: "Strict",
+    secure: true, // true ensures cookies are sent over HTTPS only
+    sameSite: "None", // allow cross-site cookies (e.g., frontend & backend hosted on different domains)
   });
+  
 
   res.json(new apiresponse(200, { student }, "User logged in successfully"));
 };
