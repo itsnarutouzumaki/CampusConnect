@@ -18,7 +18,6 @@ import HomeScreen from "./components/Students/Dashboard";
 import TeacherLoginForm from "./components/Teacher/Login";
 import TeacherProfile from "./components/Teacher/Profile";
 import AdminProfile from "./components/Admin/Admin.jsx";
-import 'App.css';
 import CourseDetails from "./components/Students/CourseDetails";
 import ShowStudent from "./components/ShowStudent";
 import Leaderboard from "./components/LeaderBoard";
@@ -35,6 +34,7 @@ import LiveClass from "./components/Teacher/LiveClass.jsx";
 import Room from "./components/Room.jsx";
 import PaymentPage from "./components/PaymentPage.jsx";
 import Payment from "./components/Payment.jsx";
+import './App.css';
 const App = () => {
   return (
     <>
