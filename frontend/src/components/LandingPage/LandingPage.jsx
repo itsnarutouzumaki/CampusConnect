@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./landingpage.css";
+
 import ParticlesComponent from "../../styles/Particlebackground";
 
 const LandingPage = () => {
