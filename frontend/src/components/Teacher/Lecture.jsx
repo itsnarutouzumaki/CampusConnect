@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 
@@ -27,8 +28,9 @@ const LectureBar = ({ lecture }) => {
         } on ${startDate ? new Date(startDate).toISOString().split("T")[0] : "N/A"
         }`}</span>
       <div className="flex p-1">
-        <div className="cursor-pointer w-fit h-fit text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300">
-          <button>
+      <div className="cursor-pointer w-fit h-fit text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300 flex items-center justify-center">
+ 
+         <button>
             <Link
               to={`/teacher/liveclass/${_id}`}
             >
@@ -36,11 +38,31 @@ const LectureBar = ({ lecture }) => {
             </Link> 
           </button>
         </div>
-        <div className="cursor-pointer h-fit w-fit text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300">
-          <MdDelete />
+        
+        <div className="cursor-pointer h-fit w-fit text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300 flex items-center justify-center">
+ 
+
+          <button onClick={async(e)=>
+            {e.preventDefault();
+              e.stopPropagation();
+              const response=axios.delete('/api/chapterLecture/deleteLecture',
+                {data:{
+                  id:_id
+                }}
+              );
+              console.log(response);
+              toast.success("Lecture Deleted Successfully", {
+                position:"top-center",
+                duration:2000
+              })
+            }
+          }>
+            delete
+           
+            </button>
         </div>
       </div>
-    </Link>
+      </Link>
   );
 };
 

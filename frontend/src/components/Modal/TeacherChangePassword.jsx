@@ -8,6 +8,15 @@ const ChangePassoword = ({ closeModal }) => {
       document.body.style.overflowY = "scroll";
     };
   }, []);
+  const handleInputChange=(e)=>
+    {
+      const { name, value } = e.target;
+     
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value
+      }));
+    }
 
   return ReactDOM.createPortal(
     <div
@@ -24,6 +33,7 @@ const ChangePassoword = ({ closeModal }) => {
         <input
           type="text"
           placeholder="Password"
+          name="password"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
           required
         />
