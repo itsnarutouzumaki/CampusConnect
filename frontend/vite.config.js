@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://campusconnect-qm43.onrender.com",
+        target: "https://campusconnect-qm43.onrender.com/",
         changeOrigin: true,
         secure: false,
       },
