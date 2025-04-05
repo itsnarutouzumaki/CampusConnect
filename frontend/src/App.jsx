@@ -18,7 +18,7 @@ import HomeScreen from "./components/Students/Dashboard";
 import TeacherLoginForm from "./components/Teacher/Login";
 import TeacherProfile from "./components/Teacher/Profile";
 import AdminProfile from "./components/Admin/Admin.jsx";
-import "./app.css";
+import "./App.css";
 import CourseDetails from "./components/Students/CourseDetails";
 import ShowStudent from "./components/ShowStudent";
 import Leaderboard from "./components/LeaderBoard";
