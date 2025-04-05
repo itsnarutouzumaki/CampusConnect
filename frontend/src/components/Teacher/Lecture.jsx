@@ -28,7 +28,13 @@ const LectureBar = ({ lecture }) => {
         }`}</span>
       <div className="flex p-1">
         <div className="cursor-pointer w-fit h-fit text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300">
-          <MdEdit />
+          <button>
+            <Link
+              to={`/teacher/liveclass/${_id}`}
+            >
+            start
+            </Link> 
+          </button>
         </div>
         <div className="cursor-pointer h-fit w-fit text-white mr-2 bg-white/30 p-1 rounded-md hover:text-black hover:bg-orange-300">
           <MdDelete />

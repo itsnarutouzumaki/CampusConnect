@@ -1,9 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 function LiveClass() {
     const navigate = useNavigate();
-  
+  const {lectureID}=useParams();
+  console.log(lectureID);
     const [name, setName] = useState("");
     const [roomId, setRoomId] = useState("");
     const [role, setRole] = useState("host");
@@ -17,7 +18,7 @@ function LiveClass() {
         roomId,
       };
   
-      navigate(`/teacher/room/${roomId}`, { state: data });
+      navigate(`/teacher/room/${roomId}/${lectureID}`, { state: data });
     };
     return (
         <div className="flex justify-center items-center h-screen bg-gradient-to-br from-blue-200 to-purple-300">

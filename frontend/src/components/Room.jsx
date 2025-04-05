@@ -14,11 +14,12 @@ const randomID = (len = 5) => {
 
 function Room() {
   const title = "Live Class";
-  const { roomId } = useParams();
+  const roomId = useParams().roomId;
+  const lectureID=useParams().lectureID;
   const location = useLocation();
   const containerRef = useRef(null);
 
-  const lectureId = "67e786a82c5de1d375bc1aa4";
+//  const lectureId = "67e786a82c5de1d375bc1aa4";
   const { name = 'Guest', role = 'Audience' } = location.state || {};
   const roleCondition = role === 'host' ? ZegoUIKitPrebuilt.Host : ZegoUIKitPrebuilt.Audience;
 
@@ -29,8 +30,8 @@ function Room() {
     }
   ];
 
-  const appID = 1942323787;
-  const serverSecret = "565082a3c300d0adfcee70731e1e8292";
+  const appID = Number(import.meta.env.VITE_ZegoCloud_AppID);
+  const serverSecret = import.meta.env.VITE_Zegocloud_Server_secret;
   const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
     appID, serverSecret, roomId, randomID(5), name
   );
@@ -55,11 +56,11 @@ function Room() {
         }
       });
 
-      // ✅ Call API after joining room
+      //  Call API after joining room
       try {
         const response = await axios.put('/api/chapterLecture/startMeet', {
           videoUrl: sharedLinks[0].url,
-          lectureId: lectureId
+          lectureId: lectureID
         }, {
           headers: {
             "Content-Type": "application/json"

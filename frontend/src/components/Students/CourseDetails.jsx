@@ -4,7 +4,7 @@ import Chapter from "./Chapter";
 import Lecture from "./Lecture";
 import Quiz from "./Quiz";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import RotatingC from "../Loading";
 import toast from "react-hot-toast";
 
@@ -24,7 +24,7 @@ const StudentCourseDetails = () => {
         course_id:courseId,
       });
       setIsEnrolled(true);
-      console.log(response.data);
+      //console.log(response.data);
       toast.success("Enrolled Successfully", {
         position: "top-center",
         duration: 2000,
@@ -58,7 +58,7 @@ const StudentCourseDetails = () => {
             "studentId"
           )}`
         );
-        console.log(response);
+     //   console.log(response);
         const { isEnrolled, course } = response.data.data;
 
         setIsEnrolled(isEnrolled === "true");
@@ -138,11 +138,23 @@ const StudentCourseDetails = () => {
         {/* Dropdown Selector */}
         <div className="w-full flex mt-6 sm:mt-8">
           {!isEnrolled ? (
+            
             <div
               onClick={enrollMe}
               className="cursor-pointer font-bold text-lg text-white bg-blue-300 hover:bg-purple-600 italic py-2 rounded-lg w-fit px-10"
             >
+              <Link
+            to={`/payment`}
+            state={{"title":courseData.title,
+              "image":courseData.image,
+              "id":courseData._id,
+              "price":courseData.price,
+              "description":courseData.description,
+            }}
+            >
               Enroll
+              </Link>
+          
             </div>
           ) : (
             <select

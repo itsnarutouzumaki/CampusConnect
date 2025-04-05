@@ -33,6 +33,8 @@ import ViewResult from "./components/Students/ViewResult.jsx";
 import Loading from "./components/Loading.jsx";
 import LiveClass from "./components/Teacher/liveClass.jsx";
 import Room from "./components/Room.jsx";
+import PaymentPage from "./components/PaymentPage.jsx";
+import Payment from "./components/Payment.jsx";
 const App = () => {
   return (
     <>
@@ -82,6 +84,8 @@ const MainContent = () => {
           <Route path="/viewresult" element={<ViewResult />} />
           <Route path="/loading" element={<Loading />} />
           <Route path="/quiz_window/:quizId" element={<QuizWindow />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/payment/:courseId" element={<Payment />} />
           {/* teacher section */}
           <Route
             path="/teacher/coursedetails/:courseId"
@@ -90,8 +94,8 @@ const MainContent = () => {
           <Route path="/teacher/login" element={<TeacherLoginForm />} />
           <Route path="/teacher/profile" element={<TeacherProfile />} />
           <Route path="/teacher/addquiz/:courseId" element={<AddQuiz />} />
-          <Route path="/teacher/liveclass" element={<LiveClass />} />
-          <Route path="/teacher/room/:roomId" element={<Room />} />
+          <Route path="/teacher/liveclass/:lectureID" element={<LiveClass />} />
+          <Route path="/teacher/room/:roomId/:lectureID" element={<Room />} />
           {/* Admin Section */}
           <Route path="/admin" element={<AdminProfile />} />
           <Route path="/admin/login" element={<AdminLogin />} />

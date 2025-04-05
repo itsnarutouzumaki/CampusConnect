@@ -24,6 +24,7 @@ const Login = () => {
     setSuccessMessage("");
 
     try {
+      console.log(formData.email);
       const api = await axios.post(
         url,
         {
