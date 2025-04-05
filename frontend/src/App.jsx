@@ -31,7 +31,7 @@ import AdminLogin from "./components/Admin/Login.jsx";
 import Error from "./components/Error.jsx";
 import ViewResult from "./components/Students/ViewResult.jsx";
 import Loading from "./components/Loading.jsx";
-import LiveClass from "./components/Teacher/liveClass.jsx";
+import LiveClass from "./components/Teacher/LiveClass.jsx";
 import Room from "./components/Room.jsx";
 import PaymentPage from "./components/PaymentPage.jsx";
 import Payment from "./components/Payment.jsx";
