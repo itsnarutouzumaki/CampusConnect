@@ -15,13 +15,22 @@ const StudentCourseDetails = () => {
   const [courseData, setCourseData] = useState(null);
 
   const { courseId } = useParams();
-
+  const navigate = useNavigate();
   const enrollMe = async() => {
     const studentId = localStorage.getItem("studentId");
     
     try {
       const response = await axios.post("/api/course/enrollstudent", {
         course_id:courseId,
+      });
+      await navigate("/payment", {
+        state: {
+          title: courseData.title,
+          image: courseData.image,
+          id: courseData._id,
+          price: courseData.price,
+          description: courseData.description,
+        },
       });
       setIsEnrolled(true);
       //console.log(response.data);
@@ -35,11 +44,12 @@ const StudentCourseDetails = () => {
         position: "top-center",
         duration: 2000,
       });
+      
     }
     
     
   };
-  const navigate = useNavigate();
+  
 
   useEffect(() => {
     if (!localStorage.getItem("userName")) {
@@ -143,17 +153,9 @@ const StudentCourseDetails = () => {
               onClick={enrollMe}
               className="cursor-pointer font-bold text-lg text-white bg-blue-300 hover:bg-purple-600 italic py-2 rounded-lg w-fit px-10"
             >
-              <Link
-            to={`/payment`}
-            state={{"title":courseData.title,
-              "image":courseData.image,
-              "id":courseData._id,
-              "price":courseData.price,
-              "description":courseData.description,
-            }}
-            >
+              
               Enroll
-              </Link>
+              
           
             </div>
           ) : (

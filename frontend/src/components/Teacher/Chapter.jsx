@@ -50,7 +50,7 @@ const Chapter = ({courseID}) => {
     const fetchChapters = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/chapterLecture/getAllChapters",
+          "/api/chapterLecture/getAllChapters",
           {
             course_id:  courseID,
           }
