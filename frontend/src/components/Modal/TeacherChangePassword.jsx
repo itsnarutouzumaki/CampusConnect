@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-
+import axios from "axios";  
 const ChangePassoword = ({ closeModal }) => {
   useEffect(() => {
     document.body.style.overflowY = "hidden";
@@ -8,6 +8,34 @@ const ChangePassoword = ({ closeModal }) => {
       document.body.style.overflowY = "scroll";
     };
   }, []);
+  const [formData,setFormData]=React.useState({
+    password:"",
+    newPassword:"",
+    reTypeNewPassword:""  
+
+  });
+ 
+  const validateForm = () => {
+    if (!formData.reTypeNewPassword.trim()) {
+      setError("retypenewpassword is required");
+      return false;
+    }
+    if(!formData.newPassword.trim())
+    {
+      setError("new password is required");
+      return false;
+    }
+    if (!formData.password.trim()) {
+      setError("Password is required");
+      return false;
+    }
+    if(!(formData.newPassword.trim()===formData.reTypeNewPassword.trim()))
+    {
+      setError("the retyped password and the new password do not match");
+      return false;
+    }
+    return true;
+  };
   const handleInputChange=(e)=>
     {
       const { name, value } = e.target;
@@ -16,8 +44,21 @@ const ChangePassoword = ({ closeModal }) => {
         ...prev,
         [name]: value
       }));
+      
     }
-
+ const handleSubmit=async ()=>
+ {
+  if(!validateForm()) return ;
+const response=await axios.post('/api/teachers/changepassword',
+  {
+    password:formData.password,
+    newpassword:formData.newPassword
+  }
+  
+);
+console.log(response);
+closeModal();
+  }   
   return ReactDOM.createPortal(
     <div
       className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center z-50"
@@ -35,23 +76,32 @@ const ChangePassoword = ({ closeModal }) => {
           placeholder="Password"
           name="password"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={formData.password}
           required
         />
         <input
           type="text"
           placeholder="New Password"
+          name="newPassword"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={formData.newPassword
+          }
           required
         />
         <input
           type="text"
+          name="reTypeNewPassword"
           placeholder="Repeat New Password"
           className="m-2 rounded-lg p-2 w-[80%] text-black"
+          onChange={handleInputChange}
+          value={formData.reTypeNewPassword}
           required
         />
         <button
           className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
-          onClick={closeModal}
+          onClick={handleSubmit}
         >
           Save Changes
         </button>

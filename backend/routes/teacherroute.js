@@ -9,8 +9,8 @@ router.post('/signup',signup);
 //login 
 router.post('/login',login);
 //update details
-router.put('/updateDetails',upload.single('file'),updatedetails);
+router.put('/updateDetails',jwttoken.authenticateJWT,upload.single('file'),updatedetails);
 router.delete('/removeteacher',removeteacher);
-router.post('/changepassword',changePassword);
+router.post('/changepassword',jwttoken.authenticateJWT,changePassword);
 router.post('/getTeacher',jwttoken.authenticateJWT,getTeacher);
 module.exports=router;

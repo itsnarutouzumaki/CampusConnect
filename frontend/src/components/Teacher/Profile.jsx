@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import EditTeacher from "../Modal/EditTeacher.Modal";
 import AddCourse from "../Modal/AddCourse.modal";
 import axios from "axios";
-
+import ChangePassoword from "../Modal/TeacherChangePassword"; 
 
 const CourseCard = ({id, image, name, description }) => {
   const truncateDescription = (text, wordLimit) => {
@@ -33,7 +33,8 @@ const CourseCard = ({id, image, name, description }) => {
 const TeacherProfile = () => {
   const [showAddCourseModal, setShowAddCourseModal] = useState(false);
   const [showEditTeacherModal, setShowEditTeacherModal] = useState(false);
-
+  const [showPassChangeModal,setShowPassChangeModal]=useState(false);
+  const showChangePasswordClose=()=>setShowPassChangeModal(false);
   const closeModalAddCourse = () => setShowAddCourseModal(false);
   const closeModalEditTeacher = () => setShowEditTeacherModal(false);
 
@@ -149,7 +150,9 @@ const TeacherProfile = () => {
         </div>
       </div>
       <div className="w-full h-fit bg-white/20 mb-2 rounded-lg flex justify-evenly py-2">
-          <button className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer">
+          <button className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer"
+          onClick={() => setShowPassChangeModal(true)}>
+       { showPassChangeModal &&    <ChangePassoword closeModal={showChangePasswordClose}/>}
             Change Password
           </button>
           <button className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer">
