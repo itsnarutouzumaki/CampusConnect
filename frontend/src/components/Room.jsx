@@ -14,21 +14,25 @@ const randomID = (len = 5) => {
 
 function Room() {
   const title = "Live Class";
-  const roomId = useParams().roomId;
-  const lectureID=useParams().lectureID;
+  // const roomId = useParams().roomId;
+  // const lectureID = useParams().lectureID;
+  const { roomId, lectureID } = useParams();
   const location = useLocation();
   const containerRef = useRef(null);
 
-//  const lectureId = "67e786a82c5de1d375bc1aa4";
-  const { name = 'Guest', role = 'Audience' } = location.state || {};
+  const searchParams = new URLSearchParams(location.search);
+  const name = location.state?.name || searchParams.get('name') || 'Guest';
+  const role = location.state?.role || searchParams.get('role') || 'Audience';
+  
   const roleCondition = role === 'host' ? ZegoUIKitPrebuilt.Host : ZegoUIKitPrebuilt.Audience;
 
   const sharedLinks = [
     {
       name: 'Join as Audience',
-      url: `${window.location.origin}/room/${roomId}`
+      url: `${window.location.origin}/teacher/room/${roomId}/${lectureID}?name=${name}&role=Audience`
     }
   ];
+  
 
   const appID = Number(import.meta.env.VITE_ZegoCloud_AppID);
   const serverSecret = import.meta.env.VITE_Zegocloud_Server_secret;
@@ -37,8 +41,10 @@ function Room() {
   );
 
   useEffect(() => {
+    let zp;
+
     const myMeeting = async () => {
-      const zp = ZegoUIKitPrebuilt.create(kitToken);
+      zp = ZegoUIKitPrebuilt.create(kitToken);
       zp.joinRoom({
         container: containerRef.current,
         sharedLinks,
@@ -56,8 +62,8 @@ function Room() {
         }
       });
 
-      //  Call API after joining room
       try {
+        if(lectureID){
         const response = await axios.put('/api/chapterLecture/startMeet', {
           videoUrl: sharedLinks[0].url,
           lectureId: lectureID
@@ -67,12 +73,20 @@ function Room() {
           }
         });
         console.log("Lecture updated successfully", response.data);
+        }
       } catch (error) {
         console.error("Error calling startMeet API:", error.message);
       }
     };
 
     myMeeting();
+
+    return () => {
+      if (zp) {
+        zp.leaveRoom();
+        console.log("Left Zego room");
+      }
+    };
   }, []);
 
   return (

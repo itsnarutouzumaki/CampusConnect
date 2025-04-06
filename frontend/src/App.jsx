@@ -96,6 +96,8 @@ const MainContent = () => {
           <Route path="/teacher/addquiz/:courseId" element={<AddQuiz />} />
           <Route path="/teacher/liveclass/:lectureID" element={<LiveClass />} />
           <Route path="/teacher/room/:roomId/:lectureID" element={<Room />} />
+          <Route path="/room/:roomId" element={<Room />} />
+
           {/* Admin Section */}
           <Route path="/admin" element={<AdminProfile />} />
           <Route path="/admin/login" element={<AdminLogin />} />
