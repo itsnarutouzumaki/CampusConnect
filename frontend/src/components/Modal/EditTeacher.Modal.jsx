@@ -48,12 +48,14 @@ const EditTeacher = ({ closeModal, teacherData,teacherID }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
+    
     if (!validateForm()) return;
 
     setIsSubmitting(true);
 
     try {
+      console.log("hi");
+      console.log(teacherID);
       // Handle file upload if new file is selected
       let imageUrl = formData.profileImage;
       const uploadFormData = new FormData();
@@ -78,9 +80,9 @@ const EditTeacher = ({ closeModal, teacherData,teacherID }) => {
       uploadFormData.append("areaOfInterst",formData.areaOfInterest);
       uploadFormData.append("qualification",formData.qualifications);
       uploadFormData.append("teacher_id",teacherID);
-     
+    
    // Update teacher data
-      const response = await axios.put("https://localhost:8000/api/teachers/updatedetails",
+      const response = await axios.put("/api/teachers/updatedetails",
         uploadFormData,
         {
         headers: { "Content-Type": "multipart/form-data" },

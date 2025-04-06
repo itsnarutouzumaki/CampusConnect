@@ -79,7 +79,8 @@ const navigate = useNavigate();
       username:"",
       email:"",
       profileImage:"https://preview.redd.it/how-strong-is-jiraiya-v0-0hdtt6zrqycb1.jpg?width=450&format=pjpg&auto=webp&s=2a4969be966363c03b43dd59788f110d3929f6ca",
-      bio:""
+      bio:"",
+      _id:""
     }
    );
    var teacherid="";
@@ -90,6 +91,7 @@ const navigate = useNavigate();
           console.log(response);
           setTeachers(response.data.data);
           teacherid=response.data.data._id;
+          
         }
         fetchTeacher(); 
     }, []);
@@ -125,7 +127,7 @@ const navigate = useNavigate();
           <FiEdit2 className="w-5 h-5" />
         </div>
 
-        {showEditTeacherModal && <EditTeacher closeModal={closeModalEditTeacher} teacherID={teacherid} />}
+        {showEditTeacherModal && <EditTeacher closeModal={closeModalEditTeacher} teacherID={Teacher._id} />}
 
         <div className="flex flex-col items-center md:items-start mt-6 md:m-2">
           <img
