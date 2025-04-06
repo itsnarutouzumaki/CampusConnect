@@ -25,10 +25,10 @@ const StudentCourseDetails = () => {
       });
       setIsEnrolled(true);
       //console.log(response.data);
-      toast.success("Enrolled Successfully", {
-        position: "top-center",
-        duration: 2000,
-      });
+      // toast.success("Enrolled Successfully", {
+      //   position: "top-center",
+      //   duration: 2000,
+      // });
     } catch (error) {
       console.error("Error enrolling in course:", error);
       toast.error("Enrollment Failed", {

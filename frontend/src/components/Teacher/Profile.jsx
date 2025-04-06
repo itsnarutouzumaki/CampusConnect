@@ -56,7 +56,7 @@ const TeacherProfile = () => {
       joiningDate:"",
       username:"",
       email:"",
-      profileImage:"https://res.cloudinary.com/da0akdnf7/image/upload/v1743602584/assignments/v7mkobcqleuentg9g6ar.png",
+      profileImage:"https://preview.redd.it/how-strong-is-jiraiya-v0-0hdtt6zrqycb1.jpg?width=450&format=pjpg&auto=webp&s=2a4969be966363c03b43dd59788f110d3929f6ca",
       bio:""
     }
    );
@@ -106,9 +106,8 @@ const TeacherProfile = () => {
         <div className="flex flex-col items-center md:items-start mt-6 md:m-2">
           <img
             className="w-48 h-48 rounded-full border object-cover"
-            src={Teacher.profileImage}
-            alt="Teacher Profile"
-          />
+            src={Teacher.profileImage || 'https://cdn3.vectorstock.com/i/1000x1000/76/47/online-course-concept-vector-26477647.jpg'}
+            />
           {/* <p className="w-full md:w-48 text-white italic mt-3 text-center md:text-left">
             <span className="text-3xl text-red-500">❝</span>
             {Teacher.quote}
