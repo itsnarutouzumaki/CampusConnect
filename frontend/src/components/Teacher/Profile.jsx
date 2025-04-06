@@ -82,12 +82,14 @@ const navigate = useNavigate();
       bio:""
     }
    );
+   var teacherid="";
     useEffect(() => {  
       const fetchTeacher=async()=>
         {
           const response=await axios.post("/api/teachers/getTeacher");
           console.log(response);
           setTeachers(response.data.data);
+          teacherid=response.data.data._id;
         }
         fetchTeacher(); 
     }, []);
@@ -123,7 +125,7 @@ const navigate = useNavigate();
           <FiEdit2 className="w-5 h-5" />
         </div>
 
-        {showEditTeacherModal && <EditTeacher closeModal={closeModalEditTeacher} />}
+        {showEditTeacherModal && <EditTeacher closeModal={closeModalEditTeacher} teacherID={teacherid} />}
 
         <div className="flex flex-col items-center md:items-start mt-6 md:m-2">
           <img

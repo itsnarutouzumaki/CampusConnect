@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
-const EditTeacher = ({ closeModal, teacherData, onTeacherUpdated }) => {
+const EditTeacher = ({ closeModal, teacherData,teacherID }) => {
   const [formData, setFormData] = useState({
     name: teacherData?.name || "",
     bio: teacherData?.bio || "",
@@ -77,16 +77,17 @@ const EditTeacher = ({ closeModal, teacherData, onTeacherUpdated }) => {
       uploadFormData.append("bio",formData.bio);
       uploadFormData.append("areaOfInterst",formData.areaOfInterest);
       uploadFormData.append("qualification",formData.qualifications);
+      uploadFormData.append("teacher_id",teacherID);
      
    // Update teacher data
-      const response = await axios.put("/api/teachers/updatedetails",
+      const response = await axios.put("https://localhost:8000/api/teachers/updatedetails",
         uploadFormData,
         {
         headers: { "Content-Type": "multipart/form-data" },
         }
       );
       console.log(response);
-      onTeacherUpdated(response.data);
+      
       closeModal();
     } catch (error) {
       console.error("Error updating teacher:", error);
