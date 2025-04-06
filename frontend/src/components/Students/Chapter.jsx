@@ -24,7 +24,7 @@ const Chapter = ({courseID}) => {
       try {
         
         const response = await axios.post(
-          "http://localhost:8000/api/chapterLecture/getAllChapters",
+          "/api/chapterLecture/getAllChapters",
           {
             course_id:courseID ,
           }
