@@ -68,7 +68,7 @@ const Assignment = ({courseID}) => {
 useEffect(() => { 
   const fetchAssignment=async()=>{
     console.log(courseID);
-  const response=await axios.post("http://localhost:8000/api/assignment/viewAssignmentByTeacher",
+  const response=await axios.post("/api/assignment/viewAssignmentByTeacher",
     {
       courseId:courseID
     }

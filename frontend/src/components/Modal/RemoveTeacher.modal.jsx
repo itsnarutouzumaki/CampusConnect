@@ -37,7 +37,7 @@ const RemoveTeacher = ({ closeModal }) => {
     if (!validateForm()) return;
     try {
       console.log(formData.email);
-      const response=await axios.delete("http://localhost:8000/api/teachers/removeteacher"
+      const response=await axios.delete("/api/teachers/removeteacher"
         ,{data:{
           email:formData.email,
           password:formData.password

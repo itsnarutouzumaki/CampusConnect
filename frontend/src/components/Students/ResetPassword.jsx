@@ -17,7 +17,7 @@ function ResetPassword() {
         };
 
         try {
-            const response = await axios.post("http://localhost:8080/api/resetPassword", data, {
+            const response = await axios.post("/api/students/resetPassword", data, {
                 headers: {
                     "Content-Type": "application/json",
                 },

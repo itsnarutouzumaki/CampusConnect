@@ -57,10 +57,9 @@ const ViewResult = () => {
                     throw new Error("Quiz ID is required.");
                 }
 
-                const response = await axios.post(`http://localhost:8000/api/quiz/submitquiz`, 
+                const response = await axios.post(`/api/quiz/submitquiz`, 
                 {
                     quiz_id: quizId,
-                    student_id: "67a3658e6306a7200c8c0745"
                 } 
                 );
 
