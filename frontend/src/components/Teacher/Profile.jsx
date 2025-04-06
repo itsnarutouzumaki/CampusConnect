@@ -1,11 +1,11 @@
 import React, { useState,useEffect } from "react";
 import { FiEdit2 } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EditTeacher from "../Modal/EditTeacher.Modal";
 import AddCourse from "../Modal/AddCourse.modal";
 import axios from "axios";
 import ChangePassoword from "../Modal/TeacherChangePassword"; 
-
+import toast from "react-hot-toast";
 const CourseCard = ({id, image, name, description }) => {
   const truncateDescription = (text, wordLimit) => {
     const words = text.split(" ");
@@ -37,7 +37,28 @@ const TeacherProfile = () => {
   const showChangePasswordClose=()=>setShowPassChangeModal(false);
   const closeModalAddCourse = () => setShowAddCourseModal(false);
   const closeModalEditTeacher = () => setShowEditTeacherModal(false);
-
+const navigate = useNavigate();
+  const handleLogoutRequest = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/api/teachers/teacherlogout");
+      if (response.data.success) {
+        toast.success("Logout successful", {
+          position: "top-center",
+          duration: 2000,
+        });
+        console.log(response);
+       await navigate("/loginsignup");
+        
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("An error occurred during logout.", {
+        position: "top-center",
+        duration: 2000,
+      });
+    }
+  };
   // const Teacher = {
   //   name: "Master Jiraiya",
   //   username: "pervysage",
@@ -155,7 +176,8 @@ const TeacherProfile = () => {
        { showPassChangeModal &&    <ChangePassoword closeModal={showChangePasswordClose}/>}
             Change Password
           </button>
-          <button className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer">
+          <button onClick={handleLogoutRequest}
+           className="m-2 rounded-lg p-2 bg-blue-400 w-fit hover:bg-gradient-to-r from-[#ee7f7f] via-[#a377ae] to-[#7bdcd3] hover:text-black font-bold cursor-pointer">
             Logout
           </button>
         </div>

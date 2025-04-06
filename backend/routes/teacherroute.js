@@ -1,5 +1,5 @@
 const {signup,login,checkUserExists,updatedetails,removeteacher,changePassword,getTeacher,
-}= require('../controller/teachercontroller/teacherloginandsignup');
+logout}= require('../controller/teachercontroller/teacherloginandsignup');
 const express = require('express');
 const router=express.Router();
 const upload = require('../middleware/uploadMiddleware.js');
@@ -13,4 +13,5 @@ router.put('/updateDetails',jwttoken.authenticateJWT,upload.single('file'),updat
 router.delete('/removeteacher',removeteacher);
 router.post('/changepassword',jwttoken.authenticateJWT,changePassword);
 router.post('/getTeacher',jwttoken.authenticateJWT,getTeacher);
+router.post('/teacherlogout',logout)
 module.exports=router;

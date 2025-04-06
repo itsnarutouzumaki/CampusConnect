@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";  
+import toast from "react-hot-toast";
 const ChangePassoword = ({ closeModal }) => {
   useEffect(() => {
     document.body.style.overflowY = "hidden";

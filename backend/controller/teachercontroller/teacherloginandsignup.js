@@ -130,4 +130,21 @@ const getTeacher=async(req,res)=>
   const data=await Teacher.findOne({_id:id});
   return res.json(new ApiResponse(200,data ,"Teacher details fetched"));
 }
-module.exports = { signup, login, checkUserExists,updatedetails,removeteacher,changePassword,getTeacher};
+const logout = (req, res) => {
+  try {
+    res.clearCookie("auth_token", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "Strict",
+    
+    });
+    res.json(new ApiResponse(200, null, "User logged out successfully"));
+  } catch (error) {
+    res
+      .status(500)
+      .json(new ApiResponse(500, null, "Server error during logout"));
+  }
+};
+module.exports = { signup, login, checkUserExists,updatedetails,removeteacher,changePassword,getTeacher,
+  logout
+};
