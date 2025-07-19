@@ -51,8 +51,8 @@ const submitquiz = async (req, res) => {
 
   const fetchdata = await quiz.aggregate(data);
   const givenArray = req.body.options;
-  const resultArray = fetchdata[0]?.correctOptions || [];
-
+  const resultArray = fetchdata.correctOptions || [];
+  console.log(resultArray.length);
   let count = 0;
   for (let index = 0; index < resultArray.length; index++) {
     if (resultArray[index].toString() === givenArray[index].toString()) {
@@ -66,7 +66,7 @@ const submitquiz = async (req, res) => {
     total_marks: resultArray.length,
   });
  const var1= await submit.save();
-  res.json(var1);
+ return res.json(var1);
 };
 
 const viewresult=async (req, res) => {
