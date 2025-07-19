@@ -38,34 +38,31 @@ const submitquiz = async (req, res) => {
     },
     {
       $project: {
-        correctOptions: "$questions.correctoption",
+        correctOptions: {
+          $map: {
+            input: "$questions",
+            as: "question",
+            in: "$$question.correctoption",
+          },
+        },
       },
     },
   ];
+
   const fetchdata = await quiz.aggregate(data);
-  console.log(req.body);
-  const gienarray = req.body.options;
-  const resultArray = fetchdata[0].correctoption;
-  var count = 0;
+  const givenArray = req.body.options;
+  const resultArray = fetchdata[0]?.correctOptions || [];
+
+  let count = 0;
   for (let index = 0; index < resultArray.length; index++) {
-   console.log(gienarray[index].toString());
-    if (resultArray[index].toString() === gienarray[index].toString()) {
+    if (resultArray[index].toString() === givenArray[index].toString()) {
       count++;
     }
   }
-  const storedata = new studentquiz({
-    quizid: req.body.quiz_id,
-    studentid: req.body.student_id,
-    marks: count,
-    total_marks: resultArray.length,
-  });
-  const savedata = await storedata.save();
-  res.json(new apiresponse(200, "quiz submitted", savedata));
 
-  // const data=new studentquiz(d._id,req.body.quiz_id,);
-  // const saveddata=await data.save();
-  // res.json(new apiresponse(200,'quiz submitted',{saveddata}));
+  res.json({ score: count });
 };
+
 const viewresult=async (req, res) => {
     const studentid= new mongoose.Types.ObjectId(req.body.student_id);
     const quizid= new mongoose.Types.ObjectId(req.body.quiz_id);
