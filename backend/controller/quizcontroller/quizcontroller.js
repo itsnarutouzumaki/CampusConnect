@@ -38,28 +38,22 @@ const submitquiz = async (req, res) => {
     },
     {
       $project: {
-        correctOptions: {
-          $map: {
-            input: "$questions",
-            as: "question",
-            in: "$$question.correctoption",
-          },
-        },
+        correctOptions: "$questions.correctoption",
       },
     },
   ];
-
   const fetchdata = await quiz.aggregate(data);
-  const givenArray = req.body.options;
-  const resultArray = fetchdata.correctOptions || [];
-  console.log(resultArray.length);
-  let count = 0;
+  console.log(req.body);
+  const gienarray = req.body.options;
+  const resultArray = fetchdata.correctOptions;
+  var count = 0;
   for (let index = 0; index < resultArray.length; index++) {
-    if (resultArray[index].toString() === givenArray[index].toString()) {
+   console.log(gienarray[index].toString());
+    if (resultArray[index].toString() === gienarray[index].toString()) {
       count++;
     }
   }
-  const submit= new studentquiz({
+    const submit= new studentquiz({
     quizid: new mongoose.Types.ObjectId(req.body.quiz_id),
     studentid:new mongoose.Types.ObjectId(req.body.student_id),
     marks: count,
@@ -67,7 +61,8 @@ const submitquiz = async (req, res) => {
   });
  const var1= await submit.save();
  return res.json(var1);
-};
+
+}
 
 const viewresult=async (req, res) => {
     const studentid= new mongoose.Types.ObjectId(req.body.student_id);
