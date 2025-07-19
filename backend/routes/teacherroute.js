@@ -13,5 +13,5 @@ router.put('/updateDetails',upload.single('file'),updatedetails);
 router.delete('/removeteacher',removeteacher);
 router.post('/changepassword',jwttoken.authenticateJWT,changePassword);
 router.post('/getTeacher',jwttoken.authenticateJWT,getTeacher);
-router.post('/teacherlogout',logout)
+router.post('/teacherlogout',logout);
 module.exports=router;

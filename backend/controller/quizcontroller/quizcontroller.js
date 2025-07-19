@@ -45,8 +45,7 @@ const submitquiz = async (req, res) => {
   const fetchdata = await quiz.aggregate(data);
   console.log(req.body);
   const gienarray = req.body.options;
-  const resultArray = fetchdata[0].correctOptions;
-
+  const resultArray = fetchdata[0].correctoption;
   var count = 0;
   for (let index = 0; index < resultArray.length; index++) {
    console.log(gienarray[index].toString());
