@@ -23,6 +23,7 @@ const LoginSignupForm = () => {
     const url = isLogin
       ? "/api/students/studentlogin"
       : "/api/students/studentregister";
+
     const payload = isLogin
       ? { email: formData.email, password: formData.password }
       : {
@@ -30,22 +31,28 @@ const LoginSignupForm = () => {
           email: formData.email,
           password: formData.password,
         };
+      
+      console.log(url);
+      console.log(payload);
+
     try {
       const { data, status } = await axios.post(url, payload);
       if (isLogin && status === 200) {
         localStorage.setItem("userName", data.data.student.fullname);
         localStorage.setItem("studentId", data.data.student._id);
       }
-      toast.success(isLogin ? "You loggedin successfully!" : "Student signedup successfully!", {
+
+        if (isLogin) {
+        navigate("/course");
+      } else {
+        setIsLogin(true);
+      }
+      toast.success(isLogin ? "You loggedin successfully!" : "You registered successfully!", {
         position: "top-center",
         duration: 2000,
       });
 
-      if (isLogin) {
-        navigate("/course");
-      } else {
-        navigate("/login");
-      }
+    
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "An error occurred. Please try again.";

@@ -3,7 +3,7 @@ const Schema=mongoose.Schema;
 const studentSchema=new Schema({
     fullname:{
         type:String,
-        // required:true
+        required:true
     },
     email:{
         type:String,
@@ -12,6 +12,10 @@ const studentSchema=new Schema({
     password:{
         type:String,
         required:true    
+    },
+    verified:{
+        type:Boolean,
+        default:false
     },
     profileimage:{
         type:String,

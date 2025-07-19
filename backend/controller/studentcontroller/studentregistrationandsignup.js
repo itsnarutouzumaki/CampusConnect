@@ -11,11 +11,14 @@ const studentenrolled = require("../../models/studentenrolled.js");
 
 const checkUserExists = async (req, res, next) => {
   const email = req.body.email;
+  console.log(req.body);
+  console.log("checkUserExists" , email);
   try {
     const student = await item2.findOne({ email: email });
     if (student) {
       return res.status(400).send("User already exists");
     }
+
     next();
   } catch (err) {
     res.status(500).send("Server error");
@@ -23,13 +26,18 @@ const checkUserExists = async (req, res, next) => {
 };
 
 const signup = async (req, res) => {
+  console.log("hello ");
   const { fullname, email, password } = req.body;
+
+  if(!fullname || !email || !password){
+     new apiresponse(401, {}, "All field are required");
+  }
+  
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
   req.body.password = hashedPassword;
   const data = new item2(req.body);
   const saveddata = await data.save();
-  const token = jwt.sign({ _id: saveddata._id }, "aa12aa3aa4", {
-   
+  const token = jwt.sign({ _id: saveddata._id }, "aa12aa3aa4", { 
   });
   res.json(
     new apiresponse(200, { saveddata, token }, "User registered successfully")
