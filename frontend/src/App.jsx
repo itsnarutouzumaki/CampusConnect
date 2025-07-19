@@ -101,6 +101,10 @@ const MainContent = () => {
           {/* Admin Section */}
           <Route path="/admin" element={<AdminProfile />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* Email Verification and Password Reset*/}
+          <Route path="/students/verify/:productid" element={<VerifyAccount />}
+          />
         </Routes>
       </div>
     </>

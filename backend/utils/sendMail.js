@@ -1,6 +1,5 @@
-import * as HTML from "./message.html.js";
-import nodemailer from 'nodemailer'
-
+const nodemailer = require("nodemailer");
+const HTML = require("./message.js");
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -10,16 +9,24 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const mailSender = async (email, subject,link) => {
-  console.log(email);
+const mailSender = async (email, subject, link) => {
+  if (!email) {
+    console.error("❌ No recipient email provided!");
+    return;
+  }
+
+  console.log("📧 Sending email to:", email);
+
   if (subject === "Password Reset") {
     await transporter.sendMail({
+      from: process.env.EMAIL_USER,
       to: email,
       subject: "Password Reset",
       html: `${HTML.resetPasswordHTML(link)}`,
     });
   } else if (subject === "Verify Account") {
     await transporter.sendMail({
+      from: process.env.EMAIL_USER,
       to: email,
       subject: "Verify Account",
       html: `${HTML.verifyAccountHTML(link)}`,
@@ -27,5 +34,4 @@ const mailSender = async (email, subject,link) => {
   }
 };
 
-
-export default mailSender;
+module.exports = mailSender;

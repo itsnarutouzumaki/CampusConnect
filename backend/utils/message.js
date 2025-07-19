@@ -1,4 +1,4 @@
-const resetPasswordHTML =(resetLink) =>{
+const resetPasswordHTML = (resetLink) => {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,11 +90,11 @@ const resetPasswordHTML =(resetLink) =>{
         </div>
     </div>
 </body>
-</html>`
-}
+</html>`;
+};
 
-const verifyAccountHTML= (verifyLink) =>{
-    return `<!DOCTYPE html>
+const verifyAccountHTML = (verifyLink) => {
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -181,11 +181,14 @@ const verifyAccountHTML= (verifyLink) =>{
         </div>
         <div class="email-footer">
             <p>Thank you,</p>
-            <p>Animefanmerch Team</p>
+            <p>CampusConnect Team</p>
         </div>
     </div>
 </body>
-</html>`
-}
+</html>`;
+};
 
-export {resetPasswordHTML,verifyAccountHTML};
+module.exports = {
+  resetPasswordHTML,
+  verifyAccountHTML,
+};
