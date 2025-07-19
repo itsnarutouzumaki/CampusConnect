@@ -59,8 +59,14 @@ const submitquiz = async (req, res) => {
       count++;
     }
   }
-
-  res.json({ score: count });
+  const submit= new studentquiz({
+    quizid: new mongoose.Types.ObjectId(req.body.quiz_id),
+    studentid:new mongoose.Types.ObjectId(req.body.student_id),
+    marks: count,
+    total_marks: resultArray.length,
+  });
+ const var1= await submit.save();
+  res.json(var1);
 };
 
 const viewresult=async (req, res) => {
