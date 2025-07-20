@@ -34,6 +34,7 @@ import LiveClass from "./components/Teacher/LiveClass.jsx";
 import Room from "./components/Room.jsx";
 import PaymentPage from "./components/PaymentPage.jsx";
 import Payment from "./components/Payment.jsx";
+import VerifyAccount from "./components/VerifyAccount.jsx";
 import './App.css';
 const App = () => {
   return (
