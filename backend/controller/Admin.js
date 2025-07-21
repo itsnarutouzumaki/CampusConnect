@@ -34,8 +34,6 @@ const login = async (req, res) => {
 
       // Store token in HTTP-only cookie
       res.cookie("auth_token", token, {
-        httpOnly: true,
-        secure: false,
         sameSite: "Strict",
       });
       return res.json(new response(200, admin, "admin login successfully"));

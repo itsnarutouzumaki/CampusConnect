@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { viewresult } from "../../../../backend/controller/quizcontroller/quizcontroller";
 
 const quizid = "67a741b20936cb668a827d69";
 export default function Quiz() {
@@ -84,8 +85,9 @@ export default function Quiz() {
         { options: selectedOptions, quiz_id: quiz_id },
         { withCredentials: true } // Pass quizData in the body
       );
+      
       alert("Quiz Submitted Successfully!");
-      console.log(result.timeTaken);
+
     } catch (error) {
       console.error("Error submitting quiz:", error);
       alert("Failed to submit quiz.");
