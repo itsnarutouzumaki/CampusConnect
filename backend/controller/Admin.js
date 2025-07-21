@@ -28,14 +28,11 @@ const login = async (req, res) => {
 
     if (password === admin.password) {
       // Generate JWT token
-      const token = jwt.sign({ _id: student._id }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ _id: email }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
-
       // Store token in HTTP-only cookie
-      res.cookie("auth_token", token, {
-        sameSite: "Strict",
-      });
+      res.cookie("auth_token", token);
       return res.json(new response(200, admin, "admin login successfully"));
     } else {
       return res.json({ sucess: "false", message: "incorrect password" });
