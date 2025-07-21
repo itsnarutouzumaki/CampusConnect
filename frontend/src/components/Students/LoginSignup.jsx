@@ -20,9 +20,30 @@ const LoginSignupForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Validation
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Invalid email format", {
+        position: "top-center",
+        duration: 2000,
+      });
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      toast.error("Password must be at least 8 characters long", {
+        position: "top-center",
+        duration: 2000,
+      });
+      return;
+    }
+
     const url = isLogin
       ? "/api/students/studentlogin"
       : "/api/students/studentregister";
+
     const payload = isLogin
       ? { email: formData.email, password: formData.password }
       : {
@@ -30,22 +51,30 @@ const LoginSignupForm = () => {
           email: formData.email,
           password: formData.password,
         };
+
     try {
       const { data, status } = await axios.post(url, payload);
+
       if (isLogin && status === 200) {
         localStorage.setItem("userName", data.data.student.fullname);
         localStorage.setItem("studentId", data.data.student._id);
       }
-      toast.success(isLogin ? "You loggedin successfully!" : "Student signedup successfully!", {
-        position: "top-center",
-        duration: 2000,
-      });
 
       if (isLogin) {
         navigate("/course");
       } else {
-        navigate("/login");
+        setIsLogin(true);
       }
+
+      toast.success(
+        isLogin
+          ? "You logged in successfully!"
+          : "You registered successfully!",
+        {
+          position: "top-center",
+          duration: 2000,
+        }
+      );
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "An error occurred. Please try again.";

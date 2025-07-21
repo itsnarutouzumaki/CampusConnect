@@ -34,6 +34,7 @@ import LiveClass from "./components/Teacher/LiveClass.jsx";
 import Room from "./components/Room.jsx";
 import PaymentPage from "./components/PaymentPage.jsx";
 import Payment from "./components/Payment.jsx";
+import VerifyAccount from "./components/VerifyAccount.jsx";
 import './App.css';
 const App = () => {
   return (
@@ -101,6 +102,10 @@ const MainContent = () => {
           {/* Admin Section */}
           <Route path="/admin" element={<AdminProfile />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* Email Verification and Password Reset*/}
+          <Route path="/students/verify/:productid" element={<VerifyAccount />}
+          />
         </Routes>
       </div>
     </>
