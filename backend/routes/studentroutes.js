@@ -16,5 +16,6 @@ router.post('/combinedStudentData',jwt.authenticateJWT,studentController.combine
 router.post('/addgoals',jwt.authenticateJWT,studentController.addgoals);
 router.post('/removegoals',jwt.authenticateJWT,studentController.removegoals);
 router.delete('/removeStudent',studentController.removeStudent);
-router.post('/verifyEmail/:verifyToken', studentController.verifyEmail);       
+router.get('/verifyEmail/:verifyToken', studentController.verifyEmail);       
+router.post('/resend-verification', studentController.resendVerificationEmail);
 module.exports=router;

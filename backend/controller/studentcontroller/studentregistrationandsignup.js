@@ -24,9 +24,34 @@ const checkUserExists = async (req, res, next) => {
   }
 };
 
+const resendVerificationEmail = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json(new apiresponse(400, null, "Email is required"));
+  }
+  try {
+    const student = await item2.findOne({ email: email });
+    if (!student) { 
+      return res.status(404).json(new apiresponse(404, null, "User not found"));
+    }
+    if (student.verified) {
+      return res.status(400).json(new apiresponse(400, null, "Account already verified"));
+    }
+    const verifyToken = jwt.sign({ email }, process.env.JWT_SECRET, {
+      expiresIn: process.env.MAIL_TOKEN_EXPIRY, 
+    });
+    const link = `${process.env.FRONTEND_URL}/students/verify/${verifyToken}`;
+    await mailSender(email, "Verify Account", link);
+    return res.status(200).json(new apiresponse(200, null, "Verification email sent successfully"));
+  } catch (error) {
+    console.error("Error sending verification email:", error);
+    return res.status(500).json(new apiresponse(500, null, "Internal server error"));
+  }
+};
+
 const signup = async (req, res) => {
   const { fullname, email, password } = req.body;
-
+  console.log(req.body);
   if (!fullname || !email || !password) {
     new apiresponse(401, {}, "All field are required");
   }
@@ -341,6 +366,7 @@ const removeStudent = async (req, res) => {
 
 const verifyEmail = async (req, res) => {
   const { verifyToken } = req.params;
+  console.log("Verification token:", verifyToken);
   try {
     const decoded = jwt.verify(verifyToken, process.env.JWT_SECRET);
     const email = decoded.email;
@@ -348,7 +374,7 @@ const verifyEmail = async (req, res) => {
       return res.status(400).json(new apiresponse(400, null, "Invalid token"));
     }
     // Update user status to verified
-    await item2.updateOne({ email: email }, { $set: { isVerified: true } });
+    await item2.updateOne({ email: email }, { $set: { verified: true } });
 
     res
       .status(200)
@@ -376,4 +402,5 @@ module.exports = {
   changePassword,
   combinedStudentData,
   verifyEmail,
+  resendVerificationEmail,
 };
