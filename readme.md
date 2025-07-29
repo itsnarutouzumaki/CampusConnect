@@ -16,7 +16,7 @@
   - ID: `2023CA99`
 
 - **Kamal Gurjar**  
-  - Role: FrontEnd & BackEnd  
+  - Role: FrontEnd & UI Design 
   - Discord ID: `kamalgurjar`  
   - ID: `2023CA50`
 
