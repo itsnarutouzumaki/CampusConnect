@@ -51,7 +51,7 @@ const resendVerificationEmail = async (req, res) => {
 
 const signup = async (req, res) => {
   const { fullname, email, password } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   if (!fullname || !email || !password) {
     new apiresponse(401, {}, "All field are required");
   }
@@ -222,7 +222,7 @@ const combinedStudentData = async (req, res) => {
 
       // Quizzes
       const quizzes = await Quiz.find({ courseid: courseId });
-      console.log(quizzes.length);
+      // console.log(quizzes.length);
       for (let quiz of quizzes) {
         const currentDate = new Date();
         if (new Date(quiz.quizDate) > currentDate) {
@@ -366,7 +366,7 @@ const removeStudent = async (req, res) => {
 
 const verifyEmail = async (req, res) => {
   const { verifyToken } = req.params;
-  console.log("Verification token:", verifyToken);
+  // console.log("Verification token:", verifyToken);
   try {
     const decoded = jwt.verify(verifyToken, process.env.JWT_SECRET);
     const email = decoded.email;

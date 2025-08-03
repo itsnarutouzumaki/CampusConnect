@@ -19,13 +19,13 @@ function VerifyAccount() {
           position: "top-center",
           duration: 2000,
         });
-        navigate("/loginsingup");
+        navigate("/loginsignup");
       } else if (response.status === 400) {
         toast.error("Account already verified!", {
           position: "top-center",
           duration: 2000,
         });
-        navigate("/loginsingup");
+        navigate("/loginsignup");
       } else if (response.status === 404) {
         toast.error("Invalid verification link!", {
           position: "top-center",
@@ -72,7 +72,7 @@ function VerifyAccount() {
           duration: 2000,
         });
         setAgain(false);
-        navigate("/loginsingup");
+        navigate("/loginsignup");
       } else {
         toast.error("Failed to resend verification email.", {
           position: "top-center",
