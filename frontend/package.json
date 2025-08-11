@@ -9,6 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "engines": {
+    "node": "22.16.0"
+  },
   "dependencies": {
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.5.0",
